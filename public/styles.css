@@ -7,71 +7,25 @@
 
 body {
     background: linear-gradient(120deg, #ffffff, #d6ecff, #ffffff);
-    background-size: 400% 400%; /* Perbesar ukuran gradasi */
+    background-size: 400% 400%;
     color: #333;
     line-height: 1.6;
     padding: 20px;
-    font-family: Arial, sans-serif;
     position: relative;
     min-height: 100vh;
-    animation: gradientBackground 10s ease infinite; /* Animasi gradasi */
-    transition: background-color 0.3s, color 0.3s; /* Transisi untuk mode terang dan gelap */
+    animation: gradientBackground 10s ease infinite;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Gaya untuk mode gelap */
 body.dark-mode {
     background-color: #121212;
     color: #e0e0e0;
 }
 
 @keyframes gradientBackground {
-    0% {
-        background-position: 0% 50%; /* Posisi awal gradasi */
-    }
-    50% {
-        background-position: 100% 50%; /* Posisi tengah gradasi */
-    }
-    100% {
-        background-position: 0% 50%; /* Kembali ke posisi awal */
-    }
-}
-
-.wave-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 20%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: -1; /* Pastikan wave di belakang konten */
-}
-
-.wave {
-    position: absolute;
-    width: 200%;
-    height: 100%;
-    background: rgba(220, 240, 255, 0.6);
-    opacity: 0.8;
-    transform: translateY(10px);
-    animation: waveMove 6s linear infinite alternate;
-}
-
-.wave:nth-child(2) {
-    background: rgba(200, 230, 255, 0.8);
-    height: 120%;
-    animation-duration: 8s;
-}
-
-.wave:nth-child(3) {
-    background: rgba(180, 220, 255, 0.9);
-    height: 140%;
-    animation-duration: 10s;
-}
-
-@keyframes waveMove {
-    0% { transform: translateX(-10%) translateY(10px); }
-    100% { transform: translateX(10%) translateY(-10px); }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
@@ -79,8 +33,13 @@ body.dark-mode {
     margin: 0 auto;
     padding: 20px;
     background: #fff;
-    border-radius: 12px; /* Membuat sudut lebih halus */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Bayangan lebih dalam untuk efek 3D */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.container:hover {
+    transform: scale(1.02); /* Efek hover pada container */
 }
 
 h1 {
@@ -90,7 +49,6 @@ h1 {
     text-align: center;
 }
 
-/* Gaya untuk input pencarian */
 .search-input {
     width: 100%;
     padding: 10px;
@@ -101,10 +59,9 @@ h1 {
 }
 
 .search-input:focus {
-    border-color: #007bff; /* Warna border saat fokus */
+    border-color: #007bff;
 }
 
-/* Gaya untuk tab pengelompokan */
 .tab {
     display: inline-block;
     padding: 10px 20px;
@@ -117,25 +74,23 @@ h1 {
 }
 
 .tab:hover {
-    background-color: #0056b3; /* Warna saat hover */
+    background-color: #0056b3;
 }
 
-/* Gaya untuk kotak item */
 .api-item {
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 12px; /* Membuat sudut lebih halus */
+    border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s; /* Transisi lebih halus */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .api-item:hover {
-    transform: translateY(-8px) scale(1.02); /* Efek hover lebih menarik */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Bayangan lebih dalam saat hover */
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Gaya untuk tombol mode terang/gela */
 .toggle-mode {
     padding: 10px 15px;
     border: none;
@@ -147,7 +102,7 @@ h1 {
 }
 
 .toggle-mode:hover {
-    background-color: #0056b3; /* Warna saat hover */
+    background-color: #0056b3;
 }
 
 /* Gaya untuk Badge Status */
@@ -161,62 +116,13 @@ h1 {
 }
 
 .api-status-badge.online {
-    background-color: #28a745; /* Hijau untuk ONLINE */
+    background-color: #28a745;
     color: #fff;
 }
 
 .api-status-badge.offline {
-    background-color: #dc3545; /* Merah untuk OFFLINE */
+    background-color: #dc3545;
     color: #fff;
-}
-
-.api-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #007bff;
-}
-
-.api-title:hover {
-    text-decoration: underline;
-}
-
-.api-description {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-left: 4px solid #007bff;
-    border-radius: 4px;
-    display: none; /* Deskripsi disembunyikan secara default */
-}
-
-.api-description p {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.api-endpoint {
-    font-family: monospace;
-    color: #333;
-    background-color: #f1f1f1;
-    padding: 5px;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-.api-description button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.api-description button:hover {
-    background-color: #0056b3;
 }
 
 footer {
@@ -230,22 +136,5 @@ footer {
 @media (max-width: 768px) {
     h1 {
         font-size: 24px;
-    }
-
-    .api-category h2 {
-        font-size: 20px;
-    }
-
-    .api-title {
-        font-size: 16px;
-    }
-
-    .api-description p {
-        font-size: 12px;
-    }
-
-    .api-description button {
-        font-size: 12px;
-        padding: 8px 16px;
     }
 }

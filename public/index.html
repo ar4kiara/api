@@ -3,64 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OwnBlox API - Fast & Reliable</title>
-    <meta property="og:title" content="OwnBlox API - Fast & Reliable">
-    <meta property="og:description" content="Dokumentasi lengkap API dari OwnBlox. Cepat, aman, dan terpercaya!">
+    <title>OwnBlox API - Modern & Reliable</title>
+    <meta property="og:title" content="OwnBlox API - Modern & Reliable">
+    <meta property="og:description" content="Dokumentasi API OwnBlox yang Modern. Cepat, Aman, dan Terpercaya!">
     <meta property="og:image" content="https://files.catbox.moe/2ybrj7.jpg">
     <meta property="og:url" content="https://api.ownblox.biz.id">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
     <link rel="icon" href="https://files.catbox.moe/2ybrj7.jpg" type="image/jpeg">
 </head>
-<body>
+<body class="light-mode">
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>OwnBlox API</span>
+            </div>
+            <div class="nav-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Cari API...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button id="themeToggle" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>API Documentation</h1>
-        <input type="text" class="search-input" placeholder="Cari API..."> <!-- Input pencarian -->
-        <div class="tabs">
-            <div class="tab" onclick="filterAPIs('semua')">Semua</div>
-            <div class="tab" onclick="filterAPIs('kategori1')">Kategori 1</div>
-            <div class="tab" onclick="filterAPIs('kategori2')">Kategori 2</div>
-            <!-- Tambahkan lebih banyak tab sesuai kebutuhan -->
+        <div class="sidebar">
+            <div class="category-filter">
+                <h3>Kategori</h3>
+                <div id="categoryList"></div>
+            </div>
         </div>
-        <div id="api-categories">
-            <!-- Daftar API akan ditampilkan di sini -->
-        </div>
-        <button class="toggle-mode">Mode Gelap</button> <!-- Tombol untuk mengubah mode -->
-        <footer>© 2025 API OwnBlox – Fast & Reliable API Services.</footer>
+        
+        <main class="main-content">
+            <div class="header-section">
+                <h1>API Documentation</h1>
+                <p class="subtitle">Pilih dan gunakan API sesuai kebutuhan Anda</p>
+            </div>
+            <div id="api-categories"></div>
+        </main>
     </div>
-    <script>
-        // Script untuk mengubah mode terang dan gelap
-        const toggleButton = document.querySelector('.toggle-mode');
-        toggleButton.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            toggleButton.textContent = document.body.classList.contains('dark-mode') ? 'Mode Terang' : 'Mode Gelap';
-        });
 
-        // Script untuk pencarian API
-        const searchInput = document.querySelector('.search-input');
-        searchInput.addEventListener('input', function() {
-            const filter = searchInput.value.toLowerCase();
-            const apiItems = document.querySelectorAll('.api-item');
-            apiItems.forEach(item => {
-                const title = item.querySelector('.api-title').textContent.toLowerCase();
-                item.style.display = title.includes(filter) ? '' : 'none';
-            });
-        });
-
-        // Fungsi untuk memfilter API berdasarkan kategori
-        function filterAPIs(category) {
-            const apiItems = document.querySelectorAll('.api-item');
-            apiItems.forEach(item => {
-                if (category === 'semua') {
-                    item.style.display = '';
-                } else {
-                    // Ganti dengan logika kategori yang sesuai
-                    item.style.display = item.classList.contains(category) ? '' : 'none';
-                }
-            });
-        }
-    </script>
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 API OwnBlox – Modern & Reliable API Services</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

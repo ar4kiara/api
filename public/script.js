@@ -420,13 +420,14 @@ function createApiCard(api, category) {
     
     card.innerHTML = `
         <div class="api-header">
-            <span class="api-method ${api.method.toLowerCase()}">${api.method}</span>
-            <span class="api-status ${api.status}">${api.status}</span>
+            <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
+            <span class="api-status status-${api.status}" 
+                  title="${api.status === 'online' ? 'API Siap Digunakan' : 'API Sedang Maintenance'}">${api.status}</span>
         </div>
-        <h3>${api.title}</h3>
-        <p>${api.description}</p>
+        <h3 class="api-title">${api.title}</h3>
+        <p class="api-description">${api.description}</p>
         <code class="endpoint">${api.endpoint}</code>
-        <button onclick="tryApi('${api.endpoint}')" class="try-btn">
+        <button onclick="tryApi('${api.endpoint}', '${api.method}')" class="try-btn">
             Try it <i class="fas fa-arrow-right"></i>
         </button>
     `;
@@ -434,10 +435,70 @@ function createApiCard(api, category) {
     return card;
 }
 
+// Fungsi untuk menangani klik kategori
+function initCategories() {
+    const categoriesDiv = document.getElementById('categories');
+    
+    Object.keys(API_DATA).forEach(category => {
+        const categoryItem = document.createElement('div');
+        categoryItem.className = 'category-item';
+        categoryItem.innerHTML = `
+            <span>${category}</span>
+            <span class="count">${API_DATA[category].length}</span>
+        `;
+        
+        categoryItem.addEventListener('click', () => {
+            // Remove active class from all categories
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked category
+            categoryItem.classList.add('active');
+            
+            // Filter and display APIs for this category
+            renderFilteredApis('', category);
+        });
+        
+        categoriesDiv.appendChild(categoryItem);
+    });
+}
+
+// Fungsi untuk mencoba API
+function tryApi(endpoint, method = 'GET') {
+    const baseUrl = window.location.origin;
+    const fullUrl = `${baseUrl}${endpoint}`;
+    
+    // Buka di tab baru
+    window.open(fullUrl, '_blank');
+}
+
+// Update fungsi renderFilteredApis untuk mendukung filter kategori
+function renderFilteredApis(searchTerm = '', selectedCategory = '') {
+    const apiList = document.getElementById('apiList');
+    apiList.innerHTML = '';
+
+    Object.entries(API_DATA).forEach(([category, apis]) => {
+        if (selectedCategory && category !== selectedCategory) return;
+        
+        const filteredApis = apis.filter(api => 
+            api.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            api.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        if (filteredApis.length > 0) {
+            filteredApis.forEach(api => {
+                apiList.appendChild(createApiCard(api, category));
+            });
+        }
+    });
+}
+
 // Initialize everything
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initSearch();
+    initCategories();
     renderFilteredApis();
     updateOnlineCount();
 });

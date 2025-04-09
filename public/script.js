@@ -396,7 +396,17 @@ function initSearch() {
     });
 }
 
-function renderFilteredApis(searchTerm = '', selectedCategory = '') {
+function showLoading() {
+    const apiList = document.getElementById('apiList');
+    apiList.innerHTML = '<div class="loading-animation"></div>';
+}
+
+async function renderFilteredApis(searchTerm = '', selectedCategory = '') {
+    showLoading();
+    
+    // Simulasi loading
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     const apiList = document.getElementById('apiList');
     apiList.innerHTML = '';
 
@@ -427,12 +437,21 @@ function createApiCard(api, category) {
     card.innerHTML = `
         <div class="api-header">
             <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
-            <span class="api-status status-${api.status}" 
-                  title="${api.status === 'online' ? 'API Siap Digunakan' : 'API Sedang Maintenance'}">${api.status}</span>
+            <span class="api-status status-${api.status}">${api.status}</span>
+            ${navigator.share ? `
+                <button class="share-btn" onclick="shareApi(${JSON.stringify(api)})">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            ` : ''}
         </div>
         <h3 class="api-title">${api.title}</h3>
         <p class="api-description">${api.description}</p>
-        <code class="endpoint">${api.endpoint}</code>
+        <div class="endpoint-wrapper">
+            <code class="endpoint">${api.endpoint}</code>
+            <button class="copy-btn" onclick="copyEndpoint('${api.endpoint}')" title="Salin Endpoint">
+                <i class="fas fa-copy"></i>
+            </button>
+        </div>
         <button class="try-btn" onclick="tryApi('${api.endpoint}')">
             <span>Try it</span>
             <i class="fas fa-arrow-right"></i>
@@ -539,6 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCategoryToggle();
     renderFilteredApis('');
     updateHeaderOnlineCount();
+    initKeyboardShortcuts();
 });
 
 // Perbaikan fungsi tryApi
@@ -549,4 +569,125 @@ function tryApi(endpoint, method = 'GET') {
     
     // Buka di tab baru
     window.open(fullUrl, '_blank');
+}
+
+function copyEndpoint(endpoint) {
+    navigator.clipboard.writeText(endpoint)
+        .then(() => {
+            showToast('Endpoint berhasil disalin!');
+        });
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+function showDocumentation(api) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>${api.title}</h2>
+                <button onclick="closeModal(this)" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Endpoint</h3>
+                <code class="endpoint">${api.endpoint}</code>
+                
+                <h3>Description</h3>
+                <p>${api.description}</p>
+                
+                <h3>Status</h3>
+                <span class="api-status status-${api.status}">${api.status}</span>
+                
+                <h3>Method</h3>
+                <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function closeModal(btn) {
+    btn.closest('.modal').remove();
+}
+
+document.addEventListener('keydown', (e) => {
+    // Ctrl/Cmd + K untuk fokus ke search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+    }
+    
+    // Esc untuk clear search
+    if (e.key === 'Escape') {
+        const searchInput = document.getElementById('searchInput');
+        if (document.activeElement === searchInput) {
+            searchInput.value = '';
+            renderFilteredApis('');
+            searchInput.blur();
+        }
+    }
+});
+
+function addToRecent(api) {
+    let recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
+    recent = [api, ...recent.filter(item => item.endpoint !== api.endpoint)].slice(0, 5);
+    localStorage.setItem('recentViews', JSON.stringify(recent));
+    updateRecentViews();
+}
+
+function shareApi(api) {
+    if (navigator.share) {
+        navigator.share({
+            title: `${api.title} - OwnBlox API Hub`,
+            text: api.description,
+            url: window.location.origin + api.endpoint
+        });
+    }
+}
+
+function updateRecentViews() {
+    const recentList = document.getElementById('recentList');
+    const recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
+    
+    recentList.innerHTML = recent.map(api => `
+        <div class="recent-item" onclick="tryApi('${api.endpoint}')">
+            <div class="recent-info">
+                <span class="recent-title">${api.title}</span>
+                <span class="recent-method">${api.method}</span>
+            </div>
+            <i class="fas fa-external-link-alt"></i>
+        </div>
+    `).join('');
+}
+
+// Tambahkan di bagian inisialisasi
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + K untuk fokus ke search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+        }
+        
+        // Esc untuk clear search
+        if (e.key === 'Escape') {
+            const searchInput = document.getElementById('searchInput');
+            if (document.activeElement === searchInput) {
+                searchInput.value = '';
+                renderFilteredApis('');
+                searchInput.blur();
+            }
+        }
+    });
 }

@@ -463,3 +463,80 @@ main {
     background: rgba(255, 255, 255, 0.2);
     color: white;
 }
+
+/* Social Shortcuts */
+.social-shortcuts {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.shortcut-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.shortcut-btn i {
+    font-size: 1.1rem;
+}
+
+/* WhatsApp */
+.shortcut-btn.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.shortcut-btn.whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+}
+
+/* WhatsApp Group */
+.shortcut-btn.whatsapp-group {
+    background: #34B7F1;
+    color: white;
+}
+
+.shortcut-btn.whatsapp-group:hover {
+    background: #0088cc;
+    transform: translateY(-2px);
+}
+
+/* YouTube */
+.shortcut-btn.youtube {
+    background: #FF0000;
+    color: white;
+}
+
+.shortcut-btn.youtube:hover {
+    background: #CC0000;
+    transform: translateY(-2px);
+}
+
+/* Telegram */
+.shortcut-btn.telegram {
+    background: #0088cc;
+    color: white;
+}
+
+.shortcut-btn.telegram:hover {
+    background: #005580;
+    transform: translateY(-2px);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .shortcut-btn {
+    opacity: 0.9;
+}
+
+[data-theme="dark"] .shortcut-btn:hover {
+    opacity: 1;
+}

@@ -1,33 +1,27 @@
 /* Reset dan Variabel */
 :root {
-    --primary: #2563eb;
-    --secondary: #3b82f6;
-    --success: #22c55e;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --radius: 12px;
-    --transition: all 0.3s ease;
-}
-
-/* Theme Colors */
-.light-theme {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f1f5f9;
+    /* Light Theme */
+    --bg-main: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #f8fafc;
     --text-primary: #0f172a;
-    --text-secondary: #475569;
+    --text-secondary: #64748b;
     --border: #e2e8f0;
-    --card-bg: #ffffff;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.dark-theme {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
+[data-theme="dark"] {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-sidebar: #1e293b;
     --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
+    --text-secondary: #94a3b8;
     --border: #334155;
-    --card-bg: #1e293b;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 /* Base Styles */
@@ -35,73 +29,113 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-    background: var(--bg-primary);
+    background: var(--bg-main);
     color: var(--text-primary);
-    transition: var(--transition);
-    min-height: 100vh;
+    transition: all 0.3s ease;
 }
 
 /* Navbar Styles */
-.navbar {
+header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: var(--bg-primary);
+    background: var(--bg-card);
     border-bottom: 1px solid var(--border);
     padding: 1rem;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
+    z-index: 100;
 }
 
-.nav-container {
-    max-width: 1200px;
+.header-content {
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 2rem;
 }
 
-/* Search Box Styles */
-.search-box {
-    background: var(--bg-secondary);
-    border-radius: var(--radius);
-    padding: 0.75rem 1rem;
+.logo {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.search-wrapper {
     flex: 1;
-    max-width: 500px;
+    max-width: 600px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-main);
     border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
 }
 
 .search-box input {
-    background: transparent;
+    flex: 1;
     border: none;
+    background: none;
     outline: none;
     color: var(--text-primary);
-    width: 100%;
     font-size: 0.95rem;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#themeToggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    margin-top: 4rem;
+    min-height: calc(100vh - 4rem);
+}
+
+.sidebar {
+    width: 250px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem;
+    position: fixed;
+    height: calc(100vh - 4rem);
+}
+
+.content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
 }
 
 /* API Card Styles */
 .api-card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding: 1.5rem;
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .api-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
 
@@ -144,22 +178,6 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
-    padding: 1.5rem;
-    margin-top: 4rem;
-}
-
-/* Theme Toggle Button */
-.theme-btn {
-    background: var(--bg-secondary);
-    border: none;
-    padding: 0.75rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.theme-btn:hover {
-    background: var(--border);
 }
 
 /* Responsive Design */

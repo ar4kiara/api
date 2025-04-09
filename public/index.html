@@ -3,90 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 OwnBlox API Hub</title>
-    <meta property="og:title" content="🚀 OwnBlox API Hub - Modern & Powerful">
-    <meta property="og:description" content="Platform API Modern untuk Developer Modern. Cepat. Handal. Terpercaya.">
-    <meta property="og:image" content="https://files.catbox.moe/2ybrj7.jpg">
-    <meta property="og:url" content="https://api.ownblox.biz.id">
-    <meta property="og:type" content="website">
+    <title>OwnBlox API Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="https://files.catbox.moe/2ybrj7.jpg" type="image/jpeg">
 </head>
-<body class="light-theme">
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <i class="fas fa-cube brand-icon"></i>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
                 <span>OwnBlox Hub</span>
             </div>
             
-            <div class="nav-search">
+            <div class="search-wrapper">
                 <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari API...">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Cari API (cth: YouTube, AI, Tools...)">
                 </div>
             </div>
 
-            <div class="nav-actions">
-                <button id="themeToggle" class="theme-btn">
+            <div class="actions">
+                <button id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button class="menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <span class="api-count">
+                    <i class="fas fa-plug"></i>
+                    <span id="onlineCount">0</span> Online
+                </span>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Content -->
-    <main class="main-container">
+    <main>
         <aside class="sidebar">
-            <div class="category-section">
-                <h3>🎯 Kategori</h3>
-                <div class="category-list" id="categoryList"></div>
-            </div>
-            <div class="stats-section">
-                <h3>📊 Statistik</h3>
-                <div class="stat-item">
-                    <span>Total API</span>
-                    <span class="stat-value" id="totalApis">0</span>
-                </div>
-                <div class="stat-item">
-                    <span>Online</span>
-                    <span class="stat-value online" id="onlineApis">0</span>
-                </div>
+            <div class="category-list">
+                <h3><i class="fas fa-layer-group"></i> Kategori</h3>
+                <div id="categories"></div>
             </div>
         </aside>
 
         <section class="content">
-            <div class="welcome-banner">
-                <h1>Selamat Datang di OwnBlox API Hub</h1>
-                <p>Eksplorasi koleksi API modern untuk project keren Anda</p>
-            </div>
-            
-            <div class="filter-chips" id="activeFilters"></div>
-            <div id="api-categories" class="api-grid"></div>
+            <div id="apiList" class="api-grid"></div>
         </section>
     </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <i class="fas fa-cube"></i>
-                <span>OwnBlox Hub</span>
-            </div>
-            <div class="footer-links">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-discord"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
-            <p>© 2025 OwnBlox Hub - Membangun Masa Depan Digital</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
 </body>
+<script src="script.js"></script>
 </html>

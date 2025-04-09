@@ -438,11 +438,9 @@ function createApiCard(api, category) {
         <div class="api-header">
             <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
             <span class="api-status status-${api.status}">${api.status}</span>
-            ${navigator.share ? `
-                <button class="share-btn" onclick="shareApi(${JSON.stringify(api)})">
-                    <i class="fas fa-share-alt"></i>
-                </button>
-            ` : ''}
+            <button class="share-btn" onclick='shareApi(${JSON.stringify(api).replace(/'/g, "&apos;")})' title="Bagikan API">
+                <i class="fas fa-share-alt"></i>
+            </button>
         </div>
         <h3 class="api-title">${api.title}</h3>
         <p class="api-description">${api.description}</p>
@@ -452,7 +450,7 @@ function createApiCard(api, category) {
                 <i class="fas fa-copy"></i>
             </button>
         </div>
-        <button class="try-btn" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api)})'>
+        <button class="try-btn" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api).replace(/'/g, "&apos;")})'>
             <span>Try it</span>
             <i class="fas fa-arrow-right"></i>
         </button>
@@ -654,13 +652,44 @@ function addToRecent(api) {
 }
 
 function shareApi(api) {
+    // Buat full URL untuk sharing
+    const baseUrl = window.location.origin;
+    const fullUrl = api.endpoint.startsWith('/') ? `${baseUrl}${api.endpoint}` : api.endpoint;
+    
+    // Data yang akan dibagikan
+    const shareData = {
+        title: `${api.title} - OwnBlox API Hub`,
+        text: `${api.description}\n\nEndpoint: ${fullUrl}`,
+        url: fullUrl
+    };
+
+    // Cek apakah Web Share API tersedia
     if (navigator.share) {
-        navigator.share({
-            title: `${api.title} - OwnBlox API Hub`,
-            text: api.description,
-            url: window.location.origin + api.endpoint
-        });
+        navigator.share(shareData)
+            .then(() => showToast('Berhasil membagikan API!'))
+            .catch(err => {
+                if (err.name !== 'AbortError') {
+                    showToast('Gagal membagikan API');
+                }
+            });
+    } else {
+        // Fallback jika Web Share API tidak tersedia
+        copyToClipboard(`${api.title}\n${api.description}\nEndpoint: ${fullUrl}`);
+        showToast('Info API telah disalin ke clipboard');
     }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text)
+        .catch(() => {
+            // Fallback jika Clipboard API tidak tersedia
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        });
 }
 
 function updateRecentViews() {

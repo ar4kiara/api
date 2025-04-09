@@ -524,7 +524,7 @@ function updateHeaderOnlineCount() {
         .length;
     
     // Update counter di header
-    const headerCounter = document.querySelector('.nav-actions .api-count span');
+    const headerCounter = document.querySelector('.api-count span');
     if (headerCounter) {
         headerCounter.textContent = onlineCount;
     }

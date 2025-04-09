@@ -396,14 +396,20 @@ function initSearch() {
     });
 }
 
-function renderFilteredApis(searchTerm = '') {
+function renderFilteredApis(searchTerm = '', selectedCategory = '') {
     const apiList = document.getElementById('apiList');
     apiList.innerHTML = '';
 
     Object.entries(API_DATA).forEach(([category, apis]) => {
+        // Jika ada kategori yang dipilih dan tidak cocok, skip
+        if (selectedCategory && selectedCategory !== 'all' && category !== selectedCategory) {
+            return;
+        }
+
+        // Filter berdasarkan search term
         const filteredApis = apis.filter(api => 
-            api.title.toLowerCase().includes(searchTerm) ||
-            api.description.toLowerCase().includes(searchTerm)
+            api.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            api.description.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         if (filteredApis.length > 0) {
@@ -448,22 +454,31 @@ function initCategoryToggle() {
 
 // Fungsi untuk menampilkan semua API
 function showAllApis() {
-    // Remove active class dari semua kategori
     document.querySelectorAll('.category-item').forEach(item => {
         item.classList.remove('active');
     });
     
-    // Set active class ke "Semua API"
-    document.querySelector('[data-category="all"]').classList.add('active');
+    const allCategory = document.querySelector('[data-category="all"]');
+    allCategory.classList.add('active');
     
-    // Render semua API
-    renderFilteredApis('');
+    renderFilteredApis('', 'all');
 }
 
 // Update fungsi inisialisasi kategori
 function initCategories() {
     const categoriesDiv = document.getElementById('categories');
     
+    // Pastikan "Semua API" selalu ada dan berfungsi
+    const allCategory = document.querySelector('[data-category="all"]');
+    allCategory.addEventListener('click', () => {
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        allCategory.classList.add('active');
+        renderFilteredApis('', 'all');
+    });
+    
+    // Tambahkan kategori lainnya
     Object.keys(API_DATA).forEach(category => {
         const categoryItem = document.createElement('div');
         categoryItem.className = 'category-item';
@@ -480,7 +495,7 @@ function initCategories() {
                 item.classList.remove('active');
             });
             categoryItem.classList.add('active');
-            renderFilteredApis('', category);
+            renderFilteredApis('', category); // Passing category sebagai selectedCategory
         });
         
         categoriesDiv.appendChild(categoryItem);

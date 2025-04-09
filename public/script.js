@@ -516,6 +516,20 @@ function getCategoryIcon(category) {
     return icons[category] || 'cube';
 }
 
+// Fungsi untuk update counter online di header
+function updateHeaderOnlineCount() {
+    const onlineCount = Object.values(API_DATA)
+        .flat()
+        .filter(api => api.status === 'online')
+        .length;
+    
+    // Update counter di header
+    const headerCounter = document.querySelector('.nav-actions .api-count span');
+    if (headerCounter) {
+        headerCounter.textContent = onlineCount;
+    }
+}
+
 // Update inisialisasi
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -523,14 +537,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initCategories();
     initCategoryToggle();
     renderFilteredApis('');
-    updateApiCounts();
+    updateHeaderOnlineCount();
 });
-
-function updateOnlineCount() {
-    const onlineApis = Object.values(API_DATA)
-        .flat()
-        .filter(api => api.status === 'online')
-        .length;
-    
-    document.getElementById('onlineCount').textContent = onlineApis;
-}

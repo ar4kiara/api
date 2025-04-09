@@ -349,7 +349,7 @@ function renderApis(apis) {
             <div class="api-endpoint">
                 <code>${api.endpoint}</code>
             </div>
-            <button onclick="tryEndpoint('${api.endpoint}')" class="try-btn">
+            <button onclick="tryApi('${api.endpoint}')" class="try-btn">
                 Try it
             </button>
         </div>
@@ -433,8 +433,9 @@ function createApiCard(api, category) {
         <h3 class="api-title">${api.title}</h3>
         <p class="api-description">${api.description}</p>
         <code class="endpoint">${api.endpoint}</code>
-        <button onclick="tryApi('${api.endpoint}', '${api.method}')" class="try-btn">
-            Try it <i class="fas fa-arrow-right"></i>
+        <button class="try-btn" onclick="tryApi('${api.endpoint}')">
+            <span>Try it</span>
+            <i class="fas fa-arrow-right"></i>
         </button>
     `;
     
@@ -539,3 +540,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFilteredApis('');
     updateHeaderOnlineCount();
 });
+
+// Perbaikan fungsi tryApi
+function tryApi(endpoint, method = 'GET') {
+    // Tambahkan base URL jika endpoint dimulai dengan '/'
+    const baseUrl = window.location.origin;
+    const fullUrl = endpoint.startsWith('/') ? `${baseUrl}${endpoint}` : endpoint;
+    
+    // Buka di tab baru
+    window.open(fullUrl, '_blank');
+}

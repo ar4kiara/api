@@ -298,3 +298,68 @@ function loadApiData() {
 }
 
 document.addEventListener('DOMContentLoaded', loadApiData);
+
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+const icon = themeToggle.querySelector('i');
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme') || 'light-theme';
+body.className = savedTheme;
+updateThemeIcon();
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    body.classList.toggle('light-theme');
+    localStorage.setItem('theme', body.className);
+    updateThemeIcon();
+});
+
+function updateThemeIcon() {
+    if (body.classList.contains('dark-theme')) {
+        icon.className = 'fas fa-sun';
+    } else {
+        icon.className = 'fas fa-moon';
+    }
+}
+
+// Search Functionality
+const searchInput = document.getElementById('searchInput');
+const apiGrid = document.getElementById('api-categories');
+let apiData = []; // Will be populated from your existing data
+
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredApis = apiData.filter(api => 
+        api.title.toLowerCase().includes(searchTerm) ||
+        api.description.toLowerCase().includes(searchTerm) ||
+        api.category.toLowerCase().includes(searchTerm)
+    );
+    renderApis(filteredApis);
+});
+
+function renderApis(apis) {
+    apiGrid.innerHTML = apis.map(api => `
+        <div class="api-card">
+            <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
+            <span class="api-status status-${api.status}">${api.status}</span>
+            <h3>${api.title}</h3>
+            <p>${api.description}</p>
+            <div class="api-endpoint">
+                <code>${api.endpoint}</code>
+            </div>
+            <button onclick="tryEndpoint('${api.endpoint}')" class="try-btn">
+                Try it
+            </button>
+        </div>
+    `).join('');
+}
+
+// Load initial data
+fetch('/api/data')
+    .then(res => res.json())
+    .then(data => {
+        apiData = data;
+        renderApis(data);
+    });

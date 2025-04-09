@@ -9,7 +9,25 @@
     --border: #e2e8f0;
     --primary: #3b82f6;
     --primary-hover: #2563eb;
-    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow: 0 4px 15px rgba(0,0,0,0.1);
+    
+    /* Status Colors */
+    --online-color: #22c55e;
+    --online-bg: #dcfce7;
+    --online-border: #86efac;
+    --offline-color: #ef4444;
+    --offline-bg: #fee2e2;
+    --offline-border: #fca5a5;
+    
+    /* Method Colors */
+    --get-color: #2563eb;
+    --get-bg: #dbeafe;
+    --post-color: #16a34a;
+    --post-bg: #dcfce7;
+    --put-color: #ca8a04;
+    --put-bg: #fef3c7;
+    --delete-color: #dc2626;
+    --delete-bg: #fee2e2;
 }
 
 [data-theme="dark"] {
@@ -132,11 +150,14 @@ main {
     border-radius: 12px;
     padding: 1.5rem;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 
 .api-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 .api-method {
@@ -157,20 +178,80 @@ main {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    padding: 0.25rem 0.75rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: help;
 }
 
 .status-online {
-    background: #dcfce7;
-    color: #15803d;
+    background: var(--online-bg);
+    color: var(--online-color);
+    border: 1px solid var(--online-border);
 }
 
 .status-offline {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: var(--offline-bg);
+    color: var(--offline-color);
+    border: 1px solid var(--offline-border);
+}
+
+/* Title and Description Styles */
+.api-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+    color: var(--text-primary);
+}
+
+.api-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Category Styles */
+.category-item {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-item:hover {
+    background: var(--bg-secondary);
+}
+
+.category-item.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Try Button Style */
+.try-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.try-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
 }
 
 /* Grid Layout */

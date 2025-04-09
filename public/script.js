@@ -1,4 +1,4 @@
-const apiData = {
+const API_DATA = {
     "Downloader": [
         {
             method: "GET",
@@ -274,7 +274,7 @@ function setupToggleDescriptions() {
 function loadApiData() {
     const apiCategoriesContainer = document.getElementById('api-categories');
 
-    for (const category in apiData) {
+    for (const category in API_DATA) {
         const apiCategory = document.createElement('div');
         apiCategory.className = 'api-category';
 
@@ -284,7 +284,7 @@ function loadApiData() {
         const apiList = document.createElement('div');
         apiList.className = 'api-list';
 
-        apiData[category].forEach(api => {
+        API_DATA[category].forEach(api => {
             const apiItem = createApiItem(api);
             apiList.appendChild(apiItem);
         });
@@ -363,3 +363,90 @@ fetch('/api/data')
         apiData = data;
         renderApis(data);
     });
+
+// Theme handling
+function initTheme() {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.querySelector('#themeToggle i');
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+});
+
+// Search and filter functionality
+function initSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const apiList = document.getElementById('apiList');
+    
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        renderFilteredApis(searchTerm);
+    });
+}
+
+function renderFilteredApis(searchTerm = '') {
+    const apiList = document.getElementById('apiList');
+    apiList.innerHTML = '';
+
+    Object.entries(API_DATA).forEach(([category, apis]) => {
+        const filteredApis = apis.filter(api => 
+            api.title.toLowerCase().includes(searchTerm) ||
+            api.description.toLowerCase().includes(searchTerm)
+        );
+
+        if (filteredApis.length > 0) {
+            filteredApis.forEach(api => {
+                apiList.appendChild(createApiCard(api, category));
+            });
+        }
+    });
+}
+
+function createApiCard(api, category) {
+    const card = document.createElement('div');
+    card.className = 'api-card';
+    
+    card.innerHTML = `
+        <div class="api-header">
+            <span class="api-method ${api.method.toLowerCase()}">${api.method}</span>
+            <span class="api-status ${api.status}">${api.status}</span>
+        </div>
+        <h3>${api.title}</h3>
+        <p>${api.description}</p>
+        <code class="endpoint">${api.endpoint}</code>
+        <button onclick="tryApi('${api.endpoint}')" class="try-btn">
+            Try it <i class="fas fa-arrow-right"></i>
+        </button>
+    `;
+    
+    return card;
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    initSearch();
+    renderFilteredApis();
+    updateOnlineCount();
+});
+
+function updateOnlineCount() {
+    const onlineApis = Object.values(API_DATA)
+        .flat()
+        .filter(api => api.status === 'online')
+        .length;
+    
+    document.getElementById('onlineCount').textContent = onlineApis;
+}

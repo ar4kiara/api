@@ -349,7 +349,7 @@ function renderApis(apis) {
             <div class="api-endpoint">
                 <code>${api.endpoint}</code>
             </div>
-            <button onclick="tryApi('${api.endpoint}')" class="try-btn">
+            <button onclick="tryApi('${api.endpoint}', ${JSON.stringify(api)})" class="try-btn">
                 Try it
             </button>
         </div>
@@ -448,11 +448,11 @@ function createApiCard(api, category) {
         <p class="api-description">${api.description}</p>
         <div class="endpoint-wrapper">
             <code class="endpoint">${api.endpoint}</code>
-            <button class="copy-btn" onclick="copyEndpoint('${api.endpoint}')" title="Salin Endpoint">
+            <button class="copy-btn" onclick="copyFullEndpoint('${api.endpoint}')" title="Salin Endpoint">
                 <i class="fas fa-copy"></i>
             </button>
         </div>
-        <button class="try-btn" onclick="tryApi('${api.endpoint}')">
+        <button class="try-btn" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api)})'>
             <span>Try it</span>
             <i class="fas fa-arrow-right"></i>
         </button>
@@ -562,10 +562,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Perbaikan fungsi tryApi
-function tryApi(endpoint, method = 'GET') {
-    // Tambahkan base URL jika endpoint dimulai dengan '/'
+function tryApi(endpoint, api) {
     const baseUrl = window.location.origin;
     const fullUrl = endpoint.startsWith('/') ? `${baseUrl}${endpoint}` : endpoint;
+    
+    // Tambahkan ke recent views sebelum membuka endpoint
+    addToRecent(api);
     
     // Buka di tab baru
     window.open(fullUrl, '_blank');
@@ -641,7 +643,12 @@ document.addEventListener('keydown', (e) => {
 
 function addToRecent(api) {
     let recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
-    recent = [api, ...recent.filter(item => item.endpoint !== api.endpoint)].slice(0, 5);
+    // Hapus item yang sama jika sudah ada
+    recent = recent.filter(item => item.endpoint !== api.endpoint);
+    // Tambahkan item baru di awal array
+    recent.unshift(api);
+    // Batasi hanya 5 item terakhir
+    recent = recent.slice(0, 5);
     localStorage.setItem('recentViews', JSON.stringify(recent));
     updateRecentViews();
 }
@@ -660,8 +667,13 @@ function updateRecentViews() {
     const recentList = document.getElementById('recentList');
     const recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
     
+    if (recent.length === 0) {
+        recentList.innerHTML = '<div class="no-recent">Belum ada API yang dilihat</div>';
+        return;
+    }
+    
     recentList.innerHTML = recent.map(api => `
-        <div class="recent-item" onclick="tryApi('${api.endpoint}')">
+        <div class="recent-item" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api)})'>
             <div class="recent-info">
                 <span class="recent-title">${api.title}</span>
                 <span class="recent-method">${api.method}</span>
@@ -688,6 +700,46 @@ function initKeyboardShortcuts() {
                 renderFilteredApis('');
                 searchInput.blur();
             }
+        }
+    });
+}
+
+// Fungsi untuk copy full endpoint
+function copyFullEndpoint(endpoint) {
+    const baseUrl = window.location.origin;
+    const fullUrl = endpoint.startsWith('/') ? `${baseUrl}${endpoint}` : endpoint;
+    
+    navigator.clipboard.writeText(fullUrl)
+        .then(() => {
+            showToast('Full endpoint berhasil disalin!');
+        });
+}
+
+// Tambah fungsi untuk filter API berdasarkan status
+function showOnlineApis() {
+    const apiList = document.getElementById('apiList');
+    apiList.innerHTML = '';
+    
+    Object.entries(API_DATA).forEach(([category, apis]) => {
+        const onlineApis = apis.filter(api => api.status === 'online');
+        if (onlineApis.length > 0) {
+            onlineApis.forEach(api => {
+                apiList.appendChild(createApiCard(api, category));
+            });
+        }
+    });
+}
+
+function showOfflineApis() {
+    const apiList = document.getElementById('apiList');
+    apiList.innerHTML = '';
+    
+    Object.entries(API_DATA).forEach(([category, apis]) => {
+        const offlineApis = apis.filter(api => api.status === 'offline');
+        if (offlineApis.length > 0) {
+            offlineApis.forEach(api => {
+                apiList.appendChild(createApiCard(api, category));
+            });
         }
     });
 }

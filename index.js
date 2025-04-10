@@ -6,29 +6,52 @@ const fs = require("fs");
 
 const app = express();
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
 // Path ke file views.json
 const viewsFilePath = path.join(__dirname, "data", "views.json");
 
-// Buat direktori data jika belum ada
-if (!fs.existsSync(path.join(__dirname, "data"))) {
-    fs.mkdirSync(path.join(__dirname, "data"));
+// Fungsi untuk membaca view count
+function readViewCount() {
+    try {
+        // Buat direktori data jika belum ada
+        if (!fs.existsSync(path.join(__dirname, "data"))) {
+            fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+        }
+        
+        // Buat file views.json jika belum ada
+        if (!fs.existsSync(viewsFilePath)) {
+            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }), { flag: 'wx' });
+            return 0;
+        }
+        
+        const data = fs.readFileSync(viewsFilePath, 'utf8');
+        const viewData = JSON.parse(data);
+        return viewData.totalViews || 0;
+    } catch (error) {
+        console.error('Error reading view count:', error);
+        return 0;
+    }
 }
 
-// Buat file views.json jika belum ada
-if (!fs.existsSync(viewsFilePath)) {
-    fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }));
+// Fungsi untuk menyimpan view count
+function saveViewCount(count) {
+    try {
+        fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: count }, null, 2));
+        return true;
+    } catch (error) {
+        console.error('Error saving view count:', error);
+        return false;
+    }
 }
 
-// Baca jumlah view dari file
-let viewData = JSON.parse(fs.readFileSync(viewsFilePath));
-let totalViews = viewData.totalViews;
+// Inisialisasi view count
+let totalViews = readViewCount();
 let totalRequests = 0;
 let clients = [];
-
-// Fungsi untuk menyimpan view count ke file
-function saveViewCount() {
-    fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews }));
-}
 
 const limiter = rateLimit({
     windowMs: 60 * 1000,
@@ -40,9 +63,6 @@ const limiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false
 });
-
-app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
     totalRequests++;
@@ -89,14 +109,30 @@ routes.forEach(route => {
 });
 
 app.get("/api/views", (req, res) => {
-    res.json({ views: totalViews });
+    try {
+        // Baca ulang dari file untuk memastikan data terkini
+        totalViews = readViewCount();
+        res.json({ views: totalViews, success: true });
+    } catch (error) {
+        console.error('Error getting views:', error);
+        res.status(500).json({ error: 'Gagal mengambil jumlah view', success: false });
+    }
 });
 
 app.post("/api/views/increment", (req, res) => {
-    totalViews++;
-    // Simpan ke file setiap kali ada increment
-    saveViewCount();
-    res.json({ views: totalViews });
+    try {
+        totalViews++;
+        const saved = saveViewCount(totalViews);
+        
+        if (!saved) {
+            throw new Error('Gagal menyimpan view count');
+        }
+        
+        res.json({ views: totalViews, success: true });
+    } catch (error) {
+        console.error('Error incrementing views:', error);
+        res.status(500).json({ error: 'Gagal menambah view count', success: false });
+    }
 });
 
 module.exports = app;

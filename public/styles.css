@@ -206,12 +206,16 @@ main {
 [data-theme="light"] .api-card {
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.03),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="light"] .api-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 12px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /* Dark theme specific card styling */
@@ -228,7 +232,7 @@ main {
 
 /* Light theme background */
 [data-theme="light"] body {
-    background: #f8fafc;
+    background: #f3f4f6;
 }
 
 /* Improve card visibility in light mode */
@@ -236,19 +240,27 @@ main {
     gap: 1.25rem;
 }
 
-[data-theme="light"] .api-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
+/* Welcome section untuk light theme */
+[data-theme="light"] .welcome-section {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
     box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.05),
-        0 0 0 1px rgba(0, 0, 0, 0.03);
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
-[data-theme="light"] .api-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.07),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+/* Header untuk light theme */
+[data-theme="light"] header {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Sidebar untuk light theme */
+[data-theme="light"] .sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.02);
 }
 
 .api-method {

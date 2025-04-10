@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Path ke file views.json
 const viewsFilePath = path.join(__dirname, "data", "views.json");
 
-// Fungsi untuk membaca view count
+// Fungsi untuk membaca view count dengan error handling yang lebih baik
 function readViewCount() {
     try {
         // Buat direktori data jika belum ada
@@ -24,22 +24,28 @@ function readViewCount() {
         
         // Buat file views.json jika belum ada
         if (!fs.existsSync(viewsFilePath)) {
-            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }), { flag: 'wx' });
+            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }, null, 2));
             return 0;
         }
         
         const data = fs.readFileSync(viewsFilePath, 'utf8');
         const viewData = JSON.parse(data);
-        return viewData.totalViews || 0;
+        return parseInt(viewData.totalViews) || 0;
     } catch (error) {
         console.error('Error reading view count:', error);
         return 0;
     }
 }
 
-// Fungsi untuk menyimpan view count
+// Fungsi untuk menyimpan view count dengan error handling
 function saveViewCount(count) {
     try {
+        // Pastikan direktori ada
+        if (!fs.existsSync(path.join(__dirname, "data"))) {
+            fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+        }
+        
+        // Tulis ke file dengan format yang rapi
         fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: count }, null, 2));
         return true;
     } catch (error) {
@@ -48,7 +54,7 @@ function saveViewCount(count) {
     }
 }
 
-// Inisialisasi view count
+// Inisialisasi view count dari file
 let totalViews = readViewCount();
 let totalRequests = 0;
 let clients = [];
@@ -111,8 +117,9 @@ routes.forEach(route => {
 app.get("/api/views", (req, res) => {
     try {
         // Baca ulang dari file untuk memastikan data terkini
-        totalViews = readViewCount();
-        res.json({ views: totalViews, success: true });
+        const views = readViewCount();
+        totalViews = views; // Update variable global
+        res.json({ views: views, success: true });
     } catch (error) {
         console.error('Error getting views:', error);
         res.status(500).json({ error: 'Gagal mengambil jumlah view', success: false });
@@ -121,7 +128,8 @@ app.get("/api/views", (req, res) => {
 
 app.post("/api/views/increment", (req, res) => {
     try {
-        totalViews++;
+        // Increment dan simpan
+        totalViews = readViewCount() + 1;
         const saved = saveViewCount(totalViews);
         
         if (!saved) {

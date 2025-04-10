@@ -974,3 +974,31 @@ main {
     border-radius: 8px;
     height: 300px;
 }
+
+/* Digital Clock & Visit Counter */
+.digital-clock,
+.visit-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-main);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.digital-clock i,
+.visit-counter i {
+    color: var(--primary);
+}
+
+#digitalClock {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+}
+
+#visitCount {
+    font-weight: 600;
+    color: var(--primary);
+}

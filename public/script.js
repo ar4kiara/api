@@ -854,49 +854,69 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Fungsi untuk menginisialisasi analytics
-function initAnalytics() {
-    // Load Chart.js
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-    script.onload = () => {
-        createVisitsChart('day');
-        startTracking();
-    };
-    document.head.appendChild(script);
-    
-    // Setup period buttons
-    document.querySelectorAll('.period-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            createVisitsChart(btn.dataset.period);
-        });
-    });
-}
+// Tambahkan fungsi untuk mengelola data statistik
+function initStatistics() {
+    // Load data statistik yang tersimpan
+    let stats = JSON.parse(localStorage.getItem('siteStats') || JSON.stringify({
+        totalVisits: 0,
+        uniqueVisitors: 0,
+        averageTime: 0,
+        visitData: {
+            day: Array(24).fill(0),
+            week: Array(7).fill(0),
+            month: Array(30).fill(0)
+        },
+        lastVisit: null
+    }));
 
-// Fungsi untuk tracking pengunjung
-function startTracking() {
-    // Increment visit count
-    incrementVisits();
-    
-    // Track unique visitors using localStorage
-    const visitorId = localStorage.getItem('visitorId');
-    if (!visitorId) {
-        localStorage.setItem('visitorId', generateVisitorId());
-        incrementUniqueVisitors();
+    // Cek apakah ini kunjungan baru (lebih dari 1 jam dari kunjungan terakhir)
+    const now = new Date();
+    const isNewVisit = !stats.lastVisit || 
+        (now - new Date(stats.lastVisit)) > 1000 * 60 * 60; // 1 jam
+
+    if (isNewVisit) {
+        // Update statistik
+        stats.totalVisits++;
+        stats.lastVisit = now.toISOString();
+
+        // Update data kunjungan
+        const hour = now.getHours();
+        const day = now.getDay();
+        const date = now.getDate() - 1;
+
+        stats.visitData.day[hour]++;
+        stats.visitData.week[day]++;
+        stats.visitData.month[date]++;
+
+        // Cek unique visitor
+        const visitorId = localStorage.getItem('visitorId');
+        if (!visitorId) {
+            localStorage.setItem('visitorId', generateVisitorId());
+            stats.uniqueVisitors++;
+        }
+
+        // Simpan ke localStorage
+        localStorage.setItem('siteStats', JSON.stringify(stats));
     }
-    
-    // Track time on site
-    const startTime = Date.now();
-    window.addEventListener('beforeunload', () => {
-        const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-        updateAverageTime(timeSpent);
-    });
+
+    // Update tampilan
+    updateStatisticsDisplay(stats);
+    return stats;
 }
 
-// Fungsi untuk membuat chart
-function createVisitsChart(period) {
+function updateStatisticsDisplay(stats) {
+    // Update counter
+    document.getElementById('totalViews').textContent = stats.totalVisits;
+    document.getElementById('uniqueVisitors').textContent = stats.uniqueVisitors;
+
+    // Update grafik jika Chart.js sudah dimuat
+    if (window.Chart && stats.visitData) {
+        createVisitsChart('day', stats.visitData);
+    }
+}
+
+// Update fungsi createVisitsChart
+function createVisitsChart(period, data) {
     const ctx = document.getElementById('visitsChart').getContext('2d');
     
     const labels = {
@@ -915,7 +935,7 @@ function createVisitsChart(period) {
             labels: labels[period],
             datasets: [{
                 label: 'Kunjungan',
-                data: visitData[period],
+                data: data[period],
                 borderColor: getComputedStyle(document.documentElement)
                     .getPropertyValue('--primary').trim(),
                 tension: 0.4,
@@ -949,34 +969,48 @@ function createVisitsChart(period) {
     });
 }
 
+// Update fungsi initAnalytics
+function initAnalytics() {
+    // Inisialisasi statistik
+    const stats = initStatistics();
+    
+    // Load Chart.js
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = () => {
+        createVisitsChart('day', stats.visitData);
+    };
+    document.head.appendChild(script);
+    
+    // Setup period buttons
+    document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            createVisitsChart(btn.dataset.period, stats.visitData);
+        });
+    });
+
+    // Track waktu kunjungan
+    const startTime = Date.now();
+    window.addEventListener('beforeunload', () => {
+        const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+        updateAverageTime(timeSpent, stats);
+    });
+}
+
+// Update fungsi updateAverageTime
+function updateAverageTime(seconds, stats) {
+    stats.averageTime = Math.round((stats.averageTime + seconds) / 2);
+    localStorage.setItem('siteStats', JSON.stringify(stats));
+    
+    const minutes = Math.floor(stats.averageTime / 60);
+    const remainingSeconds = stats.averageTime % 60;
+    document.getElementById('avgTime').textContent = 
+        `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 // Helper functions
 function generateVisitorId() {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
-}
-
-function incrementVisits() {
-    const hour = new Date().getHours();
-    const day = new Date().getDay();
-    const date = new Date().getDate() - 1;
-    
-    visitData.day[hour]++;
-    visitData.week[day]++;
-    visitData.month[date]++;
-    
-    document.getElementById('totalViews').textContent = 
-        visitData.day.reduce((a, b) => a + b, 0);
-        
-    localStorage.setItem('visitData', JSON.stringify(visitData));
-}
-
-function incrementUniqueVisitors() {
-    const current = parseInt(document.getElementById('uniqueVisitors').textContent);
-    document.getElementById('uniqueVisitors').textContent = current + 1;
-}
-
-function updateAverageTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    document.getElementById('avgTime').textContent = 
-        `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }

@@ -204,12 +204,6 @@ const API_DATA = {
     ]      
 };
 
-let visitData = {
-    day: Array(24).fill(0),
-    week: Array(7).fill(0),
-    month: Array(30).fill(0)
-};
-
 function createApiItem(api) {
     const apiItem = document.createElement('div');
     apiItem.className = 'api-item';
@@ -563,13 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFilteredApis('');
     updateHeaderOnlineCount();
     initKeyboardShortcuts();
-    
-    // Inisialisasi visit counter
-    initVisitCounter();
-    
-    // Inisialisasi dan update jam digital
     updateDigitalClock();
-    setInterval(updateDigitalClock, 1000);
 });
 
 // Perbaikan fungsi tryApi
@@ -852,21 +840,16 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Fungsi untuk mengelola visit counter
-function initVisitCounter() {
-    let visits = parseInt(localStorage.getItem('totalVisits') || '0');
-    visits++;
-    localStorage.setItem('totalVisits', visits);
-    document.getElementById('visitCount').textContent = visits.toLocaleString();
-}
-
-// Fungsi untuk jam digital
+// Digital Clock
 function updateDigitalClock() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     
-    document.getElementById('digitalClock').textContent = 
-        `${hours}:${minutes}:${seconds}`;
+    document.getElementById('digitalTime').textContent = `${hours}:${minutes}:${seconds}`;
 }
+
+// Update clock every second
+setInterval(updateDigitalClock, 1000);
+updateDigitalClock(); // Initial call

@@ -711,3 +711,136 @@ main {
         font-size: 0.85rem;
     }
 }
+
+/* Appreciation Section */
+.appreciation-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.appreciation-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.appreciation-cards {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.appreciation-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.appreciation-card img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+}
+
+.appreciation-content {
+    flex: 1;
+}
+
+.appreciation-content h4 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.appreciation-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.support-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.support-btn.saweria {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.support-btn.saweria:hover {
+    background: #fde68a;
+    transform: translateY(-2px);
+}
+
+.support-btn.trakteer {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.support-btn.trakteer:hover {
+    background: #fecaca;
+    transform: translateY(-2px);
+}
+
+/* Credits Section */
+.credits-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.credits-content {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.credit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.credit-item i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: var(--bg-main);
+    padding: 0.75rem;
+    border-radius: 12px;
+}
+
+.credit-info h4 {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.credit-info p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .appreciation-card {
+    background: var(--bg-sidebar);
+}
+
+[data-theme="dark"] .credit-item i {
+    background: var(--bg-sidebar);
+}

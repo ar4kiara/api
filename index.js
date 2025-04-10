@@ -2,108 +2,86 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
-const fs = require('fs');
+const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
+
+// Inisialisasi Supabase client
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY
+);
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Buat folder data jika belum ada
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-    console.log('Created data directory:', dataDir);
-}
-
-// Path ke file views.json
-const viewsFilePath = path.join(__dirname, 'data', 'views.json');
-
-// Fungsi untuk membaca view count
-function readViewCount() {
+// Fungsi untuk membaca view count dari Supabase
+async function readViewCount() {
     try {
-        if (!fs.existsSync(viewsFilePath)) {
-            // Jika file tidak ada, buat dengan data awal
-            const initialData = { totalViews: 0, sessions: {} };
-            fs.writeFileSync(viewsFilePath, JSON.stringify(initialData, null, 2));
+        const { data, error } = await supabase
+            .from('views')
+            .select('total_views')
+            .single();
+
+        if (error) throw error;
+
+        if (!data) {
+            // Jika belum ada data, buat record baru
+            const { data: newData, error: insertError } = await supabase
+                .from('views')
+                .insert([{ total_views: 0 }])
+                .single();
+
+            if (insertError) throw insertError;
             return 0;
         }
-        const data = fs.readFileSync(viewsFilePath, 'utf8');
-        const parsedData = JSON.parse(data);
-        
-        // Pastikan data memiliki format yang benar
-        if (!parsedData.hasOwnProperty('totalViews')) {
-            console.error('Invalid data format in views.json');
-            const correctedData = {
-                totalViews: typeof parsedData === 'number' ? parsedData : 0,
-                sessions: {}
-            };
-            fs.writeFileSync(viewsFilePath, JSON.stringify(correctedData, null, 2));
-            return correctedData.totalViews;
-        }
-        
-        return parsedData.totalViews;
+
+        return data.total_views;
     } catch (error) {
         console.error('Error reading view count:', error);
         return 0;
     }
 }
 
-// Fungsi untuk menyimpan view count dan session data
-function saveViewData(totalViews, sessions) {
+// Fungsi untuk menyimpan view count dan session data ke Supabase
+async function saveViewData(totalViews, sessions) {
     try {
-        // Validasi input
         if (typeof totalViews !== 'number' || totalViews < 0) {
-            console.error('Debug - Invalid view count:', totalViews);
+            console.error('Invalid view count:', totalViews);
             return false;
         }
 
-        // Baca data yang ada terlebih dahulu
-        let currentData = { totalViews: 0, sessions: {} };
-        if (fs.existsSync(viewsFilePath)) {
-            try {
-                const fileContent = fs.readFileSync(viewsFilePath, 'utf8');
-                currentData = JSON.parse(fileContent);
-                console.log('Debug - Current data from file:', currentData);
-            } catch (err) {
-                console.error('Debug - Error reading existing data:', err);
-            }
-        }
+        // Update view count
+        const { error } = await supabase
+            .from('views')
+            .upsert({ 
+                id: 1, 
+                total_views: totalViews,
+                sessions: sessions,
+                updated_at: new Date().toISOString()
+            });
 
-        // Pastikan totalViews tidak berkurang dari nilai sebelumnya
-        const newTotalViews = Math.max(totalViews, currentData.totalViews);
-        console.log('Debug - New total views to save:', newTotalViews);
-        
-        const dataToSave = {
-            totalViews: newTotalViews,
-            sessions: sessions || currentData.sessions || {}
-        };
-
-        // Tambahkan backup sebelum menyimpan
-        const backupPath = path.join(__dirname, 'data', 'views.backup.json');
-        if (fs.existsSync(viewsFilePath)) {
-            fs.copyFileSync(viewsFilePath, backupPath);
-        }
-
-        fs.writeFileSync(viewsFilePath, JSON.stringify(dataToSave, null, 2));
-        console.log('Debug - Successfully saved view data:', dataToSave);
+        if (error) throw error;
+        console.log('Successfully saved view data:', { totalViews, sessions });
         return true;
     } catch (error) {
-        console.error('Debug - Error saving view data:', error);
+        console.error('Error saving view data:', error);
         return false;
     }
 }
 
-// Fungsi untuk mendapatkan session data
-function getSessionData() {
+// Fungsi untuk mendapatkan session data dari Supabase
+async function getSessionData() {
     try {
-        if (!fs.existsSync(viewsFilePath)) {
-            return {};
-        }
-        const data = fs.readFileSync(viewsFilePath, 'utf8');
-        return JSON.parse(data).sessions || {};
+        const { data, error } = await supabase
+            .from('views')
+            .select('sessions')
+            .single();
+
+        if (error) throw error;
+        return (data && data.sessions) || {};
     } catch (error) {
         console.error('Error reading session data:', error);
         return {};
@@ -111,18 +89,18 @@ function getSessionData() {
 }
 
 // Fungsi untuk increment view count dengan session tracking
-function incrementViewCount(ip) {
+async function incrementViewCount(ip) {
     try {
         const now = Date.now();
-        const sessions = getSessionData();
-        const currentCount = readViewCount();
+        const sessions = await getSessionData();
+        const currentCount = await readViewCount();
         
         console.log('Debug - Current sessions:', sessions);
         console.log('Debug - Current count before increment:', currentCount);
         
         // Hapus sesi yang sudah expired (lebih dari 30 menit)
         Object.keys(sessions).forEach(sessionIp => {
-            if (now - sessions[sessionIp] > 30 * 60 * 1000) { // 30 menit
+            if (now - sessions[sessionIp] > 30 * 60 * 1000) {
                 console.log('Debug - Removing expired session for IP:', sessionIp);
                 delete sessions[sessionIp];
             }
@@ -139,7 +117,7 @@ function incrementViewCount(ip) {
         const newCount = currentCount + 1;
         console.log('Debug - Attempting to save new count:', newCount);
         
-        if (saveViewData(newCount, sessions)) {
+        if (await saveViewData(newCount, sessions)) {
             console.log('Debug - Successfully saved new count:', newCount);
             return newCount;
         }
@@ -147,7 +125,7 @@ function incrementViewCount(ip) {
         return currentCount;
     } catch (error) {
         console.error('Debug - Error in incrementViewCount:', error);
-        return readViewCount();
+        return await readViewCount();
     }
 }
 
@@ -204,10 +182,10 @@ function sendUpdateToClients() {
     });
 }
 
-app.get("/api/views", (req, res) => {
+app.get("/api/views", async (req, res) => {
     try {
         console.log('GET /api/views called');
-        const views = readViewCount();
+        const views = await readViewCount();
         console.log('Current view count:', views);
         res.json({ views, success: true });
     } catch (error) {
@@ -216,12 +194,12 @@ app.get("/api/views", (req, res) => {
     }
 });
 
-app.post("/api/views/increment", (req, res) => {
+app.post("/api/views/increment", async (req, res) => {
     try {
         console.log('POST /api/views/increment called');
         const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
         console.log('Client IP:', ip);
-        const views = incrementViewCount(ip);
+        const views = await incrementViewCount(ip);
         console.log('View count after increment:', views);
         res.json({ views, success: true });
     } catch (error) {

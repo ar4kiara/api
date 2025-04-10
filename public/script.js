@@ -551,12 +551,23 @@ function updateHeaderOnlineCount() {
 // View Counter
 async function updateViewCount() {
     try {
-        // Increment view count di server
-        const response = await fetch('/api/views/increment', { method: 'POST' });
-        const data = await response.json();
+        const response = await fetch('/api/views/increment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         
-        // Update tampilan
-        document.getElementById('viewCount').textContent = data.views;
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        if (data.success) {
+            document.getElementById('viewCount').textContent = data.views;
+        } else {
+            console.error('Failed to update view count:', data.error);
+        }
     } catch (error) {
         console.error('Error updating view count:', error);
     }
@@ -566,15 +577,24 @@ async function updateViewCount() {
 async function getCurrentViews() {
     try {
         const response = await fetch('/api/views');
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
         const data = await response.json();
-        document.getElementById('viewCount').textContent = data.views;
+        if (data.success) {
+            document.getElementById('viewCount').textContent = data.views;
+        } else {
+            console.error('Failed to get view count:', data.error);
+        }
     } catch (error) {
         console.error('Error getting view count:', error);
     }
 }
 
 // Update inisialisasi
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initTheme();
     initSearch();
     initCategories();
@@ -582,8 +602,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFilteredApis('');
     updateHeaderOnlineCount();
     initKeyboardShortcuts();
-    getCurrentViews();
-    updateViewCount();
+    
+    // Ambil view count awal
+    await getCurrentViews();
+    // Increment view count
+    await updateViewCount();
 });
 
 // Perbaikan fungsi tryApi

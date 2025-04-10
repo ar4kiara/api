@@ -255,10 +255,11 @@ footer {
 }
 
 .statistics {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     margin-bottom: 30px;
-    padding: 20px 0;
+    padding: 20px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -266,18 +267,26 @@ footer {
 
 .stat-item {
     text-align: center;
-    padding: 15px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
 }
 
 .stat-item i {
-    font-size: 24px;
+    font-size: 32px;
     color: #007bff;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    display: block;
 }
 
 .stat-item span {
     display: block;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: bold;
     color: #2196f3;
     margin: 10px 0;
@@ -285,6 +294,31 @@ footer {
 
 .stat-item p {
     color: #666;
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
+    font-weight: 500;
+}
+
+/* Responsive untuk statistics */
+@media (max-width: 768px) {
+    .statistics {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 15px;
+    }
+    
+    .stat-item {
+        padding: 15px;
+    }
+    
+    .stat-item i {
+        font-size: 28px;
+    }
+    
+    .stat-item span {
+        font-size: 32px;
+    }
+    
+    .stat-item p {
+        font-size: 14px;
+    }
 }

@@ -72,8 +72,7 @@ header {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 2.5rem;
+    gap: 2rem;
 }
 
 .logo {
@@ -82,12 +81,12 @@ header {
     gap: 0.75rem;
     font-size: 1.25rem;
     font-weight: 600;
-    min-width: 160px;
+    min-width: 140px;
 }
 
 .search-wrapper {
     flex: 1;
-    max-width: 500px;
+    max-width: 600px;
 }
 
 .search-box {
@@ -111,18 +110,85 @@ header {
 .actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    min-width: 320px;
-    justify-content: flex-end;
+    gap: 1rem;
 }
 
 #themeToggle {
-    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-main);
     border: 1px solid var(--border);
     color: var(--text-primary);
-    padding: 0.5rem;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#themeToggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.api-count {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.api-count i {
+    color: var(--primary);
+}
+
+.api-count span {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Time and Views Counter */
+.time-views {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.digital-time {
+    font-family: 'Plus Jakarta Sans', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    padding: 0.4rem 0.6rem;
+    border-right: 1px solid var(--border);
+}
+
+.views-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 0.4rem 0.6rem;
+}
+
+.views-counter i {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.views-counter span {
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 main {
@@ -889,59 +955,10 @@ main {
     opacity: 0.2;
 }
 
-/* Time and Views Counter */
-.time-views {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg-main);
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
-
-.digital-time {
-    font-family: 'Plus Jakarta Sans', monospace;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--primary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    letter-spacing: 0.5px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-}
-
-.views-counter {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-}
-
-.views-counter i {
-    color: var(--primary);
-    font-size: 0.9rem;
-}
-
-.views-counter span {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
 /* Dark theme adjustments */
-[data-theme="dark"] .time-views {
+[data-theme="dark"] .time-views,
+[data-theme="dark"] #themeToggle,
+[data-theme="dark"] .api-count {
     background: var(--bg-sidebar);
-}
-
-[data-theme="dark"] .digital-time,
-[data-theme="dark"] .views-counter {
-    background: var(--bg-main);
     border-color: var(--border);
 }

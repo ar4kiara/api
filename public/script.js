@@ -548,6 +548,14 @@ function updateHeaderOnlineCount() {
     }
 }
 
+// View Counter
+function updateViewCount() {
+    let views = parseInt(localStorage.getItem('pageViews') || '0');
+    views++;
+    localStorage.setItem('pageViews', views.toString());
+    document.getElementById('viewCount').textContent = views;
+}
+
 // Update inisialisasi
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -558,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHeaderOnlineCount();
     initKeyboardShortcuts();
     updateDigitalClock();
+    updateViewCount();
 });
 
 // Perbaikan fungsi tryApi

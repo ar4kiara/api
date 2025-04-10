@@ -737,18 +737,37 @@ main {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1.25rem;
+    padding: 1.5rem;
     flex: 1;
     min-width: 250px;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
-.appreciation-card img {
+.wallet-icons, .bank-icons, .qris-icons {
     width: 48px;
     height: 48px;
-    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+
+.wallet-icons {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.bank-icons {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.qris-icons {
+    background: #fef3c7;
+    color: #d97706;
 }
 
 .appreciation-content {
@@ -771,32 +790,33 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 500;
-    text-decoration: none;
+    border: none;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.support-btn.saweria {
+.support-btn.ewallet {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.support-btn.bank {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.support-btn.qris {
     background: #fef3c7;
-    color: #92400e;
+    color: #d97706;
 }
 
-.support-btn.saweria:hover {
-    background: #fde68a;
+.support-btn:hover {
     transform: translateY(-2px);
-}
-
-.support-btn.trakteer {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.support-btn.trakteer:hover {
-    background: #fecaca;
-    transform: translateY(-2px);
+    filter: brightness(0.95);
 }
 
 /* Credits Section */

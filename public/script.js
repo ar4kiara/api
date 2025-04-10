@@ -622,7 +622,7 @@ function closeModal(btn) {
 }
 
 document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + K untuk fokus ke search
+    // Ctrl/Cmd + S untuk fokus ke search
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         document.getElementById('searchInput').focus();
@@ -772,3 +772,69 @@ function showOfflineApis() {
         }
     });
 }
+
+// Fungsi untuk menampilkan QR Code
+function showQR(type) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    
+    let qrImage, title;
+    if (type === 'ewallet') {
+        title = 'E-Wallet QR Code';
+        // Ganti URL dengan URL QR code e-wallet Anda
+        qrImage = 'URL_QR_EWALLET';
+    } else if (type === 'qris') {
+        title = 'QRIS';
+        // Ganti URL dengan URL QR QRIS Anda
+        qrImage = 'URL_QR_QRIS';
+    }
+    
+    modal.innerHTML = `
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <h2>${title}</h2>
+                <button onclick="closeModal(this)" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="${qrImage}" alt="${title}" class="qr-image">
+                <p class="qr-instruction">Scan QR code menggunakan aplikasi e-wallet Anda</p>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Fungsi untuk menyalin nomor rekening
+function copyRek(rekening) {
+    navigator.clipboard.writeText(rekening)
+        .then(() => {
+            showToast('Nomor rekening berhasil disalin!');
+        });
+}
+
+// Tambahkan CSS untuk modal QR
+const style = document.createElement('style');
+style.textContent = `
+    .qr-modal {
+        max-width: 400px;
+    }
+    
+    .qr-image {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin: 1rem auto;
+        display: block;
+    }
+    
+    .qr-instruction {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+`;
+document.head.appendChild(style);

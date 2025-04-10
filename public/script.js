@@ -551,6 +551,7 @@ function updateHeaderOnlineCount() {
 // View Counter
 async function updateViewCount() {
     try {
+        console.log('Updating view count...');
         const response = await fetch('/api/views/increment', {
             method: 'POST',
             headers: {
@@ -563,8 +564,16 @@ async function updateViewCount() {
         }
         
         const data = await response.json();
+        console.log('View count response:', data);
+        
         if (data.success) {
-            document.getElementById('viewCount').textContent = data.views;
+            const viewCountElement = document.getElementById('viewCount');
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+                console.log('Updated view count display to:', data.views);
+            } else {
+                console.error('viewCount element not found');
+            }
         } else {
             console.error('Failed to update view count:', data.error);
         }
@@ -576,6 +585,7 @@ async function updateViewCount() {
 // Fungsi untuk mendapatkan jumlah view saat ini
 async function getCurrentViews() {
     try {
+        console.log('Getting current views...');
         const response = await fetch('/api/views');
         
         if (!response.ok) {
@@ -583,8 +593,16 @@ async function getCurrentViews() {
         }
         
         const data = await response.json();
+        console.log('Current views response:', data);
+        
         if (data.success) {
-            document.getElementById('viewCount').textContent = data.views;
+            const viewCountElement = document.getElementById('viewCount');
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+                console.log('Set initial view count to:', data.views);
+            } else {
+                console.error('viewCount element not found');
+            }
         } else {
             console.error('Failed to get view count:', data.error);
         }

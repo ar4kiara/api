@@ -96,6 +96,7 @@ header {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 0.5rem 1rem;
+    position: relative;
 }
 
 .search-box input {
@@ -105,12 +106,32 @@ header {
     outline: none;
     color: var(--text-primary);
     font-size: 0.95rem;
+    padding-right: 4rem;
+}
+
+.search-box i {
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+}
+
+.search-box::after {
+    content: 'Ctrl + K';
+    position: absolute;
+    right: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    opacity: 0.7;
+    background: var(--bg-sidebar);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
 }
 
 .actions {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-left: auto;
 }
 
 #themeToggle {
@@ -769,8 +790,12 @@ main {
     position: absolute;
     right: 1rem;
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     opacity: 0.7;
+    background: var(--bg-sidebar);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
 }
 
 /* Responsive adjustments */

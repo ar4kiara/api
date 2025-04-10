@@ -56,7 +56,7 @@ function saveViewData(totalViews, sessions) {
     try {
         // Validasi input
         if (typeof totalViews !== 'number' || totalViews < 0) {
-            console.error('Invalid view count:', totalViews);
+            console.error('Debug - Invalid view count:', totalViews);
             return false;
         }
 
@@ -66,24 +66,32 @@ function saveViewData(totalViews, sessions) {
             try {
                 const fileContent = fs.readFileSync(viewsFilePath, 'utf8');
                 currentData = JSON.parse(fileContent);
+                console.log('Debug - Current data from file:', currentData);
             } catch (err) {
-                console.error('Error reading existing data:', err);
+                console.error('Debug - Error reading existing data:', err);
             }
         }
 
         // Pastikan totalViews tidak berkurang dari nilai sebelumnya
         const newTotalViews = Math.max(totalViews, currentData.totalViews);
+        console.log('Debug - New total views to save:', newTotalViews);
         
         const dataToSave = {
             totalViews: newTotalViews,
             sessions: sessions || currentData.sessions || {}
         };
 
+        // Tambahkan backup sebelum menyimpan
+        const backupPath = path.join(__dirname, 'data', 'views.backup.json');
+        if (fs.existsSync(viewsFilePath)) {
+            fs.copyFileSync(viewsFilePath, backupPath);
+        }
+
         fs.writeFileSync(viewsFilePath, JSON.stringify(dataToSave, null, 2));
-        console.log('Successfully saved view data:', dataToSave);
+        console.log('Debug - Successfully saved view data:', dataToSave);
         return true;
     } catch (error) {
-        console.error('Error saving view data:', error);
+        console.error('Debug - Error saving view data:', error);
         return false;
     }
 }
@@ -109,30 +117,36 @@ function incrementViewCount(ip) {
         const sessions = getSessionData();
         const currentCount = readViewCount();
         
+        console.log('Debug - Current sessions:', sessions);
+        console.log('Debug - Current count before increment:', currentCount);
+        
         // Hapus sesi yang sudah expired (lebih dari 30 menit)
         Object.keys(sessions).forEach(sessionIp => {
             if (now - sessions[sessionIp] > 30 * 60 * 1000) { // 30 menit
+                console.log('Debug - Removing expired session for IP:', sessionIp);
                 delete sessions[sessionIp];
             }
         });
         
         // Cek apakah IP masih dalam sesi aktif
         if (sessions[ip] && (now - sessions[ip] < 30 * 60 * 1000)) {
-            console.log('IP masih dalam sesi aktif:', ip);
+            console.log('Debug - IP masih dalam sesi aktif:', ip);
             return currentCount;
         }
         
         // Update sesi dan increment count
         sessions[ip] = now;
         const newCount = currentCount + 1;
+        console.log('Debug - Attempting to save new count:', newCount);
         
         if (saveViewData(newCount, sessions)) {
-            console.log('View count bertambah menjadi:', newCount);
+            console.log('Debug - Successfully saved new count:', newCount);
             return newCount;
         }
+        console.log('Debug - Failed to save new count');
         return currentCount;
     } catch (error) {
-        console.error('Error incrementing view count:', error);
+        console.error('Debug - Error in incrementViewCount:', error);
         return readViewCount();
     }
 }

@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
-const fs = require("fs");
+const sqlite3 = require('sqlite3').verbose();
+const { open } = require('sqlite');
 
 const app = express();
 
@@ -11,51 +12,76 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Path ke file views.json
-const viewsFilePath = path.join(__dirname, "data", "views.json");
+// Inisialisasi database
+let db;
+(async () => {
+    db = await open({
+        filename: path.join(__dirname, 'data', 'database.sqlite'),
+        driver: sqlite3.Database
+    });
+    
+    // Buat tabel views jika belum ada
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS views (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            count INTEGER DEFAULT 0
+        );
+        CREATE TABLE IF NOT EXISTS view_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ip TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+    
+    // Insert initial count jika belum ada
+    const count = await db.get('SELECT count FROM views LIMIT 1');
+    if (!count) {
+        await db.run('INSERT INTO views (count) VALUES (0)');
+    }
+})().catch(err => {
+    console.error('Error initializing database:', err);
+});
 
-// Fungsi untuk membaca view count dengan error handling yang lebih baik
-function readViewCount() {
+// Fungsi untuk mendapatkan view count
+async function getViewCount() {
     try {
-        // Buat direktori data jika belum ada
-        if (!fs.existsSync(path.join(__dirname, "data"))) {
-            fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
-        }
-        
-        // Buat file views.json jika belum ada
-        if (!fs.existsSync(viewsFilePath)) {
-            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }, null, 2));
-            return 0;
-        }
-        
-        const data = fs.readFileSync(viewsFilePath, 'utf8');
-        const viewData = JSON.parse(data);
-        return parseInt(viewData.totalViews) || 0;
+        const result = await db.get('SELECT count FROM views LIMIT 1');
+        return result ? result.count : 0;
     } catch (error) {
-        console.error('Error reading view count:', error);
+        console.error('Error getting view count:', error);
         return 0;
     }
 }
 
-// Fungsi untuk menyimpan view count dengan error handling
-function saveViewCount(count) {
+// Fungsi untuk increment view count dengan pengecekan IP
+async function incrementViewCount(ip) {
     try {
-        // Pastikan direktori ada
-        if (!fs.existsSync(path.join(__dirname, "data"))) {
-            fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+        // Cek apakah IP sudah mengakses dalam 24 jam terakhir
+        const recentView = await db.get(
+            'SELECT * FROM view_logs WHERE ip = ? AND timestamp > datetime("now", "-1 day")',
+            [ip]
+        );
+        
+        if (recentView) {
+            return await getViewCount(); // Return current count tanpa increment
         }
         
-        // Tulis ke file dengan format yang rapi
-        fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: count }, null, 2));
-        return true;
+        // Increment count dan log IP
+        await db.run('BEGIN TRANSACTION');
+        await db.run('UPDATE views SET count = count + 1');
+        await db.run('INSERT INTO view_logs (ip) VALUES (?)', [ip]);
+        await db.run('COMMIT');
+        
+        return await getViewCount();
     } catch (error) {
-        console.error('Error saving view count:', error);
-        return false;
+        await db.run('ROLLBACK');
+        console.error('Error incrementing view count:', error);
+        return await getViewCount();
     }
 }
 
 // Inisialisasi view count dari file
-let totalViews = readViewCount();
+let totalViews = getViewCount();
 let totalRequests = 0;
 let clients = [];
 
@@ -114,29 +140,21 @@ routes.forEach(route => {
     app.use(`/api/${route}`, limiter, require(`./api/${route}`));
 });
 
-app.get("/api/views", (req, res) => {
+app.get("/api/views", async (req, res) => {
     try {
-        // Baca ulang dari file untuk memastikan data terkini
-        const views = readViewCount();
-        totalViews = views; // Update variable global
-        res.json({ views: views, success: true });
+        const views = await getViewCount();
+        res.json({ views, success: true });
     } catch (error) {
         console.error('Error getting views:', error);
         res.status(500).json({ error: 'Gagal mengambil jumlah view', success: false });
     }
 });
 
-app.post("/api/views/increment", (req, res) => {
+app.post("/api/views/increment", async (req, res) => {
     try {
-        // Increment dan simpan
-        totalViews = readViewCount() + 1;
-        const saved = saveViewCount(totalViews);
-        
-        if (!saved) {
-            throw new Error('Gagal menyimpan view count');
-        }
-        
-        res.json({ views: totalViews, success: true });
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
+        const views = await incrementViewCount(ip);
+        res.json({ views, success: true });
     } catch (error) {
         console.error('Error incrementing views:', error);
         res.status(500).json({ error: 'Gagal menambah view count', success: false });

@@ -25,7 +25,7 @@ const viewsFilePath = path.join(__dirname, 'data', 'views.json');
 function readViewCount() {
     try {
         if (!fs.existsSync(viewsFilePath)) {
-            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }));
+            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0, sessions: {} }));
             return 0;
         }
         const data = fs.readFileSync(viewsFilePath, 'utf8');
@@ -36,47 +36,57 @@ function readViewCount() {
     }
 }
 
-// Fungsi untuk menyimpan view count
-function saveViewCount(count) {
+// Fungsi untuk menyimpan view count dan session data
+function saveViewData(totalViews, sessions) {
     try {
-        fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: count }));
+        fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews, sessions }, null, 2));
         return true;
     } catch (error) {
-        console.error('Error saving view count:', error);
+        console.error('Error saving view data:', error);
         return false;
     }
 }
 
-// Simpan IP yang sudah mengakses dalam 24 jam
-const recentVisitors = new Map();
+// Fungsi untuk mendapatkan session data
+function getSessionData() {
+    try {
+        if (!fs.existsSync(viewsFilePath)) {
+            return {};
+        }
+        const data = fs.readFileSync(viewsFilePath, 'utf8');
+        return JSON.parse(data).sessions || {};
+    } catch (error) {
+        console.error('Error reading session data:', error);
+        return {};
+    }
+}
 
-// Fungsi untuk increment view count dengan pengecekan IP
+// Fungsi untuk increment view count dengan session tracking
 function incrementViewCount(ip) {
     try {
         const now = Date.now();
-        const lastVisit = recentVisitors.get(ip);
-        
-        // Cek apakah IP sudah mengakses dalam 24 jam
-        if (lastVisit && (now - lastVisit) < 24 * 60 * 60 * 1000) {
-            console.log('IP already viewed in last 24 hours:', ip);
-            return readViewCount();
-        }
-        
-        // Update last visit time
-        recentVisitors.set(ip, now);
-        
-        // Cleanup old entries (lebih dari 24 jam)
-        for (const [visitorIp, visitTime] of recentVisitors.entries()) {
-            if (now - visitTime > 24 * 60 * 60 * 1000) {
-                recentVisitors.delete(visitorIp);
-            }
-        }
-        
-        // Increment dan simpan count
+        const sessions = getSessionData();
         const currentCount = readViewCount();
+        
+        // Hapus sesi yang sudah expired (lebih dari 30 menit)
+        Object.keys(sessions).forEach(sessionIp => {
+            if (now - sessions[sessionIp] > 30 * 60 * 1000) { // 30 menit
+                delete sessions[sessionIp];
+            }
+        });
+        
+        // Cek apakah IP masih dalam sesi aktif
+        if (sessions[ip] && (now - sessions[ip] < 30 * 60 * 1000)) {
+            console.log('IP masih dalam sesi aktif:', ip);
+            return currentCount;
+        }
+        
+        // Update sesi dan increment count
+        sessions[ip] = now;
         const newCount = currentCount + 1;
-        if (saveViewCount(newCount)) {
-            console.log('Incremented view count to:', newCount);
+        
+        if (saveViewData(newCount, sessions)) {
+            console.log('View count bertambah menjadi:', newCount);
             return newCount;
         }
         return currentCount;

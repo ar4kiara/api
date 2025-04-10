@@ -118,27 +118,48 @@
             <div class="appreciation-section">
                 <h3>💝 Dukung Kami</h3>
                 <div class="appreciation-cards">
+                    <!-- E-Wallet -->
                     <div class="appreciation-card">
-                        <img src="https://raw.githubusercontent.com/Automattic/social-logos/master/svg-min/saweria.svg" alt="Saweria">
+                        <div class="wallet-icons">
+                            <i class="fas fa-wallet"></i>
+                        </div>
                         <div class="appreciation-content">
-                            <h4>Saweria</h4>
-                            <p>Dukung kami dengan Saweria</p>
-                            <a href="https://saweria.co/YOUR_USERNAME" class="support-btn saweria" target="_blank">
-                                <i class="fas fa-coffee"></i>
-                                Traktir Kopi
-                            </a>
+                            <h4>E-Wallet</h4>
+                            <p>DANA / GoPay / OVO</p>
+                            <button onclick="showQR('ewallet')" class="support-btn ewallet">
+                                <i class="fas fa-qrcode"></i>
+                                Lihat QR Code
+                            </button>
                         </div>
                     </div>
                     
+                    <!-- Bank Transfer -->
                     <div class="appreciation-card">
-                        <img src="https://raw.githubusercontent.com/Automattic/social-logos/master/svg-min/trakteer.svg" alt="Trakteer">
+                        <div class="bank-icons">
+                            <i class="fas fa-university"></i>
+                        </div>
                         <div class="appreciation-content">
-                            <h4>Trakteer</h4>
-                            <p>Dukung kami dengan Trakteer</p>
-                            <a href="https://trakteer.id/YOUR_USERNAME" class="support-btn trakteer" target="_blank">
-                                <i class="fas fa-mug-hot"></i>
-                                Traktir
-                            </a>
+                            <h4>Transfer Bank</h4>
+                            <p>BCA: 1234567890</p>
+                            <button onclick="copyRek('1234567890')" class="support-btn bank">
+                                <i class="fas fa-copy"></i>
+                                Salin Rekening
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- QRIS -->
+                    <div class="appreciation-card">
+                        <div class="qris-icons">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="appreciation-content">
+                            <h4>QRIS</h4>
+                            <p>Scan untuk semua e-wallet</p>
+                            <button onclick="showQR('qris')" class="support-btn qris">
+                                <i class="fas fa-expand"></i>
+                                Lihat QRIS
+                            </button>
                         </div>
                     </div>
                 </div>

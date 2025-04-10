@@ -25,11 +25,26 @@ const viewsFilePath = path.join(__dirname, 'data', 'views.json');
 function readViewCount() {
     try {
         if (!fs.existsSync(viewsFilePath)) {
-            fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0, sessions: {} }));
+            // Jika file tidak ada, buat dengan data awal
+            const initialData = { totalViews: 0, sessions: {} };
+            fs.writeFileSync(viewsFilePath, JSON.stringify(initialData, null, 2));
             return 0;
         }
         const data = fs.readFileSync(viewsFilePath, 'utf8');
-        return JSON.parse(data).totalViews || 0;
+        const parsedData = JSON.parse(data);
+        
+        // Pastikan data memiliki format yang benar
+        if (!parsedData.hasOwnProperty('totalViews')) {
+            console.error('Invalid data format in views.json');
+            const correctedData = {
+                totalViews: typeof parsedData === 'number' ? parsedData : 0,
+                sessions: {}
+            };
+            fs.writeFileSync(viewsFilePath, JSON.stringify(correctedData, null, 2));
+            return correctedData.totalViews;
+        }
+        
+        return parsedData.totalViews;
     } catch (error) {
         console.error('Error reading view count:', error);
         return 0;
@@ -39,7 +54,33 @@ function readViewCount() {
 // Fungsi untuk menyimpan view count dan session data
 function saveViewData(totalViews, sessions) {
     try {
-        fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews, sessions }, null, 2));
+        // Validasi input
+        if (typeof totalViews !== 'number' || totalViews < 0) {
+            console.error('Invalid view count:', totalViews);
+            return false;
+        }
+
+        // Baca data yang ada terlebih dahulu
+        let currentData = { totalViews: 0, sessions: {} };
+        if (fs.existsSync(viewsFilePath)) {
+            try {
+                const fileContent = fs.readFileSync(viewsFilePath, 'utf8');
+                currentData = JSON.parse(fileContent);
+            } catch (err) {
+                console.error('Error reading existing data:', err);
+            }
+        }
+
+        // Pastikan totalViews tidak berkurang dari nilai sebelumnya
+        const newTotalViews = Math.max(totalViews, currentData.totalViews);
+        
+        const dataToSave = {
+            totalViews: newTotalViews,
+            sessions: sessions || currentData.sessions || {}
+        };
+
+        fs.writeFileSync(viewsFilePath, JSON.stringify(dataToSave, null, 2));
+        console.log('Successfully saved view data:', dataToSave);
         return true;
     } catch (error) {
         console.error('Error saving view data:', error);

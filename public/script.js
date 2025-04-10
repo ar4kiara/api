@@ -549,11 +549,28 @@ function updateHeaderOnlineCount() {
 }
 
 // View Counter
-function updateViewCount() {
-    let views = parseInt(localStorage.getItem('pageViews') || '0');
-    views++;
-    localStorage.setItem('pageViews', views.toString());
-    document.getElementById('viewCount').textContent = views;
+async function updateViewCount() {
+    try {
+        // Increment view count di server
+        const response = await fetch('/api/views/increment', { method: 'POST' });
+        const data = await response.json();
+        
+        // Update tampilan
+        document.getElementById('viewCount').textContent = data.views;
+    } catch (error) {
+        console.error('Error updating view count:', error);
+    }
+}
+
+// Fungsi untuk mendapatkan jumlah view saat ini
+async function getCurrentViews() {
+    try {
+        const response = await fetch('/api/views');
+        const data = await response.json();
+        document.getElementById('viewCount').textContent = data.views;
+    } catch (error) {
+        console.error('Error getting view count:', error);
+    }
 }
 
 // Update inisialisasi
@@ -565,6 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFilteredApis('');
     updateHeaderOnlineCount();
     initKeyboardShortcuts();
+    getCurrentViews();
     updateViewCount();
 });
 

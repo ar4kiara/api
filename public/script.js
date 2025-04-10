@@ -572,6 +572,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('totalViews').textContent = 
             visitData.day.reduce((a, b) => a + b, 0);
     }
+    
+    // Inisialisasi visit counter
+    initVisitCounter();
+    
+    // Inisialisasi dan update jam digital
+    updateDigitalClock();
+    setInterval(updateDigitalClock, 1000);
 });
 
 // Perbaikan fungsi tryApi
@@ -1051,4 +1058,23 @@ function updateAverageTime(seconds, stats) {
 // Helper functions
 function generateVisitorId() {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
+
+// Fungsi untuk mengelola visit counter
+function initVisitCounter() {
+    let visits = parseInt(localStorage.getItem('totalVisits') || '0');
+    visits++;
+    localStorage.setItem('totalVisits', visits);
+    document.getElementById('visitCount').textContent = visits.toLocaleString();
+}
+
+// Fungsi untuk jam digital
+function updateDigitalClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    document.getElementById('digitalClock').textContent = 
+        `${hours}:${minutes}:${seconds}`;
 }

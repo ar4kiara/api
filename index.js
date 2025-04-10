@@ -112,38 +112,58 @@ async function incrementViewCount(ip) {
 
         // Ambil dan bersihkan sessions yang expired
         const sessions = viewData.sessions || {};
+        let hasCleanedSessions = false;
+        
         Object.keys(sessions).forEach(sessionIp => {
-            if (now - sessions[sessionIp] > 30 * 60 * 1000) { // 30 menit
+            if (now - sessions[sessionIp] > 5 * 60 * 1000) { // 5 menit
                 delete sessions[sessionIp];
+                hasCleanedSessions = true;
             }
         });
 
-        // Cek apakah IP masih dalam sesi aktif
-        if (sessions[ip] && (now - sessions[ip] < 30 * 60 * 1000)) {
-            console.log('IP masih dalam sesi aktif:', ip);
-            return viewData.total_views;
+        // Jika IP tidak ada di sessions atau sudah expired
+        if (!sessions[ip]) {
+            sessions[ip] = now;
+            const newCount = (viewData.total_views || 0) + 1;
+
+            const { error: updateError } = await supabase
+                .from('views')
+                .update({ 
+                    total_views: newCount,
+                    sessions: sessions,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', 1);
+
+            if (updateError) throw updateError;
+            console.log('View count updated:', newCount);
+            return newCount;
+        } else if (hasCleanedSessions) {
+            // Update sessions jika ada yang dihapus
+            const { error: updateError } = await supabase
+                .from('views')
+                .update({ 
+                    sessions: sessions,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', 1);
+
+            if (updateError) throw updateError;
         }
 
-        // Update session dan increment view
-        sessions[ip] = now;
-        const newCount = (viewData.total_views || 0) + 1;
-
-        const { error: updateError } = await supabase
-            .from('views')
-            .update({ 
-                total_views: newCount,
-                sessions: sessions,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', 1);
-
-        if (updateError) throw updateError;
-        
-        console.log('View count updated:', newCount);
-        return newCount;
+        return viewData.total_views;
     } catch (error) {
         console.error('Error in incrementViewCount:', error);
-        return 0;
+        // Jika error, coba baca view count saja
+        try {
+            const { data } = await supabase
+                .from('views')
+                .select('total_views')
+                .single();
+            return data?.total_views || 0;
+        } catch (e) {
+            return 0;
+        }
     }
 }
 

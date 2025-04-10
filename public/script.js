@@ -548,38 +548,30 @@ function updateHeaderOnlineCount() {
     }
 }
 
-// View Counter dengan localStorage
+// View Counter
 async function updateViewCount() {
     try {
         console.log('Updating view count...');
+        const response = await fetch('/api/views/increment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         
-        // Ambil view count dari localStorage
-        let views = parseInt(localStorage.getItem('totalViews') || '0');
-        
-        // Cek kapan terakhir kali increment
-        const lastIncrement = parseInt(localStorage.getItem('lastIncrement') || '0');
-        const now = Date.now();
-        
-        // Jika sudah lebih dari 24 jam sejak terakhir increment
-        if (!lastIncrement || (now - lastIncrement) > 24 * 60 * 60 * 1000) {
-            views++;
-            localStorage.setItem('totalViews', views.toString());
-            localStorage.setItem('lastIncrement', now.toString());
-            
-            // Kirim ke server
-            await fetch('/api/views/increment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
         
-        // Update display
-        const viewCountElement = document.getElementById('viewCount');
-        if (viewCountElement) {
-            viewCountElement.textContent = views;
-            console.log('Updated view count display to:', views);
+        const data = await response.json();
+        console.log('View count response:', data);
+        
+        if (data.success) {
+            const viewCountElement = document.getElementById('viewCount');
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+                console.log('Updated view count display to:', data.views);
+            }
         }
     } catch (error) {
         console.error('Error updating view count:', error);
@@ -590,27 +582,20 @@ async function updateViewCount() {
 async function getCurrentViews() {
     try {
         console.log('Getting current views...');
+        const response = await fetch('/api/views');
         
-        // Ambil dari localStorage
-        const views = parseInt(localStorage.getItem('totalViews') || '0');
-        
-        // Update display
-        const viewCountElement = document.getElementById('viewCount');
-        if (viewCountElement) {
-            viewCountElement.textContent = views;
-            console.log('Set initial view count to:', views);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
         
-        // Sync dengan server
-        const response = await fetch('/api/views');
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.views > views) {
-                localStorage.setItem('totalViews', data.views.toString());
-                if (viewCountElement) {
-                    viewCountElement.textContent = data.views;
-                    console.log('Updated view count from server to:', data.views);
-                }
+        const data = await response.json();
+        console.log('Current views response:', data);
+        
+        if (data.success) {
+            const viewCountElement = document.getElementById('viewCount');
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+                console.log('Set initial view count to:', data.views);
             }
         }
     } catch (error) {

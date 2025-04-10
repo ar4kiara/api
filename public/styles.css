@@ -176,9 +176,12 @@ header {
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     font-size: 0.9rem;
     color: var(--text-secondary);
-    padding: 0.4rem 0.6rem;
 }
 
 .views-counter i {

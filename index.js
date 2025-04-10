@@ -34,19 +34,7 @@ async function readViewCount() {
             .single();
 
         if (error) throw error;
-
-        if (!data) {
-            // Jika belum ada data, buat record baru
-            const { data: newData, error: insertError } = await supabase
-                .from('views')
-                .insert([{ total_views: 0 }])
-                .single();
-
-            if (insertError) throw insertError;
-            return 0;
-        }
-
-        return data.total_views;
+        return data?.total_views || 0;
     } catch (error) {
         console.error('Error reading view count:', error);
         return 0;
@@ -100,40 +88,62 @@ async function getSessionData() {
 async function incrementViewCount(ip) {
     try {
         const now = Date.now();
-        const sessions = await getSessionData();
-        const currentCount = await readViewCount();
-        
-        console.log('Debug - Current sessions:', sessions);
-        console.log('Debug - Current count before increment:', currentCount);
-        
-        // Hapus sesi yang sudah expired (lebih dari 30 menit)
+        const { data: viewData, error: viewError } = await supabase
+            .from('views')
+            .select('*')
+            .single();
+
+        if (viewError) throw viewError;
+
+        // Jika tidak ada data, buat baru
+        if (!viewData) {
+            const { data, error } = await supabase
+                .from('views')
+                .insert([{ 
+                    id: 1,
+                    total_views: 1,
+                    sessions: { [ip]: now }
+                }])
+                .single();
+            
+            if (error) throw error;
+            return 1;
+        }
+
+        // Ambil dan bersihkan sessions yang expired
+        const sessions = viewData.sessions || {};
         Object.keys(sessions).forEach(sessionIp => {
-            if (now - sessions[sessionIp] > 30 * 60 * 1000) {
-                console.log('Debug - Removing expired session for IP:', sessionIp);
+            if (now - sessions[sessionIp] > 30 * 60 * 1000) { // 30 menit
                 delete sessions[sessionIp];
             }
         });
-        
+
         // Cek apakah IP masih dalam sesi aktif
         if (sessions[ip] && (now - sessions[ip] < 30 * 60 * 1000)) {
-            console.log('Debug - IP masih dalam sesi aktif:', ip);
-            return currentCount;
+            console.log('IP masih dalam sesi aktif:', ip);
+            return viewData.total_views;
         }
-        
-        // Update sesi dan increment count
+
+        // Update session dan increment view
         sessions[ip] = now;
-        const newCount = currentCount + 1;
-        console.log('Debug - Attempting to save new count:', newCount);
+        const newCount = (viewData.total_views || 0) + 1;
+
+        const { error: updateError } = await supabase
+            .from('views')
+            .update({ 
+                total_views: newCount,
+                sessions: sessions,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', 1);
+
+        if (updateError) throw updateError;
         
-        if (await saveViewData(newCount, sessions)) {
-            console.log('Debug - Successfully saved new count:', newCount);
-            return newCount;
-        }
-        console.log('Debug - Failed to save new count');
-        return currentCount;
+        console.log('View count updated:', newCount);
+        return newCount;
     } catch (error) {
-        console.error('Debug - Error in incrementViewCount:', error);
-        return await readViewCount();
+        console.error('Error in incrementViewCount:', error);
+        return 0;
     }
 }
 

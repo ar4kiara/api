@@ -2,11 +2,33 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
+const fs = require("fs");
 
 const app = express();
 
+// Path ke file views.json
+const viewsFilePath = path.join(__dirname, "data", "views.json");
+
+// Buat direktori data jika belum ada
+if (!fs.existsSync(path.join(__dirname, "data"))) {
+    fs.mkdirSync(path.join(__dirname, "data"));
+}
+
+// Buat file views.json jika belum ada
+if (!fs.existsSync(viewsFilePath)) {
+    fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews: 0 }));
+}
+
+// Baca jumlah view dari file
+let viewData = JSON.parse(fs.readFileSync(viewsFilePath));
+let totalViews = viewData.totalViews;
 let totalRequests = 0;
 let clients = [];
+
+// Fungsi untuk menyimpan view count ke file
+function saveViewCount() {
+    fs.writeFileSync(viewsFilePath, JSON.stringify({ totalViews }));
+}
 
 const limiter = rateLimit({
     windowMs: 60 * 1000,
@@ -64,6 +86,17 @@ function sendUpdateToClients() {
 const routes = ["ytdl", "twitterdl", "igdl", "fbdl", "ttdl", "gitclone", "githubstalk", "searchgroups", "ttsearch", "ytsearch", "npmsearch", "pinterest", "llama-3.3-70b-versatile", "gemini", "txt2img", "ssweb", "translate", "nulis", "cuaca", "qrcodegenerator", "vcc", "cekkhodam", "tahukahkamu", "brat", "qc", "detiknews", "kompasnews"];
 routes.forEach(route => {
     app.use(`/api/${route}`, limiter, require(`./api/${route}`));
+});
+
+app.get("/api/views", (req, res) => {
+    res.json({ views: totalViews });
+});
+
+app.post("/api/views/increment", (req, res) => {
+    totalViews++;
+    // Simpan ke file setiap kali ada increment
+    saveViewCount();
+    res.json({ views: totalViews });
 });
 
 module.exports = app;

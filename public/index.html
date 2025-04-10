@@ -3,57 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OwnBlox API - Fast & Reliable</title>
-    <meta property="og:title" content="OwnBlox API - Fast & Reliable">
-    <meta property="og:description" content="Dokumentasi lengkap API dari OwnBlox. Cepat, aman, dan terpercaya!">
-    <meta property="og:image" content="https://files.catbox.moe/2ybrj7.jpg">
-    <meta property="og:url" content="https://api.ownblox.biz.id">
-    <meta property="og:type" content="website">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>OwnBlox API Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
-    <link rel="icon" href="https://files.catbox.moe/2ybrj7.jpg" type="image/jpeg">
 </head>
 <body>
-    <div class="container">
-        <h1>API Documentation</h1>
-        <div class="welcome-section">
-            <h2>Selamat Datang di OwnBlox API</h2>
-            <p>Dokumentasi lengkap untuk mengakses semua endpoint API kami yang cepat dan handal.</p>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>OwnBlox Hub</span>
+            </div>
+            
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari API...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="api-count">
+                    <i class="fas fa-plug"></i>
+                    <span>25</span> Online
+                </div>
+            </div>
         </div>
-        <div class="statistics">
-            <div class="stat-item">
-                <i class="fas fa-network-wired"></i>
-                <span id="total-endpoints">0</span>
-                <p>Total Endpoints</p>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <div class="category-list">
+                <div class="category-header">
+                    <h3><i class="fas fa-layer-group"></i> Kategori</h3>
+                    <button id="toggleCategories" class="toggle-btn">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div id="categories" class="categories-wrapper">
+                    <div class="category-item active" data-category="all">
+                        <div class="category-info">
+                            <i class="fas fa-globe"></i>
+                            <span>Semua API</span>
+                        </div>
+                        <span class="count">26</span>
+                    </div>
+                </div>
             </div>
-            <div class="stat-item">
-                <i class="fas fa-check-circle"></i>
-                <span id="online-endpoints">0</span>
-                <p>Online</p>
+            <div class="recent-views">
+                <h3><i class="fas fa-history"></i> Terakhir Dilihat</h3>
+                <div id="recentList" class="recent-list"></div>
             </div>
-            <div class="stat-item">
-                <i class="fas fa-times-circle"></i>
-                <span id="offline-endpoints">0</span>
-                <p>Offline</p>
-            </div>
-        </div>
-        <div id="api-categories"></div>
-        <footer>
-            <div class="footer-content">
-                <div class="copyright">© 2025 API OwnBlox – Fast & Reliable API Services.</div>
-                <div class="social-links">
-                    <a href="https://github.com/ownblox" target="_blank" class="social-link">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://chat.whatsapp.com/your-group-link" target="_blank" class="social-link">
+        </aside>
+
+        <section class="content">
+            <div class="welcome-section">
+                <h1>Selamat Datang di OwnBlox API Hub</h1>
+                <p>Platform API modern untuk kebutuhan development Anda</p>
+                
+                <div class="overview-stats">
+                    <div class="stat-item clickable" onclick="showAllApis()">
+                        <i class="fas fa-plug"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">26</span>
+                            <span class="stat-label">Total API</span>
+                        </div>
+                    </div>
+                    <div class="stat-item clickable" onclick="showOnlineApis()">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">25</span>
+                            <span class="stat-label">API Online</span>
+                        </div>
+                    </div>
+                    <div class="stat-item clickable" onclick="showOfflineApis()">
+                        <i class="fas fa-times-circle"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">1</span>
+                            <span class="stat-label">API Offline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-section">
+                    <div class="analytics-header">
+                        <h3>📊 Statistik Pengunjung</h3>
+                        <div class="analytics-period">
+                            <button class="period-btn active" data-period="day">Hari ini</button>
+                            <button class="period-btn" data-period="week">Minggu ini</button>
+                            <button class="period-btn" data-period="month">Bulan ini</button>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-cards">
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <span class="analytics-value" id="totalViews">0</span>
+                                <span class="analytics-label">Total Kunjungan</span>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <span class="analytics-value" id="uniqueVisitors">0</span>
+                                <span class="analytics-label">Pengunjung Unik</span>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="analytics-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="analytics-info">
+                                <span class="analytics-value" id="avgTime">0:00</span>
+                                <span class="analytics-label">Rata-rata Waktu</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="visitsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="social-shortcuts">
+                    <a href="https://wa.me/YOUR_NUMBER" class="shortcut-btn whatsapp">
                         <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp Channel</span>
+                        Chat Admin
+                    </a>
+                    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" class="shortcut-btn whatsapp-group">
+                        <i class="fas fa-users"></i>
+                        Grup WhatsApp
+                    </a>
+                    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK" class="shortcut-btn whatsapp-channel">
+                        <i class="fas fa-broadcast-tower"></i>
+                        Saluran Update
+                    </a>
+                    <a href="https://youtube.com/YOUR_CHANNEL" class="shortcut-btn youtube">
+                        <i class="fab fa-youtube"></i>
+                        YouTube
+                    </a>
+                    <a href="https://t.me/YOUR_USERNAME" class="shortcut-btn telegram">
+                        <i class="fab fa-telegram"></i>
+                        Telegram
                     </a>
                 </div>
             </div>
-        </footer>
-    </div>
+            
+            <div id="apiList" class="api-grid"></div>
+
+            <div class="appreciation-section">
+                <h3>💝 Dukung Kami</h3>
+                <div class="appreciation-cards">
+                    <!-- E-Wallet -->
+                    <div class="appreciation-card">
+                        <div class="wallet-icons">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="appreciation-content">
+                            <h4>E-Wallet</h4>
+                            <p>DANA / GoPay / OVO</p>
+                            <button onclick="showQR('ewallet')" class="support-btn ewallet">
+                                <i class="fas fa-qrcode"></i>
+                                Lihat QR Code
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bank Transfer -->
+                    <div class="appreciation-card">
+                        <div class="bank-icons">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="appreciation-content">
+                            <h4>Transfer Bank</h4>
+                            <p>BCA: 1234567890</p>
+                            <button onclick="copyRek('1234567890')" class="support-btn bank">
+                                <i class="fas fa-copy"></i>
+                                Salin Rekening
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- QRIS -->
+                    <div class="appreciation-card">
+                        <div class="qris-icons">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="appreciation-content">
+                            <h4>QRIS</h4>
+                            <p>Scan untuk semua e-wallet</p>
+                            <button onclick="showQR('qris')" class="support-btn qris">
+                                <i class="fas fa-expand"></i>
+                                Lihat QRIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="credits-section">
+                    <h3>🙏 Kredit & Terima Kasih</h3>
+                    <div class="credits-content">
+                        <div class="credit-item">
+                            <i class="fas fa-code"></i>
+                            <div class="credit-info">
+                                <h4>Developer</h4>
+                                <p>YOUR_NAME</p>
+                            </div>
+                        </div>
+                        <div class="credit-item">
+                            <i class="fas fa-server"></i>
+                            <div class="credit-info">
+                                <h4>Hosting</h4>
+                                <p>Vercel</p>
+                            </div>
+                        </div>
+                        <div class="credit-item">
+                            <i class="fas fa-heart"></i>
+                            <div class="credit-info">
+                                <h4>Kontributor</h4>
+                                <p>Semua yang telah mendukung</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
 </body>
+<script src="script.js"></script>
 </html>

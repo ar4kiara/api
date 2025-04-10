@@ -1,4 +1,4 @@
-const API_DATA = {
+const apiData = {
     "Downloader": [
         {
             method: "GET",
@@ -41,6 +41,13 @@ const API_DATA = {
             status: "online",
             description: "Cloning repositori dari GitHub.",
             endpoint: "/api/gitclone?url="
+        },
+        {
+            method: "GET",
+            title: "Spotify Downloader",
+            status: "online",
+            description: "Download semua lagu dari Spotify dengan mudah.",
+            endpoint: "/api/spotifydl?url="
         }
     ],
     "Search": [
@@ -85,6 +92,13 @@ const API_DATA = {
             status: "online",
             description: "Mencari gambar di Pinterest berdasarkan query (q) kamu.",
             endpoint: "/api/pinterest?q="
+        },
+        {
+            method: "GET",
+            title: "Spotify Search",
+            status: "online",
+            description: "Mencari lagu dengan informasi lengkap lainnya berdasarkan query (q) kamu.",
+            endpoint: "/api/spotifysearch?q="
         }
     ],
     "AI": [
@@ -271,10 +285,33 @@ function setupToggleDescriptions() {
     });
 }
 
+function updateStatistics() {
+    let totalEndpoints = 0;
+    let onlineEndpoints = 0;
+    let offlineEndpoints = 0;
+
+    // Hitung total endpoints dan status
+    for (const category in apiData) {
+        apiData[category].forEach(api => {
+            totalEndpoints++;
+            if (api.status === 'online') {
+                onlineEndpoints++;
+            } else {
+                offlineEndpoints++;
+            }
+        });
+    }
+
+    // Update tampilan statistik
+    document.getElementById('total-endpoints').textContent = totalEndpoints;
+    document.getElementById('online-endpoints').textContent = onlineEndpoints;
+    document.getElementById('offline-endpoints').textContent = offlineEndpoints;
+}
+
 function loadApiData() {
     const apiCategoriesContainer = document.getElementById('api-categories');
 
-    for (const category in API_DATA) {
+    for (const category in apiData) {
         const apiCategory = document.createElement('div');
         apiCategory.className = 'api-category';
 
@@ -284,7 +321,7 @@ function loadApiData() {
         const apiList = document.createElement('div');
         apiList.className = 'api-list';
 
-        API_DATA[category].forEach(api => {
+        apiData[category].forEach(api => {
             const apiItem = createApiItem(api);
             apiList.appendChild(apiItem);
         });
@@ -295,546 +332,7 @@ function loadApiData() {
     }
 
     setupToggleDescriptions();
+    updateStatistics(); // Panggil fungsi updateStatistics setelah data dimuat
 }
 
 document.addEventListener('DOMContentLoaded', loadApiData);
-
-// Theme Toggle
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-const icon = themeToggle.querySelector('i');
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme') || 'light-theme';
-body.className = savedTheme;
-updateThemeIcon();
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    body.classList.toggle('light-theme');
-    localStorage.setItem('theme', body.className);
-    updateThemeIcon();
-});
-
-function updateThemeIcon() {
-    if (body.classList.contains('dark-theme')) {
-        icon.className = 'fas fa-sun';
-    } else {
-        icon.className = 'fas fa-moon';
-    }
-}
-
-// Search Functionality
-const searchInput = document.getElementById('searchInput');
-const apiGrid = document.getElementById('api-categories');
-let apiData = []; // Will be populated from your existing data
-
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredApis = apiData.filter(api => 
-        api.title.toLowerCase().includes(searchTerm) ||
-        api.description.toLowerCase().includes(searchTerm) ||
-        api.category.toLowerCase().includes(searchTerm)
-    );
-    renderApis(filteredApis);
-});
-
-function renderApis(apis) {
-    apiGrid.innerHTML = apis.map(api => `
-        <div class="api-card">
-            <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
-            <span class="api-status status-${api.status}">${api.status}</span>
-            <h3>${api.title}</h3>
-            <p>${api.description}</p>
-            <div class="api-endpoint">
-                <code>${api.endpoint}</code>
-            </div>
-            <button onclick="tryApi('${api.endpoint}', ${JSON.stringify(api)})" class="try-btn">
-                Try it
-            </button>
-        </div>
-    `).join('');
-}
-
-// Load initial data
-fetch('/api/data')
-    .then(res => res.json())
-    .then(data => {
-        apiData = data;
-        renderApis(data);
-    });
-
-// Theme handling
-function initTheme() {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
-}
-
-function updateThemeIcon(theme) {
-    const icon = document.querySelector('#themeToggle i');
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-}
-
-document.getElementById('themeToggle').addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
-});
-
-// Search and filter functionality
-function initSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const apiList = document.getElementById('apiList');
-    
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        renderFilteredApis(searchTerm);
-    });
-}
-
-function showLoading() {
-    const apiList = document.getElementById('apiList');
-    apiList.innerHTML = '<div class="loading-animation"></div>';
-}
-
-async function renderFilteredApis(searchTerm = '', selectedCategory = '') {
-    showLoading();
-    
-    // Simulasi loading
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const apiList = document.getElementById('apiList');
-    apiList.innerHTML = '';
-
-    Object.entries(API_DATA).forEach(([category, apis]) => {
-        // Jika ada kategori yang dipilih dan tidak cocok, skip
-        if (selectedCategory && selectedCategory !== 'all' && category !== selectedCategory) {
-            return;
-        }
-
-        // Filter berdasarkan search term
-        const filteredApis = apis.filter(api => 
-            api.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            api.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        if (filteredApis.length > 0) {
-            filteredApis.forEach(api => {
-                apiList.appendChild(createApiCard(api, category));
-            });
-        }
-    });
-}
-
-function createApiCard(api, category) {
-    const card = document.createElement('div');
-    card.className = 'api-card';
-    
-    card.innerHTML = `
-        <div class="api-header">
-            <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
-            <span class="api-status status-${api.status}">${api.status}</span>
-            <button class="share-btn" onclick='shareApi(${JSON.stringify(api).replace(/'/g, "&apos;")})' title="Bagikan API">
-                <i class="fas fa-share-alt"></i>
-            </button>
-        </div>
-        <h3 class="api-title">${api.title}</h3>
-        <p class="api-description">${api.description}</p>
-        <div class="endpoint-wrapper">
-            <code class="endpoint">${api.endpoint}</code>
-            <button class="copy-btn" onclick="copyFullEndpoint('${api.endpoint}')" title="Salin Endpoint">
-                <i class="fas fa-copy"></i>
-            </button>
-        </div>
-        <button class="try-btn" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api).replace(/'/g, "&apos;")})'>
-            <span>Try it</span>
-            <i class="fas fa-arrow-right"></i>
-        </button>
-    `;
-    
-    return card;
-}
-
-// Tambahkan fungsi untuk toggle kategori
-function initCategoryToggle() {
-    const toggleBtn = document.getElementById('toggleCategories');
-    const categoriesWrapper = document.getElementById('categories');
-    
-    toggleBtn.addEventListener('click', () => {
-        toggleBtn.classList.toggle('collapsed');
-        categoriesWrapper.classList.toggle('collapsed');
-    });
-}
-
-// Fungsi untuk menampilkan semua API
-function showAllApis() {
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    const allCategory = document.querySelector('[data-category="all"]');
-    allCategory.classList.add('active');
-    
-    renderFilteredApis('', 'all');
-}
-
-// Update fungsi inisialisasi kategori
-function initCategories() {
-    const categoriesDiv = document.getElementById('categories');
-    
-    // Pastikan "Semua API" selalu ada dan berfungsi
-    const allCategory = document.querySelector('[data-category="all"]');
-    allCategory.addEventListener('click', () => {
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        allCategory.classList.add('active');
-        renderFilteredApis('', 'all');
-    });
-    
-    // Tambahkan kategori lainnya
-    Object.keys(API_DATA).forEach(category => {
-        const categoryItem = document.createElement('div');
-        categoryItem.className = 'category-item';
-        categoryItem.innerHTML = `
-            <div class="category-info">
-                <i class="fas fa-${getCategoryIcon(category)}"></i>
-                <span>${category}</span>
-            </div>
-            <span class="count">${API_DATA[category].length}</span>
-        `;
-        
-        categoryItem.addEventListener('click', () => {
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            categoryItem.classList.add('active');
-            renderFilteredApis('', category); // Passing category sebagai selectedCategory
-        });
-        
-        categoriesDiv.appendChild(categoryItem);
-    });
-}
-
-// Helper function untuk icon kategori
-function getCategoryIcon(category) {
-    const icons = {
-        Downloader: 'download',
-        Search: 'search',
-        AI: 'robot',
-        Tools: 'tools',
-        Fun: 'smile',
-        Sticker: 'image',
-        Berita: 'newspaper'
-    };
-    return icons[category] || 'cube';
-}
-
-// Fungsi untuk update counter online di header
-function updateHeaderOnlineCount() {
-    const onlineCount = Object.values(API_DATA)
-        .flat()
-        .filter(api => api.status === 'online')
-        .length;
-    
-    // Update counter di header
-    const headerCounter = document.querySelector('.api-count span');
-    if (headerCounter) {
-        headerCounter.textContent = onlineCount;
-    }
-}
-
-// Update inisialisasi
-document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initSearch();
-    initCategories();
-    initCategoryToggle();
-    renderFilteredApis('');
-    updateHeaderOnlineCount();
-    initKeyboardShortcuts();
-});
-
-// Perbaikan fungsi tryApi
-function tryApi(endpoint, api) {
-    const baseUrl = window.location.origin;
-    const fullUrl = endpoint.startsWith('/') ? `${baseUrl}${endpoint}` : endpoint;
-    
-    // Tambahkan ke recent views sebelum membuka endpoint
-    addToRecent(api);
-    
-    // Buka di tab baru
-    window.open(fullUrl, '_blank');
-}
-
-function copyEndpoint(endpoint) {
-    navigator.clipboard.writeText(endpoint)
-        .then(() => {
-            showToast('Endpoint berhasil disalin!');
-        });
-}
-
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
-}
-
-function showDocumentation(api) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>${api.title}</h2>
-                <button onclick="closeModal(this)" class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>Endpoint</h3>
-                <code class="endpoint">${api.endpoint}</code>
-                
-                <h3>Description</h3>
-                <p>${api.description}</p>
-                
-                <h3>Status</h3>
-                <span class="api-status status-${api.status}">${api.status}</span>
-                
-                <h3>Method</h3>
-                <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-function closeModal(btn) {
-    btn.closest('.modal').remove();
-}
-
-document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + S untuk fokus ke search
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        document.getElementById('searchInput').focus();
-    }
-    
-    // Esc untuk clear search
-    if (e.key === 'Escape') {
-        const searchInput = document.getElementById('searchInput');
-        if (document.activeElement === searchInput) {
-            searchInput.value = '';
-            renderFilteredApis('');
-            searchInput.blur();
-        }
-    }
-});
-
-function addToRecent(api) {
-    let recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
-    // Hapus item yang sama jika sudah ada
-    recent = recent.filter(item => item.endpoint !== api.endpoint);
-    // Tambahkan item baru di awal array
-    recent.unshift(api);
-    // Batasi hanya 5 item terakhir
-    recent = recent.slice(0, 5);
-    localStorage.setItem('recentViews', JSON.stringify(recent));
-    updateRecentViews();
-}
-
-function shareApi(api) {
-    // Buat full URL untuk sharing
-    const baseUrl = window.location.origin;
-    const fullUrl = api.endpoint.startsWith('/') ? `${baseUrl}${api.endpoint}` : api.endpoint;
-    
-    // Data yang akan dibagikan
-    const shareData = {
-        title: `${api.title} - OwnBlox API Hub`,
-        text: `${api.description}\n\nEndpoint: ${fullUrl}`,
-        url: fullUrl
-    };
-
-    // Cek apakah Web Share API tersedia
-    if (navigator.share) {
-        navigator.share(shareData)
-            .then(() => showToast('Berhasil membagikan API!'))
-            .catch(err => {
-                if (err.name !== 'AbortError') {
-                    showToast('Gagal membagikan API');
-                }
-            });
-    } else {
-        // Fallback jika Web Share API tidak tersedia
-        copyToClipboard(`${api.title}\n${api.description}\nEndpoint: ${fullUrl}`);
-        showToast('Info API telah disalin ke clipboard');
-    }
-}
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .catch(() => {
-            // Fallback jika Clipboard API tidak tersedia
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        });
-}
-
-function updateRecentViews() {
-    const recentList = document.getElementById('recentList');
-    const recent = JSON.parse(localStorage.getItem('recentViews') || '[]');
-    
-    if (recent.length === 0) {
-        recentList.innerHTML = '<div class="no-recent">Belum ada API yang dilihat</div>';
-        return;
-    }
-    
-    recentList.innerHTML = recent.map(api => `
-        <div class="recent-item" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api)})'>
-            <div class="recent-info">
-                <span class="recent-title">${api.title}</span>
-                <span class="recent-method">${api.method}</span>
-            </div>
-            <i class="fas fa-external-link-alt"></i>
-        </div>
-    `).join('');
-}
-
-// Tambahkan di bagian inisialisasi
-function initKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-        // Ctrl/Cmd + K untuk fokus ke search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            document.getElementById('searchInput').focus();
-        }
-        
-        // Esc untuk clear search
-        if (e.key === 'Escape') {
-            const searchInput = document.getElementById('searchInput');
-            if (document.activeElement === searchInput) {
-                searchInput.value = '';
-                renderFilteredApis('');
-                searchInput.blur();
-            }
-        }
-    });
-}
-
-// Fungsi untuk copy full endpoint
-function copyFullEndpoint(endpoint) {
-    const baseUrl = window.location.origin;
-    const fullUrl = endpoint.startsWith('/') ? `${baseUrl}${endpoint}` : endpoint;
-    
-    navigator.clipboard.writeText(fullUrl)
-        .then(() => {
-            showToast('Full endpoint berhasil disalin!');
-        });
-}
-
-// Tambah fungsi untuk filter API berdasarkan status
-function showOnlineApis() {
-    const apiList = document.getElementById('apiList');
-    apiList.innerHTML = '';
-    
-    Object.entries(API_DATA).forEach(([category, apis]) => {
-        const onlineApis = apis.filter(api => api.status === 'online');
-        if (onlineApis.length > 0) {
-            onlineApis.forEach(api => {
-                apiList.appendChild(createApiCard(api, category));
-            });
-        }
-    });
-}
-
-function showOfflineApis() {
-    const apiList = document.getElementById('apiList');
-    apiList.innerHTML = '';
-    
-    Object.entries(API_DATA).forEach(([category, apis]) => {
-        const offlineApis = apis.filter(api => api.status === 'offline');
-        if (offlineApis.length > 0) {
-            offlineApis.forEach(api => {
-                apiList.appendChild(createApiCard(api, category));
-            });
-        }
-    });
-}
-
-// Fungsi untuk menampilkan QR Code
-function showQR(type) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    
-    let qrImage, title;
-    if (type === 'ewallet') {
-        title = 'E-Wallet QR Code';
-        // Ganti URL dengan URL QR code e-wallet Anda
-        qrImage = 'URL_QR_EWALLET';
-    } else if (type === 'qris') {
-        title = 'QRIS';
-        // Ganti URL dengan URL QR QRIS Anda
-        qrImage = 'URL_QR_QRIS';
-    }
-    
-    modal.innerHTML = `
-        <div class="modal-content qr-modal">
-            <div class="modal-header">
-                <h2>${title}</h2>
-                <button onclick="closeModal(this)" class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="${qrImage}" alt="${title}" class="qr-image">
-                <p class="qr-instruction">Scan QR code menggunakan aplikasi e-wallet Anda</p>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-}
-
-// Fungsi untuk menyalin nomor rekening
-function copyRek(rekening) {
-    navigator.clipboard.writeText(rekening)
-        .then(() => {
-            showToast('Nomor rekening berhasil disalin!');
-        });
-}
-
-// Tambahkan CSS untuk modal QR
-const style = document.createElement('style');
-style.textContent = `
-    .qr-modal {
-        max-width: 400px;
-    }
-    
-    .qr-image {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-        margin: 1rem auto;
-        display: block;
-    }
-    
-    .qr-instruction {
-        text-align: center;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        margin-top: 1rem;
-    }
-`;
-document.head.appendChild(style);

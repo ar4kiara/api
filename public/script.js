@@ -854,9 +854,9 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Tambahkan fungsi untuk mengelola data statistik
+// Perbaikan fungsi initStatistics
 function initStatistics() {
-    // Load data statistik yang tersimpan
+    // Load data statistik yang tersimpan dari server atau localStorage
     let stats = JSON.parse(localStorage.getItem('siteStats') || JSON.stringify({
         totalVisits: 0,
         uniqueVisitors: 0,
@@ -866,13 +866,17 @@ function initStatistics() {
             week: Array(7).fill(0),
             month: Array(30).fill(0)
         },
-        lastVisit: null
+        lastVisit: null,
+        devices: new Set() // Untuk menyimpan unique device ID
     }));
 
-    // Cek apakah ini kunjungan baru (lebih dari 1 jam dari kunjungan terakhir)
+    // Generate device ID berdasarkan informasi browser dan device
+    const deviceId = generateDeviceId();
+    
+    // Cek apakah ini kunjungan baru (lebih dari 30 menit dari kunjungan terakhir)
     const now = new Date();
     const isNewVisit = !stats.lastVisit || 
-        (now - new Date(stats.lastVisit)) > 1000 * 60 * 60; // 1 jam
+        (now - new Date(stats.lastVisit)) > 1000 * 60 * 30; // 30 menit
 
     if (isNewVisit) {
         // Update statistik
@@ -888,11 +892,10 @@ function initStatistics() {
         stats.visitData.week[day]++;
         stats.visitData.month[date]++;
 
-        // Cek unique visitor
-        const visitorId = localStorage.getItem('visitorId');
-        if (!visitorId) {
-            localStorage.setItem('visitorId', generateVisitorId());
-            stats.uniqueVisitors++;
+        // Cek unique visitor berdasarkan device ID
+        if (!stats.devices.includes(deviceId)) {
+            stats.devices = [...stats.devices, deviceId];
+            stats.uniqueVisitors = stats.devices.length;
         }
 
         // Simpan ke localStorage
@@ -904,15 +907,50 @@ function initStatistics() {
     return stats;
 }
 
-function updateStatisticsDisplay(stats) {
-    // Update counter
-    document.getElementById('totalViews').textContent = stats.totalVisits;
-    document.getElementById('uniqueVisitors').textContent = stats.uniqueVisitors;
+// Fungsi untuk generate device ID yang unik
+function generateDeviceId() {
+    const platform = navigator.platform;
+    const userAgent = navigator.userAgent;
+    const language = navigator.language;
+    const screenRes = `${window.screen.width}x${window.screen.height}`;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    // Combine semua informasi dan buat hash
+    const deviceInfo = `${platform}-${userAgent}-${language}-${screenRes}-${timeZone}`;
+    return btoa(deviceInfo).slice(0, 32); // Convert to base64 dan ambil 32 karakter pertama
+}
 
-    // Update grafik jika Chart.js sudah dimuat
+// Update fungsi updateStatisticsDisplay
+function updateStatisticsDisplay(stats) {
+    // Update counters dengan animasi
+    animateCounter('totalViews', stats.totalVisits);
+    animateCounter('uniqueVisitors', stats.uniqueVisitors);
+    
+    // Update grafik
     if (window.Chart && stats.visitData) {
         createVisitsChart('day', stats.visitData);
     }
+}
+
+// Fungsi untuk animasi counter
+function animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    const current = parseInt(element.textContent) || 0;
+    const increment = (targetValue - current) / 30; // Animasi dalam 30 steps
+    
+    let value = current;
+    const animate = () => {
+        value += increment;
+        if ((increment > 0 && value >= targetValue) || 
+            (increment < 0 && value <= targetValue)) {
+            element.textContent = targetValue;
+        } else {
+            element.textContent = Math.round(value);
+            requestAnimationFrame(animate);
+        }
+    };
+    
+    animate();
 }
 
 // Update fungsi createVisitsChart

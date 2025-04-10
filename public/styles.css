@@ -226,15 +226,17 @@ main {
 /* Light theme specific card styling */
 [data-theme="light"] .api-card {
     background: #ffffff;
-    border-color: #e5e7eb;
-}
-
-[data-theme="light"] .api-card::after {
-    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.03),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="light"] .api-card:hover {
-    border-color: rgba(75, 107, 251, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 12px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /* Light theme background */

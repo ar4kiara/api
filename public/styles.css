@@ -196,47 +196,45 @@ main {
 .api-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem;
+    border-radius: 12px;
+    padding: 1.5rem;
     transition: all 0.2s ease;
     position: relative;
+    overflow: hidden;
+}
+
+.api-card::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: var(--bg-main);
+    border-radius: 11px;
+    z-index: 0;
+}
+
+.api-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.endpoint {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin: 0.75rem 0;
 }
 
 /* Light theme specific card styling */
 [data-theme="light"] .api-card {
     background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.03),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
+    border-color: #e5e7eb;
 }
 
-[data-theme="light"] .api-card::before {
-    content: '';
-    position: absolute;
-    inset: 1px;  /* Memberikan jarak 1px dari border */
-    background: #f8fafc;  /* Warna sedikit lebih gelap dari background */
-    border-radius: 7px;  /* 1px lebih kecil dari card */
-    z-index: 0;
-}
-
-[data-theme="light"] .api-card > * {
-    position: relative;
-    z-index: 1;
-}
-
-[data-theme="light"] .endpoint {
-    background: #ffffff;  /* Background lebih terang untuk endpoint */
-    border: 1px solid #e5e7eb;
+[data-theme="light"] .api-card::after {
+    background: #f8fafc;
 }
 
 [data-theme="light"] .api-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 8px 12px rgba(0, 0, 0, 0.05),
-        0 0 0 1px rgba(0, 0, 0, 0.08);
+    border-color: rgba(75, 107, 251, 0.3);
 }
 
 /* Light theme background */
@@ -410,16 +408,18 @@ main {
     }
 }
 
-/* Endpoint style */
-.endpoint {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    background: var(--bg-main);
-    padding: 0.5rem;
-    border-radius: 4px;
-    margin: 0.5rem 0;
-    display: block;
+/* Dark theme specific */
+[data-theme="dark"] .api-card {
+    background: #1e293b;
+    border-color: #2d3748;
+}
+
+[data-theme="dark"] .api-card::after {
+    background: #0f172a;
+}
+
+[data-theme="dark"] .api-card:hover {
+    border-color: rgba(96, 165, 250, 0.3);
 }
 
 /* Welcome Section */

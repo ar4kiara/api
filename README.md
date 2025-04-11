@@ -161,7 +161,7 @@ const tools = {
   
   [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/6285888199659)
   [![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/njffbFpqF3)
-  [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/kiaradong)
+  [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ar4kiara)
   [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ar4kiara@gmail.com)
   
 </div>
@@ -195,8 +195,8 @@ const tools = {
   ### ✨ Project Timeline
   
   ```css
-  2024 - Present : Maintained by Kiara
-  2024          : Originally inspired by OwnBlox
+  2025 - Present : Maintained by Kiara
+  2025          : Originally inspired by OwnBlox
   ```
   
   <br>
@@ -221,9 +221,9 @@ const tools = {
   ### 💖 Support the Project
   
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ar4kiara)
-  [![DANA](https://img.shields.io/badge/DANA-0252B5?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAM7SURBVEiJtZdPbBNlGMaf55222730X6BdS4XBBhUwQ0IwxmAIhBg9GE0oiQcTEi5GEw4cjB4UEy5GD8qJRAMXEhN/okS8GI1iCCYYCcxgCmwwBrtKW7p2W7ut3X77+h3YxnXdtN06fJO3ed/v/Z7n+d6+37dv+X+Qk+XcRu6kUipKRG8BeBOACcAA8DeAn4UQJ5RSp4jIzwbOppbAfwF4LxKJ9A4NDfWrqupIJpPjExMT/wC4AOAHAP2GYVzOFTwP/DeAt/v6+vYqirI6HA7/omnaddd1N3qeZ3qeZwL4E8BxAGdygs8D/gjAO4qiHFBVdWRoaOiM4ziWZVmebdtJ27aTAEBEFwEczxqeAX8C4MANQD2aJp2OhwOX3Bd13Vd13UcxwLwfTKZPK5p2gCAJoBXsgovAr8P4BSAJwCEiOhlAGFN0yKhUEgNhUJqJBKpBVAD4DkAfQBaALwSBF8A/gDATwBUAI8AqAIQAlAEQM2YKwF4HEA9gA0A6gDULwQvAn8K4DMAjwF4HMBGACUAQvPmhgBUAFgPYBOAGgBPZwUH8DyALwFsA7AVwGYAZQDUDLACoBjAOgCbAWwBUJkNfAH4MwD7AbwAYDuAKgDFGWAGUABgDYBKANsB7AKwPRs4gBcBfA3gJQAvAtgKYA0AJQOsACgEsArAEwB2AngJwM5s4Hn4NwC+AfAygN0AtgEozQArAIoArATwLIBdAPYC2JMrfAH+LYDvALwCYA+ApwCUZIAVACoAFcBOAC8D2AdgfzbwefhBAMcA7APwGoDnAKzMALMAFgMoA/AigNcBvAFgfzbwBfghACcAvAlgP4AXAKwAoGSAFQAGgFIAzwPYC+AtAG9nA8/DDwM4CeAtAG8C2A1gOQAlA8wACgGsAPAcgFcBvAPgYDbwefgRAKcBvA3gAIBdAMoBGBlgBmACKAHwDIDXALwL4GA28AX4UQBnARwE8B6AnQDKABgZYAaQD2AZgKcA7AfwPoAPc4UvwD8H8COAQwA+ArADwCoARgaYASgAigA8CeBVAB8A+DgbOIDPAZwD8AmAjwHsBLAWgJEBZgAMIA/AWgA7ABwG8Gm28Hn4lwA+B3AEwKcAtgNYD0DPADMAAaAQwHoA2wB8DuBINvD/AGXoVbPC6kgkAAAAAElFTkSuQmCC)](https://link.dana.id/qr/3lmp2us)
-  [![GoPay](https://img.shields.io/badge/GoPay-00AA13?style=for-the-badge&logo=gojek&logoColor=white)](https://link.gopay.co.id/qr/yourqr)
-  [![OVO](https://img.shields.io/badge/OVO-4C3494?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKoSURBVEiJ7ZZNaBNBFMd/m2yMbWyV1jZ+UESRWj+ghyJ6qCAIoiJCQRs8ehREwYtKRQ+CJxE8KR4sWgVRRBEP9qDkUBUUsdZPUOwH2oCftGnUdjeZ8ZCENWazbrIxh0L+p33z3v/95s2bnZ0R/zOCpmlblFKtQgg3y4BSqiuRSJwXQqjVCgshOoQQZ5RSO4UQrrUGK6XalVKXgQ4p5Ral1IYVB2utW5RSV4CzQojNWutDQohwLpd7tWJgY0wE6AJOAL1CiPZisZjyfwkrpVqBK8BxIUREKXU4EAg8LxQKmRUDG2OagW7gKNAnhDgihGhIp9PTywpWSjUDV4FjQoiwUqrT7/c/zefz2WUFa62bgR7gMHBXCHE0GAyuSyaTM8sCNsY0Ab3AAeC2EOJ4KBRqSCQS+WUHG2MagT7gJeADuoLB4IZEIjG7GnCkDOgmrfUt4BRwzRhzz+12f0mn099XA3RprZvS6fSsqqur2wXcAGLAZa31/Ww2+3FVwYBba90MPAS+AeeMMQ/z+fyX1YZ6tNaNwCPgM3DaGPMkl8tNrjbUo7VuAB4D48AZY8zTbDb7dS1AXq11PfAEGAPOGmOe5XK5b2sB8mit1wJPgc/AOWPMi2w2+32xYE8Z0GmgBJwwxrxcDNADoLWuAwaAz0qpi8aYV5lMZmqxYDdAIpH4prW+BxSB88aY15lMZnqxYPfvJ6XUODAEzAEXjDFv0un0j8WA/4CMMd+Bm0AeuGSMGUqlUj8XA/4LUkp9BW4A08BlY8xwKpX6tRjwP5BSahK4DkwCV4wxI8lkcrYS8HyQUuoTcA34CFw1xrxLJpM5J7ATyC4UUkqNA73AO+CaMWY0kUjkncBOIEdQKfUBuAm8Be4YY94nEomCE9gJVBZkjLkPjGitxxYCOYH+AGKqnLE7M0UmAAAAAElFTkSuQmCC)](https://link.ovo.id/yourqr)
+  [![DANA](https://img.shields.io/badge/DANA-0252B5?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAM7SURBVEiJtZdPbBNlGMaf55222730X6BdS4XBBhUwQ0IwxmAIhBg9GE0oiQcTEi5GEw4cjB4UEy5GD8qJRAMXEhN/okS8GI1iCCYYCcxgCmwwBrtKW7p2W7ut3X77+h3YxnXdtN06fJO3ed/v/Z7n+d6+37dv+X+Qk+XcRu6kUipKRG8BeBOACcAA8DeAn4UQJ5RSp4jIzwbOppbAfwF4LxKJ9A4NDfWrqupIJpPjExMT/wC4AOAHAP2GYVzOFTwP/DeAt/v6+vYqirI6HA7/omnaddd1N3qeZ3qeZwL4E8BxAGdygs8D/gjAO4qiHFBVdWRoaOiM4ziWZVmebdtJ27aTAEBEFwEczxqeAX8C4GMANQD2aJp2OhwOX3Bd13Vd13UcxwLwfTKZPK5p2gCAJoBXsgovAr8P4BSAJwCEiOhlAGFN0yKhUEgNhUJqJBKpBVAD4DkAfQBaALwSBF8A/gDATwBUAI8AqAIQAlAEQM2YKwF4HEA9gA0A6gDULwQvAn8K4DMAjwF4HMBGACUAQvPmhgBUAFgPYBOAGgBPZwUH8DyALwFsA7AVwGYAZQDUDLACoBjAOgCbAWwBUJkNfAH4MwD7AbwAYDuAKgDFGWAGUABgDYBKANsB7AKwPRs4gBcBfA3gJQAvAtgKYA0AJQOsACgEsArAEwB2AngJwM5s4Hn4NwC+AfAygN0AtgEozQArAIoArATwLIBdAPYC2JMrfAH+LYDvALwCYA+ApwCUZIAVACoAFcBOAC8D2AdgfzbwefhBAMcA7APwGoDnAKzMALMAFgMoA/AigNcBvAFgfzbwBfghACcAvAlgP4AXAKwAoGSAFQAGgFIAzwPYC+AtAG9nA8/DDwM4CeAtAG8C2A1gOQAlA8wACgGsAPAcgFcBvAPgYDbwefgRAKcBvA3gAIBdAMoBGBlgBmACKAHwDIDXALwL4GA28AX4UQBnARwE8B6AnQDKABgZYAaQD2AZgKcA7AfwPoAPc4UvwD8H8COAQwA+ArADwCoARgaYASgAigA8CeBVAB8A+DgbOIDPAZwD8AmAjwHsBLAWgJEBZgAMIA/AWgA7ABwG8Gm28Hn4lwA+B3AEwKcAtgNYD0DPADMAAaAQwHoA2wB8DuBINvD/AGXoVbPC6kgkAAAAAElFTkSuQmCC)](https://wa.me/6285888199659?text=Halo%20kak%2C%20mau%20donasi%20via%20DANA%20ke%20nomor%20berapa%20 ya%3F)
+  [![GoPay](https://img.shields.io/badge/GoPay-00AA13?style=for-the-badge&logo=gojek&logoColor=white)](https://wa.me/6285888199659?text=Halo%20kak%2C%20mau%20donasi%20via%20GoPay%20ke%20nomor%20berapa%20 ya%3F)
+  [![OVO](https://img.shields.io/badge/OVO-4C3494?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKoSURBVEiJ7ZZNaBNBFMd/m2yMbWyV1jZ+UESRWj+ghyJ6qCAIoiJCQRs8ehREwYtKRQ+CJxE8KR4sWgVRRBEP9qDkUBUUsdZPUOwH2oCftGnUdjeZ8ZCENWazbrIxh0L+p33z3v/95s2bnZ0R/zOCpmlblFKtQgg3y4BSqiuRSJwXQqjVCgshOoQQZ5RSO4UQrrUGK6XalVKXgQ4p5Ral1IYVB2utW5RSV4CzQojNWutDQohwLpd7tWJgY0wE6AJOAL1CiPZisZjyfwkrpVqBK8BxIUREKXU4EAg8LxQKmRUDG2OagW7gKNAnhDgihGhIp9PTywpWSjUDV4FjQoiwUqrT7/c/zefz2WUFa62bgR7gMHBXCHE0GAyuSyaTM8sCNsY0Ab3AAeC2EOJ4KBRqSCQS+WUHG2MagT7gJeADuoLB4IZEIjG7GnCkDOgmrfUt4BRwzRhzz+12f0mn099XA3RprZvS6fSsqqur2wXcAGLAZa31/Ww2+3FVwYBba90MPAS+AeeMMQ/z+fyX1YZ6tNaNwCPgM3DaGPMkl8tNrjbUo7VuAB4D48AZY8zTbDb7dS1AXq11PfAEGAPOGmOe5XK5b2sB8mit1wJPgc/AOWPMi2w2+32xYE8Z0GmgBJwwxrxcDNADoLWuAwaAz0qpi8aYV5lMZmqxYDdAIpH4prW+BxSB88aY15lMZnqxYPfvJ6XUODAEzAEXjDFv0un0j8WA/4CMMd+Bm0AeuGSMGUqlUj8XA/4LUkp9BW4A08BlY8xwKpX6tRjwP5BSahK4DkwCV4wxI8lkcrYS8HyQUuoTcA34CFw1xrxLJpM5J7ATyC4UUkqNA73AO+CaMWY0kUjkncBOIEdQKfUBuAm8Be4YY94nEomCE9gJVBZkjLkPjGitxxYCOYH+AGKqnLE7M0UmAAAAAElFTkSuQmCC)](https://wa.me/6285888199659?text=Halo%20kak%2C%20mau%20donasi%20via%20OVO%20ke%20nomor%20berapa%20 ya%3F)
 
 </div>
 
@@ -231,7 +231,7 @@ const tools = {
   
   ![Bottom Wave](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,9,5&height=100&section=footer&text=&fontSize=0)
   
-  <sub>Made with 💜 by Kiara • © 2024</sub>
+  <sub>Made with 💜 by Kiara • © 2025</sub>
   
   [![Profile Views](https://komarev.com/ghpvc/?username=arabotzgemoy&color=blueviolet&style=flat-square&label=Profile+Views)](https://github.com/arabotzgemoy)
   

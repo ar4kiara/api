@@ -718,7 +718,7 @@ function shareApi(api) {
     
     // Data yang akan dibagikan
     const shareData = {
-        title: `${api.title} - OwnBlox API Hub`,
+        title: `${api.title} - KiraAPI Space`,
         text: `${api.description}\n\nEndpoint: ${fullUrl}`,
         url: fullUrl
     };
@@ -835,44 +835,37 @@ function showOfflineApis() {
 
 // Fungsi untuk menampilkan QR Code
 function showQR(type) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    
-    let qrImage, title;
-    if (type === 'ewallet') {
-        title = 'E-Wallet QR Code';
-        // Ganti URL dengan URL QR code e-wallet Anda
-        qrImage = 'URL_QR_EWALLET';
-    } else if (type === 'qris') {
-        title = 'QRIS';
-        // Ganti URL dengan URL QR QRIS Anda
-        qrImage = 'URL_QR_QRIS';
+    let modal;
+    if (type === 'qris') {
+        modal = document.getElementById('qrisModal');
+    } else if (type === 'ewallet') {
+        modal = document.getElementById('ewalletModal');
     }
     
-    modal.innerHTML = `
-        <div class="modal-content qr-modal">
-            <div class="modal-header">
-                <h2>${title}</h2>
-                <button onclick="closeModal(this)" class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="${qrImage}" alt="${title}" class="qr-image">
-                <p class="qr-instruction">Scan QR code menggunakan aplikasi e-wallet Anda</p>
-            </div>
-        </div>
-    `;
+    if (!modal) return;
     
-    document.body.appendChild(modal);
+    const closeBtn = document.querySelector(`#${modal.id} .close`);
+    
+    modal.style.display = "block";
+    
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
 
 // Fungsi untuk menyalin nomor rekening
 function copyRek(rekening) {
-    navigator.clipboard.writeText(rekening)
-        .then(() => {
-            showToast('Nomor rekening berhasil disalin!');
-        });
+    navigator.clipboard.writeText(rekening).then(() => {
+        showToast('Nomor rekening berhasil disalin!');
+    }).catch(err => {
+        showToast('Gagal menyalin nomor rekening');
+    });
 }
 
 // Tambahkan CSS untuk modal QR

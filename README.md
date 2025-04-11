@@ -1,10 +1,10 @@
-# <div align="center">🌟 AetherAPI</div>
+# <div align="center">🌟 KiraAPI</div>
 
 <div align="center">
   
-  [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=35&pause=1000&color=AC16F7&center=true&vCenter=true&random=false&width=600&lines=Welcome+to+AetherAPI+%F0%9F%8C%9F;Modern+REST+API+Solution+%E2%9A%A1;Crafted+with+Passion+%F0%9F%92%96)](https://git.io/typing-svg)
+  [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=35&pause=1000&color=AC16F7&center=true&vCenter=true&random=false&width=600&lines=Welcome+to+KiraAPI+%F0%9F%8C%9F;Modern+REST+API+Solution+%E2%9A%A1;Crafted+with+Elegance+%F0%9F%92%96)](https://git.io/typing-svg)
   
-  ![AetherAPI Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,9,5&height=250&section=header&text=AetherAPI&desc=Modern%20REST%20API%20Solution&animation=fadeIn&fontSize=90&fontAlignY=35&descAlignY=55&descSize=20&fontColor=ffffff)
+  ![KiraAPI Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,9,5&height=250&section=header&text=KiraAPI&desc=Modern%20REST%20API%20Solution&animation=fadeIn&fontSize=90&fontAlignY=35&descAlignY=55&descSize=20&fontColor=ffffff)
 
 </div>
 
@@ -39,7 +39,7 @@
 <br>
 
 <p align="center">
-  <i>🚀 Powerful REST API untuk kebutuhan development modern, dibuat dengan 💝 oleh AraKira</i>
+  <i>🚀 Powerful REST API untuk kebutuhan development modern, dibuat dengan 💝 oleh Kiara</i>
 </p>
 
 ---
@@ -73,7 +73,7 @@ $ curl -X GET "https://api.ownblox.biz.id/api/ytsearch?q=example"
 # Response Format
 {
   "status": true,
-  "creator": "AraKira",
+  "creator": "Kiara",
   "result": { ... }
 }
 ```
@@ -189,7 +189,7 @@ const tools = {
   
   ![Bottom Wave](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,9,5&height=100&section=footer&text=&fontSize=0)
   
-  <sub>Made with 💜 by AraKira • © 2024</sub>
+  <sub>Made with 💜 by Kiara • © 2024</sub>
   
   [![Profile Views](https://komarev.com/ghpvc/?username=yourusername&color=blueviolet&style=flat-square&label=Profile+Views)](https://github.com/yourusername)
   

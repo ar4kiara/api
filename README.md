@@ -171,6 +171,45 @@ const tools = {
 
 ---
 
+<details>
+<summary><h2>👥 Contributors & Special Thanks</h2></summary>
+
+<div align="center">
+  
+  ### 🌟 Special Thanks
+  
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/OwnBlox">
+          <img src="https://img.shields.io/badge/OwnBlox-181717?style=for-the-badge&logo=github&logoColor=white"/>
+        </a>
+        <br>
+        <sub><b>Original Inspiration</b></sub>
+        <br>
+        <sub>🙏 Terima kasih atas inspirasi dan kontribusinya</sub>
+      </td>
+    </tr>
+  </table>
+
+  ### ✨ Project Timeline
+  
+  ```css
+  2024 - Present : Maintained by Kiara
+  2024          : Originally inspired by OwnBlox
+  ```
+  
+  <br>
+  
+  [![Thanks](https://img.shields.io/badge/Special_Thanks-OwnBlox-FF69B4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/OwnBlox)
+  
+</div>
+</details>
+
+<br>
+
+---
+
 <div align="center">
   
   ### 📈 Repository Stats

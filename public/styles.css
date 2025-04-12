@@ -459,6 +459,7 @@ main {
     .search-wrapper {
         display: block;
         width: 100%;
+        margin-bottom: 0.5rem;
     }
 
     .search-box {
@@ -469,47 +470,22 @@ main {
     .actions {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        margin-left: 0;
-    }
-
-    #themeToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        color: var(--text-primary);
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    .views-counter {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 0.8rem;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-    }
-
-    .mobile-menu-bar {
-        display: flex;
-        align-items: center;
         justify-content: space-between;
-        padding: 0.75rem 1rem;
-        background: var(--bg-card);
-        border-top: 1px solid var(--border);
-        position: fixed;
-        top: 7rem;
-        left: 0;
-        right: 0;
-        z-index: 1000;
+        width: 100%;
+        margin: 0;
+        padding: 0.5rem 0;
+    }
+
+    .left-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .right-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
     }
 
     .mobile-menu-toggle {
@@ -525,8 +501,31 @@ main {
         justify-content: center;
     }
 
+    /* Social Shortcuts Mobile Layout */
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    /* Untuk tombol terakhir jika total tombol ganjil */
+    .social-shortcuts > *:last-child:nth-child(2n + 1) {
+        grid-column: 1 / -1;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .shortcut-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        width: 100%;
+        justify-content: center;
+    }
+
     main {
-        margin-top: 9rem;
+        margin-top: 7rem;
         position: relative;
     }
 
@@ -556,6 +555,66 @@ main {
         margin: 0.5rem;
         text-align: center;
         background: var(--bg-card);
+    }
+
+    #themeToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        border-radius: 50%;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .views-counter {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .mobile-actions-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
+    }
+
+    /* Penyesuaian margin untuk header content */
+    .header-content > *:not(:last-child) {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Penyesuaian social shortcuts di mobile */
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .social-shortcuts > *:last-child:nth-child(2n + 1) {
+        grid-column: 1 / -1;
+        width: 70%;
+        justify-self: center;
+    }
+
+    .shortcut-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
     }
 }
 

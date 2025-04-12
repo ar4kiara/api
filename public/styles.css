@@ -463,36 +463,44 @@ main {
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .mobile-menu-toggle:hover {
-        background: var(--primary-hover);
-    }
-    
     .sidebar {
         display: none;
         position: fixed;
-        top: 0;
+        top: 4rem;
         left: 0;
-        width: 250px;
-        height: 100vh;
+        right: 0;
+        width: 100%;
         background: var(--bg-sidebar);
         padding: 1rem;
-        z-index: 100;
-        margin-top: 4rem;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        z-index: 99;
+        height: auto;
+        max-height: calc(100vh - 4rem);
         overflow-y: auto;
-        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .sidebar.active {
         display: block;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 
-    /* Overlay untuk menutup sidebar saat diklik di luar */
+    .content {
+        margin-left: 0;
+        padding: 1rem;
+        transition: margin-top 0.3s ease-in-out;
+    }
+
+    .content.sidebar-active {
+        margin-top: calc(100vh - 4rem);
+    }
+
+    /* Overlay untuk menutup sidebar saat klik di luar */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -500,17 +508,12 @@ main {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
+        background: rgba(0,0,0,0.5);
+        z-index: 98;
     }
 
     .sidebar-overlay.active {
         display: block;
-    }
-
-    .content {
-        margin-left: 0;
-        padding: 1rem;
     }
 
     .welcome-section {
@@ -689,36 +692,49 @@ main {
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .mobile-menu-toggle:hover {
-        background: var(--primary-hover);
+    main {
+        margin-top: 4rem;
+        position: relative;
     }
-    
+
     .sidebar {
         display: none;
         position: fixed;
-        top: 0;
+        top: 4rem;
         left: 0;
-        width: 250px;
-        height: 100vh;
+        right: 0;
+        width: 100%;
         background: var(--bg-sidebar);
         padding: 1rem;
-        z-index: 100;
-        margin-top: 4rem;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        z-index: 99;
+        height: auto;
+        max-height: calc(100vh - 4rem);
         overflow-y: auto;
-        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .sidebar.active {
         display: block;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 
-    /* Overlay untuk menutup sidebar saat diklik di luar */
+    .content {
+        margin-left: 0;
+        padding: 1rem;
+        transition: margin-top 0.3s ease-in-out;
+    }
+
+    .content.sidebar-active {
+        margin-top: calc(100vh - 4rem);
+    }
+
+    /* Overlay untuk menutup sidebar saat klik di luar */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -726,29 +742,12 @@ main {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
+        background: rgba(0,0,0,0.5);
+        z-index: 98;
     }
 
     .sidebar-overlay.active {
         display: block;
-    }
-
-    .content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-}
-
-/* Pastikan sidebar tetap terlihat di desktop */
-@media (min-width: 769px) {
-    .sidebar {
-        display: block !important;
-        transform: none !important;
-    }
-    
-    .sidebar-overlay {
-        display: none !important;
     }
 }
 

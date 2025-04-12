@@ -664,7 +664,7 @@ main {
 .mobile-menu-toggle {
     display: none; /* Default hidden */
     position: fixed;
-    top: 1rem;
+    top: 2rem;
     right: 1rem;
     z-index: 1001;
     background: var(--primary);

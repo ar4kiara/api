@@ -457,17 +457,17 @@ main {
 
     .sidebar {
         display: none;
-        position: fixed;
+        width: 100%;
+        position: relative;
         top: 0;
         left: 0;
         right: 0;
         background: var(--bg-sidebar);
         padding: 1rem;
-        z-index: 999;
-        margin-top: 4.5rem;
+        border-bottom: 1px solid var(--border);
         height: auto;
-        max-height: calc(100vh - 4.5rem);
-        overflow-y: auto;
+        margin-top: 0;
+        margin-bottom: 1rem;
     }
 
     .sidebar.active {
@@ -478,7 +478,6 @@ main {
     .content {
         margin-left: 0;
         padding: 1rem;
-        z-index: 1;
     }
 
     .welcome-section {
@@ -486,8 +485,6 @@ main {
         margin: 0.5rem;
         text-align: center;
         background: var(--bg-card);
-        position: relative;
-        z-index: 1;
     }
 
     .welcome-section h1 {
@@ -525,7 +522,7 @@ main {
 
 @keyframes slideDown {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-20px);
         opacity: 0;
     }
     to {

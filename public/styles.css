@@ -453,28 +453,52 @@ main {
     
     main {
         flex-direction: column;
-        margin-top: 6rem;
-    }
-    
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
+        margin-top: 4.5rem;
     }
     
     .content {
         margin-left: 0;
         padding: 1rem;
+        margin-top: 0;
+    }
+    
+    .welcome-section {
+        margin-top: 0.5rem;
+        padding: 1rem;
+        background: var(--bg-card);
+        position: relative;
+        z-index: 1;
+    }
+
+    .welcome-section h1 {
+        font-size: 1.3rem;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+        color: var(--primary);
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+    }
+
+    .welcome-section p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        color: var(--text-secondary);
+    }
+
+    /* Saat sidebar aktif */
+    .sidebar.active + .content {
+        margin-top: 1rem;
+    }
+
+    .mobile-menu-toggle {
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 102;
     }
     
     .api-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .welcome-section h1 {
-        font-size: 1.5rem;
     }
     
     .overview-stats {

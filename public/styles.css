@@ -473,31 +473,6 @@ main {
         margin-left: 0;
     }
 
-    #themeToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        color: var(--text-primary);
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    .views-counter {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 0.8rem;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-    }
-
     main {
         margin-top: 7rem;
         position: relative;

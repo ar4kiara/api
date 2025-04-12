@@ -518,7 +518,8 @@ main {
         border-radius: 50%;
         align-items: center;
         justify-content: center;
-        margin-top: 33px;
+        position: relative; /* atau absolute jika sudah ada */
+    top: 10px;
     }
 
     /* Sidebar when active */

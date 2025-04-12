@@ -473,15 +473,16 @@ main {
 
     /* Mobile Actions (Theme Toggle, Views, Menu) */
     .mobile-actions {
-        position: absolute;
-        top: 0.75rem;
-        right: 1rem;
+        position: static;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
 
     .top-actions {
         display: flex;
         align-items: center;
-        gap: 1.25rem; /* Increased gap between actions */
+        gap: 0.75rem;
     }
 
     #themeToggle {
@@ -663,24 +664,37 @@ main {
 /* Mobile Menu Toggle - Definisi Utama */
 .mobile-menu-toggle {
     display: none; /* Default hidden */
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1001;
+    position: static;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     padding: 0;
+    transition: transform 0.3s ease;
 }
 
 .mobile-menu-toggle i {
     font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu-toggle.active i {
+    transform: rotate(45deg);
+}
+
+.mobile-menu-toggle.active i::before {
+    content: '\f00d'; /* FontAwesome X icon */
+    font-family: 'Font Awesome 6 Free';
+}
+
+.mobile-menu-toggle:not(.active) i::before {
+    content: '\f0c9'; /* FontAwesome bars icon */
+    font-family: 'Font Awesome 6 Free';
 }
 
 @media (max-width: 768px) {

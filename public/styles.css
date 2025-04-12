@@ -446,6 +446,56 @@ main {
         gap: 1rem;
     }
 
+    .logo {
+        min-width: auto;
+        font-size: 1rem;
+    }
+
+    .search-wrapper {
+        display: none; /* Sembunyikan search di mobile */
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-left: 0;
+    }
+
+    #themeToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .views-counter {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .views-counter i {
+        color: var(--primary);
+    }
+
+    .views-counter span {
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
     main {
         margin-top: 4.5rem;
         position: relative;
@@ -499,23 +549,6 @@ main {
         font-size: 0.85rem;
         margin-bottom: 1.25rem;
         color: var(--text-secondary);
-        text-align: center;
-    }
-
-    .social-shortcuts {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 0 0.5rem;
-        text-align: center;
-    }
-
-    .shortcut-btn {
-        padding: 0.5rem;
-        font-size: 0.8rem;
-        width: 100%;
-        justify-content: center;
         text-align: center;
     }
 }

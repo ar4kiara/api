@@ -440,10 +440,15 @@ main {
     }
     
     .header-content {
-        flex-direction: row;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .top-header {
+        display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
     }
 
     .logo {
@@ -452,7 +457,13 @@ main {
     }
 
     .search-wrapper {
-        display: none; /* Sembunyikan search di mobile */
+        display: block;
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 0.5rem;
     }
 
     .actions {
@@ -487,17 +498,8 @@ main {
         color: var(--text-secondary);
     }
 
-    .views-counter i {
-        color: var(--primary);
-    }
-
-    .views-counter span {
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
     main {
-        margin-top: 4.5rem;
+        margin-top: 7rem;
         position: relative;
     }
 
@@ -549,6 +551,29 @@ main {
         font-size: 0.85rem;
         margin-bottom: 1.25rem;
         color: var(--text-secondary);
+        text-align: center;
+    }
+
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    /* Khusus untuk item terakhir jika ganjil */
+    .social-shortcuts > *:last-child:nth-child(2n + 1) {
+        grid-column: 1 / -1;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .shortcut-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        width: 100%;
+        justify-content: center;
         text-align: center;
     }
 }
@@ -677,14 +702,13 @@ main {
     }
     
     .header-content {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
     }
 
     main {
-        margin-top: 4.5rem;
+        margin-top: 7rem;
         position: relative;
     }
 
@@ -702,9 +726,9 @@ main {
         background: var(--bg-sidebar);
         padding: 1rem;
         z-index: 999;
-        margin-top: 4.5rem;
+        margin-top: 7rem;
         height: auto;
-        max-height: calc(100vh - 4.5rem);
+        max-height: calc(100vh - 7rem);
         overflow-y: auto;
     }
 
@@ -749,7 +773,13 @@ main {
         gap: 0.5rem;
         margin-top: 1rem;
         padding: 0 0.5rem;
-        text-align: center;
+    }
+
+    /* Khusus untuk item terakhir jika ganjil */
+    .social-shortcuts > *:last-child:nth-child(2n + 1) {
+        grid-column: 1 / -1;
+        width: 70%;
+        margin: 0 auto;
     }
 
     .shortcut-btn {

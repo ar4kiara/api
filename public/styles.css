@@ -440,21 +440,46 @@ main {
     }
     
     .header-content {
+        display: flex;
         flex-direction: column;
         gap: 0.75rem;
     }
 
-    /* Top Section */
-    .header-top {
+    /* Mobile Header with Centered Logo */
+    .mobile-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: center;
         width: 100%;
     }
 
     .logo {
         min-width: auto;
         font-size: 1rem;
+        text-align: center;
+    }
+
+    /* Search Section */
+    .search-section {
+        width: 100%;
+    }
+
+    .search-wrapper {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    /* Mobile Actions (Theme Toggle, Views, Menu) */
+    .mobile-actions {
+        position: absolute;
+        top: 0.75rem;
+        right: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
     }
 
     .top-actions {
@@ -463,86 +488,6 @@ main {
         gap: 0.75rem;
     }
 
-    /* Search Section */
-    .search-section {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        width: 100%;
-    }
-
-    .search-wrapper {
-        flex: 1;
-    }
-
-    .search-box {
-        width: 100%;
-    }
-
-    .mobile-menu-toggle {
-        display: flex !important;
-        width: 36px;
-        height: 36px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    /* Social Shortcuts Grid */
-    .social-shortcuts {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        padding: 0.5rem;
-    }
-
-    .social-shortcuts > *:last-child:nth-child(2n + 1) {
-        grid-column: 1 / -1;
-        width: 70%;
-        margin: 0 auto;
-    }
-
-    .shortcut-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 0.75rem 1rem;
-        font-size: 0.85rem;
-    }
-
-    /* Adjust spacing */
-    main {
-        margin-top: 7rem;
-    }
-
-    .welcome-section {
-        padding: 1rem;
-        margin: 0.5rem;
-    }
-
-    /* Responsive adjustments */
-    .overview-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-    }
-
-    .stat-item {
-        padding: 0.5rem;
-    }
-
-    .stat-value {
-        font-size: 0.9rem;
-    }
-
-    .stat-label {
-        font-size: 0.65rem;
-    }
-
-    /* Theme toggle and views counter */
     #themeToggle {
         width: 36px;
         height: 36px;
@@ -565,6 +510,64 @@ main {
         border: 1px solid var(--border);
         border-radius: 20px;
         font-size: 0.85rem;
+    }
+
+    .mobile-menu-toggle {
+        display: flex !important;
+        width: 36px;
+        height: 36px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Social Shortcuts - 2 per row */
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .shortcut-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Adjust main content spacing */
+    main {
+        margin-top: 7rem;
+    }
+
+    .welcome-section {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    /* Make sure social shortcuts are in 2 columns */
+    .social-shortcuts {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+
+    .social-shortcuts > * {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .social-shortcuts > *:last-child:nth-child(2n + 1) {
+        grid-column: 1 / -1;
+        width: 70% !important;
+        margin: 0 auto !important;
     }
 }
 

@@ -518,7 +518,7 @@ main {
         border-radius: 50%;
         align-items: center;
         justify-content: center;
-        margin-top: 33px;
+        margin-top: 30px;
     }
 
     /* Sidebar when active */
@@ -665,7 +665,7 @@ main {
 .mobile-menu-toggle {
     display: none; /* Default hidden */
     position: fixed;
-    top: 33px;
+    top: 30px;
     right: 1rem;
     z-index: 1001;
     background: var(--primary);

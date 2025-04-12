@@ -518,7 +518,7 @@ main {
         border-radius: 50%;
         align-items: center;
         justify-content: center;
-        position: relative; /* atau absolute jika sudah ada */
+        position: absolute; /* atau absolute relative jika sudah ada */
         top: 70px;
     }
 

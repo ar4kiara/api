@@ -402,59 +402,64 @@ function showLoading() {
 }
 
 async function renderFilteredApis(searchTerm = '', selectedCategory = '') {
-    showLoading();
-    
-    // Simulasi loading
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
     const apiList = document.getElementById('apiList');
     apiList.innerHTML = '';
-
-    Object.entries(API_DATA).forEach(([category, apis]) => {
-        // Jika ada kategori yang dipilih dan tidak cocok, skip
-        if (selectedCategory && selectedCategory !== 'all' && category !== selectedCategory) {
-            return;
-        }
-
-        // Filter berdasarkan search term
-        const filteredApis = apis.filter(api => 
-            api.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            api.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        if (filteredApis.length > 0) {
-            filteredApis.forEach(api => {
-                apiList.appendChild(createApiCard(api, category));
-            });
-        }
-    });
+    
+    // Tampilkan loading
+    showLoading();
+    
+    for (const [category, apis] of Object.entries(API_DATA)) {
+        if (selectedCategory && selectedCategory !== 'all' && category !== selectedCategory) continue;
+        
+        apis.forEach(api => {
+            if (searchTerm) {
+                const searchLower = searchTerm.toLowerCase();
+                if (!api.title.toLowerCase().includes(searchLower) && 
+                    !api.description.toLowerCase().includes(searchLower) &&
+                    !category.toLowerCase().includes(searchLower)) {
+                    return;
+                }
+            }
+            apiList.appendChild(createApiCard(api, category));
+        });
+    }
 }
 
 function createApiCard(api, category) {
     const card = document.createElement('div');
     card.className = 'api-card';
     
-    card.innerHTML = `
-        <div class="api-header">
-            <span class="api-method method-${api.method.toLowerCase()}">${api.method}</span>
-            <span class="api-status status-${api.status}">${api.status}</span>
-            <button class="share-btn" onclick='shareApi(${JSON.stringify(api).replace(/'/g, "&apos;")})' title="Bagikan API">
-                <i class="fas fa-share-alt"></i>
-            </button>
-        </div>
-        <h3 class="api-title">${api.title}</h3>
-        <p class="api-description">${api.description}</p>
-        <div class="endpoint-wrapper">
-            <code class="endpoint">${api.endpoint}</code>
-            <button class="copy-btn" onclick="copyFullEndpoint('${api.endpoint}')" title="Salin Endpoint">
-                <i class="fas fa-copy"></i>
-            </button>
-        </div>
-        <button class="try-btn" onclick='tryApi("${api.endpoint}", ${JSON.stringify(api).replace(/'/g, "&apos;")})'>
-            <span>Try it</span>
-            <i class="fas fa-arrow-right"></i>
-        </button>
-    `;
+    const methodBadge = document.createElement('span');
+    methodBadge.className = `api-method method-${api.method.toLowerCase()}`;
+    methodBadge.textContent = api.method;
+    
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `api-status status-${api.status}`;
+    statusBadge.textContent = api.status.toUpperCase();
+    
+    const title = document.createElement('h3');
+    title.className = 'api-title';
+    title.textContent = api.title;
+    
+    const description = document.createElement('p');
+    description.className = 'api-description';
+    description.textContent = api.description;
+    
+    const endpoint = document.createElement('code');
+    endpoint.className = 'endpoint';
+    endpoint.textContent = api.endpoint;
+    
+    const tryButton = document.createElement('button');
+    tryButton.className = 'try-btn';
+    tryButton.textContent = 'Coba API';
+    tryButton.onclick = () => tryApi(api.endpoint, api);
+    
+    card.appendChild(methodBadge);
+    card.appendChild(statusBadge);
+    card.appendChild(title);
+    card.appendChild(description);
+    card.appendChild(endpoint);
+    card.appendChild(tryButton);
     
     return card;
 }
@@ -609,14 +614,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSearch();
     initCategories();
     initCategoryToggle();
-    renderFilteredApis('');
     updateHeaderOnlineCount();
+    updateViewCount();
+    updateRecentViews();
     initKeyboardShortcuts();
     
-    // Ambil view count awal
-    await getCurrentViews();
-    // Increment view count
-    await updateViewCount();
+    // Render semua API saat pertama kali
+    renderFilteredApis();
 });
 
 // Perbaikan fungsi tryApi

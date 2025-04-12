@@ -445,17 +445,16 @@ main {
         gap: 0.75rem;
     }
 
-    /* Mobile Header with Centered Logo */
+    /* Logo */
     .mobile-header {
         display: flex;
-        justify-content: center;
+        align-items: center;
         width: 100%;
     }
 
     .logo {
         min-width: auto;
         font-size: 1rem;
-        text-align: center;
     }
 
     /* Search Section */
@@ -477,15 +476,12 @@ main {
         position: absolute;
         top: 0.75rem;
         right: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
     }
 
     .top-actions {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 1.25rem; /* Increased gap between actions */
     }
 
     #themeToggle {
@@ -524,39 +520,33 @@ main {
         justify-content: center;
     }
 
-    /* Social Shortcuts - 2 per row */
-    .social-shortcuts {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        padding: 0.5rem;
-    }
-
-    .shortcut-btn {
+    /* Sidebar when active */
+    .sidebar {
+        display: none;
         width: 100%;
-        justify-content: center;
-        padding: 0.75rem 1rem;
-        font-size: 0.85rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    /* Adjust main content spacing */
-    main {
-        margin-top: 7rem;
-    }
-
-    .welcome-section {
+        position: fixed;
+        top: 7rem; /* Adjust based on header height */
+        left: 0;
+        right: 0;
+        background: var(--bg-sidebar);
         padding: 1rem;
-        margin: 0.5rem;
+        border-bottom: 1px solid var(--border);
+        height: auto;
+        margin: 0;
+        z-index: 99;
     }
 
-    /* Make sure social shortcuts are in 2 columns */
+    .sidebar.active {
+        display: block;
+        animation: slideDown 0.3s ease;
+    }
+
+    /* Social Shortcuts - 2 per row */
     .social-shortcuts {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.75rem !important;
+        padding: 0.5rem;
     }
 
     .social-shortcuts > * {
@@ -568,6 +558,16 @@ main {
         grid-column: 1 / -1;
         width: 70% !important;
         margin: 0 auto !important;
+    }
+
+    /* Main content */
+    main {
+        margin-top: 7rem;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 1rem;
     }
 }
 

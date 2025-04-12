@@ -893,31 +893,33 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Mobile Menu Toggle
-const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-const sidebar = document.querySelector('.sidebar');
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.querySelector('.sidebar');
 
-if (mobileMenuToggle && sidebar) {
-    mobileMenuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        sidebar.classList.toggle('active');
-        
-        // Toggle icon
-        const icon = mobileMenuToggle.querySelector('i');
-        if (sidebar.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-        } else {
-            icon.className = 'fas fa-bars';
-        }
-    });
-}
-
-// Close sidebar when clicking outside
-document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            sidebar.classList.remove('active');
+    if (mobileMenuToggle && sidebar) {
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+            
+            // Toggle icon
             const icon = mobileMenuToggle.querySelector('i');
-            icon.className = 'fas fa-bars';
-        }
+            if (sidebar.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.className = 'fas fa-bars';
+                }
+            }
+        });
     }
 });

@@ -441,21 +441,14 @@ main {
     
     .header-content {
         flex-direction: column;
-        align-items: stretch;
         gap: 0.75rem;
     }
 
-    .top-header {
+    /* Top Section */
+    .header-top {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-    }
-
-    /* Bagian atas header - Logo dan Actions */
-    .logo-section {
-        display: flex;
         align-items: center;
-        justify-content: space-between;
         width: 100%;
     }
 
@@ -470,26 +463,19 @@ main {
         gap: 0.75rem;
     }
 
-    /* Search dan Menu Toggle */
+    /* Search Section */
     .search-section {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 0.75rem;
         width: 100%;
     }
 
     .search-wrapper {
-        width: 100%;
+        flex: 1;
     }
 
     .search-box {
-        width: 100%;
-        padding: 0.5rem;
-    }
-
-    .menu-toggle-wrapper {
-        display: flex;
-        justify-content: flex-end;
         width: 100%;
     }
 
@@ -503,9 +489,10 @@ main {
         border-radius: 50%;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
 
-    /* Social Shortcuts - 2 kolom */
+    /* Social Shortcuts Grid */
     .social-shortcuts {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -526,17 +513,47 @@ main {
         font-size: 0.85rem;
     }
 
+    /* Adjust spacing */
+    main {
+        margin-top: 7rem;
+    }
+
+    .welcome-section {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    .overview-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .stat-item {
+        padding: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 0.9rem;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+    }
+
+    /* Theme toggle and views counter */
     #themeToggle {
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
         background: var(--bg-main);
         border: 1px solid var(--border);
         color: var(--text-primary);
         border-radius: 50%;
-        cursor: pointer;
+        padding: 0;
     }
 
     .views-counter {
@@ -548,33 +565,6 @@ main {
         border: 1px solid var(--border);
         border-radius: 20px;
         font-size: 0.85rem;
-        color: var(--text-secondary);
-    }
-
-    main {
-        margin-top: 8rem;
-        position: relative;
-    }
-
-    .sidebar {
-        display: none;
-        width: 100%;
-        position: relative;
-        background: var(--bg-sidebar);
-        padding: 1rem;
-        border-bottom: 1px solid var(--border);
-        height: auto;
-        margin: 0;
-    }
-
-    .sidebar.active {
-        display: block;
-        animation: slideDown 0.3s ease;
-    }
-
-    .content {
-        margin-left: 0;
-        padding: 1rem;
     }
 }
 

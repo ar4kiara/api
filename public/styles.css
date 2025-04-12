@@ -1254,3 +1254,135 @@ main {
 [data-theme="dark"] .ewallet-item {
     background: var(--bg-sidebar);
 }
+
+/* Mobile Specific Styles */
+@media (max-width: 768px) {
+    .welcome-section {
+        padding: 1.5rem;
+    }
+
+    .welcome-section h1 {
+        font-size: 1.2rem;
+        line-height: 1.4;
+    }
+
+    .overview-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .stat-item {
+        padding: 0.75rem;
+        background: var(--bg-card);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
+
+    .stat-info {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .shortcut-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .api-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .api-card {
+        margin-bottom: 0;
+    }
+
+    .api-title {
+        font-size: 0.85rem;
+    }
+
+    .api-description {
+        font-size: 0.75rem;
+    }
+
+    .endpoint {
+        font-size: 0.7rem;
+        padding: 0.4rem;
+    }
+
+    .try-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-section {
+        padding: 1rem;
+    }
+
+    .overview-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .social-shortcuts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .api-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .stat-item {
+        padding: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 0.9rem;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+    }
+}
+
+/* Tablet Specific Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .api-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .overview-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .social-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+}

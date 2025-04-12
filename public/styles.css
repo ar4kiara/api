@@ -509,11 +509,11 @@ main {
     }
 
     .mobile-menu-toggle {
-        top: 90px; /* Further adjusted to align better */
+        top: 75px; /* Adjusted to align with search box */
     }
 
     .search-box {
-        max-width: 90%; /* Reduced width to prevent overlap */
+        max-width: 95%; /* Slightly increased width */
     }
 
     .category-header {

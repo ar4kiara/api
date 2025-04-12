@@ -237,6 +237,24 @@
             <p>Scan QR Code di atas untuk mendukung KiraAPI</p>
         </div>
     </div>
+
+    <script>
+        const toggleButton = document.querySelector('.mobile-menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
 </body>
-<script src="scripts.js"></script>
+<script src="script.js"></script>
 </html>

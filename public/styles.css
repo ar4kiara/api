@@ -409,18 +409,172 @@ main {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
+@media (max-width: 1024px) {
+    .header-content {
         gap: 1rem;
     }
     
-    .search-box {
+    .logo {
+        min-width: 120px;
+        font-size: 1.1rem;
+    }
+    
+    .search-wrapper {
+        max-width: 400px;
+    }
+    
+    .content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .logo {
+        justify-content: center;
+    }
+    
+    .search-wrapper {
         max-width: 100%;
+    }
+    
+    .actions {
+        justify-content: center;
+    }
+    
+    main {
+        flex-direction: column;
+        margin-top: 6rem;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .content {
+        margin-left: 0;
+        padding: 1rem;
     }
     
     .api-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .overview-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .social-shortcuts {
+        flex-direction: column;
+    }
+    
+    .shortcut-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .appreciation-cards {
+        flex-direction: column;
+    }
+    
+    .appreciation-card {
+        width: 100%;
+    }
+    
+    .credits-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        padding: 0.5rem;
+    }
+    
+    .logo {
+        font-size: 1rem;
+    }
+    
+    .search-box {
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .shortcut-badge {
+        display: none;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    .qris-container img,
+    .ewallet-item img {
+        max-width: 100%;
+    }
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 101;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+    
+    .sidebar.active {
+        display: block;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    .api-card:hover {
+        transform: none;
+    }
+    
+    .shortcut-btn:hover {
+        transform: none;
+    }
+    
+    .try-btn:hover {
+        transform: none;
     }
 }
 

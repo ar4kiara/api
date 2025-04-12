@@ -509,7 +509,7 @@ main {
     }
 
     .mobile-menu-toggle {
-        top: 75px; /* Adjusted to align with search box */
+        top: 75px !important; /* Ensuring alignment with search box */
     }
 
     .search-box {

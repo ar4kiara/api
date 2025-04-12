@@ -519,7 +519,7 @@ main {
         align-items: center;
         justify-content: center;
         position: absolute; /* atau absolute relative jika sudah ada */
-        top: 70px;
+        top: 33px;
     }
 
     /* Sidebar when active */
@@ -666,7 +666,7 @@ main {
 .mobile-menu-toggle {
     display: none; /* Default hidden */
     position: fixed;
-    top: 1rem;
+    top: 33px;
     right: 1rem;
     z-index: 1001;
     background: var(--primary);

@@ -519,7 +519,7 @@ main {
         align-items: center;
         justify-content: center;
         position: relative; /* atau absolute jika sudah ada */
-    top: 10px;
+        top: 35px;
     }
 
     /* Sidebar when active */

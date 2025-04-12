@@ -509,16 +509,11 @@ main {
     }
 
     .mobile-menu-toggle {
-        display: flex !important;
-        width: 36px;
-        height: 36px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        align-items: center;
-        justify-content: center;
-        margin-top: 30px;
+        top: 60px; /* Adjusted to align with search box */
+    }
+
+    .category-header {
+        margin-top: 1.5rem; /* Adjusted to move category text down */
     }
 
     /* Sidebar when active */

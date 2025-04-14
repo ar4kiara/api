@@ -180,13 +180,12 @@ header {
 
 /* Time and Views Counter */
 .time-views {
-    display: flex; /* Pastikan ini ada */
-    align-items: center; /* Menyelaraskan elemen secara vertikal */
-    gap: 0.75rem; /* Jarak antar elemen */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     background: var(--bg-main);
     border-radius: 8px;
     border: 1px solid var(--border);
-    padding: 0.5rem; /* Pastikan padding tidak berlebihan */
 }
 
 .digital-time {
@@ -510,7 +509,7 @@ main {
     }
 
     .mobile-menu-toggle {
-        top: 75px !important; /* Ensuring alignment with search box */
+        top: 50px !important; /* Ensuring alignment with search box */
     }
 
     .search-box {

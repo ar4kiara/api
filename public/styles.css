@@ -1492,9 +1492,9 @@ main {
 }
 
 /* Tambahkan gaya baru untuk wrapper */
-/*.theme-view-wrapper {
+.theme-view-wrapper {
     display: flex;
     align-items: center;
     gap: 1rem; /* Jarak antara tombol dan penghitung view */
     margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
-}*/
+}

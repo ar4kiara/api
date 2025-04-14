@@ -73,6 +73,7 @@ header {
     display: flex;
     align-items: center;
     gap: 1rem;
+    justify-content: space-between;
 }
 
 .logo {
@@ -445,9 +446,9 @@ main {
     }
     
     .header-content {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
     }
 
     /* Logo */
@@ -468,7 +469,9 @@ main {
     }
 
     .search-wrapper {
-        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
 
     .search-box {
@@ -667,7 +670,7 @@ main {
 
 /* Mobile Menu Toggle - Definisi Utama */
 .mobile-menu-toggle {
-    display: none; /* Default hidden */
+    display: flex;
     position: fixed;
     top: 30px;
     right: 1rem;
@@ -700,8 +703,8 @@ main {
     }
     
     .header-content {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
         gap: 0.75rem;
     }
 

@@ -97,6 +97,7 @@ header {
     border-radius: 8px;
     padding: 0.5rem 1rem;
     position: relative;
+    width: 100%;
 }
 
 .search-box input {
@@ -1496,4 +1497,5 @@ main {
     align-items: center;
     gap: 1rem; /* Jarak antara tombol dan penghitung view */
     margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
+    flex: 1;
 }

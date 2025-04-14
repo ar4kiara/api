@@ -89,6 +89,10 @@ header {
     max-width: 100%;
 }
 
+.views-counter {
+    margin-left: auto; /* Memastikan penghitung view berada di sebelah kanan */
+}
+
 .search-box {
     display: flex;
     align-items: center;

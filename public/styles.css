@@ -86,7 +86,7 @@ header {
 
 .search-wrapper {
     flex: 1;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .search-box {
@@ -411,7 +411,10 @@ main {
 /* Responsive Design */
 @media (max-width: 1024px) {
     .header-content {
-        gap: 1rem;
+        display: flex;
+        align-items: center; /* Vertikal center */
+        justify-content: space-between; /* Rata kiri dan kanan */
+        gap: 1rem; /* Jarak antar elemen */
     }
     
     .logo {
@@ -420,7 +423,14 @@ main {
     }
     
     .search-wrapper {
-        max-width: 400px;
+        flex: 1; /* Membuat kotak pencarian mengambil ruang yang tersedia */
+        max-width: 600px; /* Atur lebar maksimum */
+    }
+ 
+    .actions {
+        display: flex;
+        align-items: center; /* Vertikal center */
+        gap: 1rem; /* Jarak antar elemen */
     }
     
     .content {
@@ -509,7 +519,7 @@ main {
     }
 
     .mobile-menu-toggle {
-        top: 50px !important; /* Ensuring alignment with search box */
+        top: 75px !important; /* Ensuring alignment with search box */
     }
 
     .search-box {

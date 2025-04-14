@@ -71,8 +71,14 @@ header {
     max-width: 1400px;
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Atur elemen dalam kolom */
     gap: 1rem;
+}
+
+.mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
@@ -84,9 +90,23 @@ header {
     min-width: 140px;
 }
 
+/* Mobile Actions */
+.mobile-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Search Styles */
 .search-wrapper {
-    flex: 1;
-    max-width: 100%;
+    flex: 1; /* Mengisi ruang yang tersedia */
+    max-width: 100%; /* Pastikan tidak ada batasan lebar */
 }
 
 .search-box {
@@ -97,7 +117,7 @@ header {
     border-radius: 8px;
     padding: 0.5rem 1rem;
     position: relative;
-    width: 100%;
+    width: 100%; /* Mengisi ruang kosong */
 }
 
 .search-box input {
@@ -130,103 +150,7 @@ header {
     font-size: 0.9rem;
 }
 
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-left: auto;
-}
-
-#themeToggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#themeToggle:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: white;
-    transform: translateY(-1px);
-}
-
-.api-count {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.8rem;
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.api-count i {
-    color: var(--primary);
-}
-
-.api-count span {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-/* Time and Views Counter */
-.time-views {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--bg-main);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.digital-time {
-    font-family: 'Plus Jakarta Sans', monospace;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--primary);
-    padding: 0.4rem 0.6rem;
-    border-right: 1px solid var(--border);
-}
-
-.views-counter {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 0.8rem;
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
-}
-
-.views-counter:hover {
-    border-color: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.views-counter i {
-    color: var(--primary);
-    font-size: 0.9rem;
-}
-
-.views-counter span {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
+/* Main Styles */
 main {
     display: flex;
     margin-top: 4rem;
@@ -244,1088 +168,101 @@ main {
 
 .content {
     flex: 1;
-    margin-left: 250px;
-    padding: 2rem;
-}
-
-/* API Card Styles */
-.api-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem;
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-/* Light theme specific card styling */
-[data-theme="light"] .api-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .api-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-}
-
-/* Dark theme specific card styling */
-[data-theme="dark"] .api-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="dark"] .api-card:hover {
-    border-color: var(--primary);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-/* Light theme background */
-[data-theme="light"] body {
-    background: #f8fafc;
-}
-
-/* Improve card visibility in light mode */
-[data-theme="light"] .api-grid {
-    gap: 1.25rem;
-}
-
-[data-theme="light"] .api-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.05),
-        0 0 0 1px rgba(0, 0, 0, 0.03);
-}
-
-[data-theme="light"] .api-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.07),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
-}
-
-.api-method {
-    display: inline-block;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-.method-get { background: #dbeafe; color: #1d4ed8; }
-.method-post { background: #dcfce7; color: #15803d; }
-.method-put { background: #fef3c7; color: #b45309; }
-.method-delete { background: #fee2e2; color: #b91c1c; }
-
-.api-status {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    border: none;
-}
-
-.status-online {
-    background: linear-gradient(to right, rgba(5, 150, 105, 0.2), rgba(5, 150, 105, 0.1));
-    color: #059669;
-}
-
-.status-offline {
-    background: var(--offline-bg);
-    color: var(--offline-color);
-    border: 1px solid var(--offline-border);
-}
-
-/* Title and Description Styles */
-.api-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0.5rem 0 0.25rem;
-    color: var(--text-primary);
-}
-
-.api-description {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    margin-bottom: 0.75rem;
-}
-
-/* Category Styles */
-.category-item {
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.3rem;
-}
-
-.category-item:hover {
-    background: rgba(75, 107, 251, 0.08);
-    color: var(--primary);
-}
-
-.category-item.active {
-    background: rgba(75, 107, 251, 0.1);
-    color: var(--primary);
-    font-weight: 500;
-}
-
-/* Try Button Style */
-.try-btn {
-    background: transparent;
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.try-btn:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-1px);
-}
-
-/* Grid Layout */
-.api-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
+    margin-left: 250px; /* Memberikan ruang untuk sidebar */
     padding: 1rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .header-content {
-        gap: 1rem;
-    }
-    
-    .logo {
-        min-width: 120px;
-        font-size: 1.1rem;
-    }
-    
-    .search-wrapper {
-        max-width: 400px;
-    }
-    
-    .content {
-        padding: 1.5rem;
-    }
-}
-
+/* Responsive Styles */
 @media (max-width: 768px) {
-    header {
-        padding: 0.75rem 1rem;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background: var(--bg-card);
-    }
-    
     .header-content {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
+        flex-direction: column; /* Atur elemen dalam kolom untuk mobile */
     }
 
-    /* Logo */
-    .mobile-header {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
-
-    .logo {
-        min-width: auto;
-        font-size: 1rem;
-    }
-
-    /* Search Section */
-    .search-section {
-        width: 100%;
-    }
-
-    .search-wrapper {
-        width: 100%;
-    }
-
-    .search-box {
-        width: 100%;
-        padding: 0.5rem;
-    }
-
-    /* Mobile Actions (Theme Toggle, Views, Menu) */
     .mobile-actions {
-        position: absolute;
-        top: 0.75rem;
-        right: 1rem;
+        flex-direction: column; /* Atur elemen dalam kolom untuk mobile */
+        align-items: flex-start; /* Rata kiri untuk mobile */
     }
 
-    .top-actions {
-        display: flex;
-        align-items: center;
-        gap: 1.25rem; /* Increased gap between actions */
-    }
-
-    #themeToggle {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        color: var(--text-primary);
-        border-radius: 50%;
-        padding: 0;
-    }
-
-    .views-counter {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 0.8rem;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        font-size: 0.85rem;
-    }
-
-    .mobile-menu-toggle {
-        top: 50px !important; /* Ensuring alignment with search box */
+    .search-wrapper {
+        width: 100%; /* Pastikan search box mengisi ruang di mobile */
     }
 
     .search-box {
-        max-width: 95%; /* Slightly increased width */
-    }
-
-    .category-header {
-        margin-top: 1.5rem; /* Adjusted to move category text down */
-    }
-
-    /* Sidebar when active */
-    .sidebar {
-        display: none;
-        width: 100%;
-        position: fixed;
-        top: 7rem; /* Adjust based on header height */
-        left: 0;
-        right: 0;
-        background: var(--bg-sidebar);
-        padding: 1rem;
-        border-bottom: 1px solid var(--border);
-        height: auto;
-        margin: 0;
-        z-index: 99;
-    }
-
-    .sidebar.active {
-        display: block;
-        animation: slideDown 0.3s ease;
-    }
-
-    /* Social Shortcuts - 2 per row */
-    .social-shortcuts {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.75rem !important;
-        padding: 0.5rem;
-    }
-
-    .social-shortcuts > * {
-        margin: 0 !important;
-        width: 100% !important;
-    }
-
-    .social-shortcuts > *:last-child:nth-child(2n + 1) {
-        grid-column: 1 / -1;
-        width: 70% !important;
-        margin: 0 auto !important;
-    }
-
-    /* Main content */
-    main {
-        margin-top: 7rem;
-    }
-
-    .content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-content {
-        padding: 0.5rem;
-    }
-    
-    .logo {
-        font-size: 1rem;
-    }
-    
-    .search-box {
-        padding: 0.4rem 0.8rem;
-    }
-    
-    .shortcut-badge {
-        display: none;
-    }
-    
-    .modal-content {
-        width: 95%;
-        padding: 1rem;
-    }
-    
-    .qris-container img,
-    .ewallet-item img {
-        max-width: 100%;
-    }
-
-    .welcome-section {
-        padding: 1rem;
-        margin: 0.5rem;
-        text-align: center;
-    }
-
-    .welcome-section h1 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        text-align: center;
-    }
-
-    .welcome-section p {
-        font-size: 0.8rem;
-        line-height: 1.4;
-        text-align: center;
-    }
-
-    .social-shortcuts {
-        gap: 0.4rem;
-    }
-
-    .social-shortcuts > *:last-child:nth-child(2n + 1) {
-        width: 70%;
-    }
-
-    .overview-stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-    }
-
-    .api-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-        padding: 0.5rem;
-    }
-
-    .stat-item {
-        padding: 0.5rem;
-    }
-
-    .stat-value {
-        font-size: 0.9rem;
-    }
-
-    .stat-label {
-        font-size: 0.65rem;
-    }
-}
-
-/* Mobile Menu Toggle - Definisi Utama */
-.mobile-menu-toggle {
-    display: none; /* Default hidden */
-    position: fixed;
-    top: 30px;
-    right: 1rem;
-    z-index: 1001;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-}
-
-.mobile-menu-toggle i {
-    font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 0.75rem 1rem;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background: var(--bg-card);
-    }
-    
-    .header-content {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-    }
-
-    main {
-        margin-top: 9rem;
-        position: relative;
-    }
-
-    /* Tampilkan mobile menu toggle */
-    .mobile-menu-toggle {
-        display: flex !important;
+        width: 100%; /* Pastikan search box mengisi ruang di mobile */
     }
 
     .sidebar {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: var(--bg-sidebar);
-        padding: 1rem;
-        z-index: 999;
-        margin-top: 4.5rem;
-        height: auto;
-        max-height: calc(100vh - 4.5rem);
-        overflow-y: auto;
-    }
-
-    .sidebar.active {
-        display: block;
-        animation: slideDown 0.3s ease;
+        display: none; /* Sembunyikan sidebar di mobile */
     }
 
     .content {
-        margin-left: 0;
-        padding: 1rem;
-        z-index: 1;
-    }
-
-    .welcome-section {
-        padding: 1.25rem;
-        margin: 0.5rem;
-        text-align: center;
-        background: var(--bg-card);
-        position: relative;
-        z-index: 1;
-    }
-
-    .welcome-section h1 {
-        font-size: 1.4rem;
-        line-height: 1.3;
-        margin-bottom: 0.75rem;
-        color: var(--primary);
-        text-align: center;
-    }
-
-    .welcome-section p {
-        font-size: 0.85rem;
-        margin-bottom: 1.25rem;
-        color: var(--text-secondary);
-        text-align: center;
-    }
-
-    .social-shortcuts {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 0 0.5rem;
-        text-align: center;
-    }
-
-    .shortcut-btn {
-        padding: 0.5rem;
-        font-size: 0.8rem;
-        width: 100%;
-        justify-content: center;
-        text-align: center;
+        margin-left: 0; /* Hapus margin untuk mobile */
     }
 }
 
-/* Touch Device Optimizations */
-@media (hover: none) {
-    .api-card:hover {
-        transform: none;
-    }
-    
-    .shortcut-btn:hover {
-        transform: none;
-    }
-    
-    .try-btn:hover {
-        transform: none;
-    }
-}
-
-/* Endpoint style */
-.endpoint {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    background: var(--bg-main);
-    padding: 0.5rem;
-    border-radius: 4px;
-    margin: 0.5rem 0;
-    display: block;
-}
-
-/* Welcome Section */
-.welcome-section {
-    background: linear-gradient(135deg, var(--bg-card), var(--bg-main));
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.welcome-section h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, var(--primary), var(--primary-hover));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.welcome-section p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-}
-
-.overview-stats {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.stat-item i {
-    color: var(--primary);
-    font-size: 1.2rem;
-}
-
-.stat-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-value {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-/* Category Header dan Toggle Button */
-.category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.toggle-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: transform 0.3s ease;
-}
-
-.toggle-btn.collapsed {
-    transform: rotate(-90deg);
-}
-
-.categories-wrapper {
-    transition: max-height 0.3s ease;
-    overflow: hidden;
-}
-
-.categories-wrapper.collapsed {
-    max-height: 0;
-}
-
-/* Clickable Stats */
-.stat-item.clickable {
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.stat-item.clickable:hover {
-    background: rgba(75, 107, 251, 0.08);
-}
-
-/* Category Item Improvements */
-.category-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.category-info {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.category-item .count {
-    background: var(--bg-main);
-    padding: 0.2rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.category-item.active {
-    background: var(--primary);
-    color: white;
-}
-
-.category-item.active .count {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-/* Social Shortcuts */
-.social-shortcuts {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.shortcut-btn {
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.shortcut-btn i {
-    font-size: 1.1rem;
-}
-
-/* WhatsApp */
-.shortcut-btn.whatsapp {
-    background: #25D366;
-    color: white;
-}
-
-.shortcut-btn.whatsapp:hover {
-    background: #128C7E;
-    transform: translateY(-2px);
-}
-
-/* WhatsApp Group */
-.shortcut-btn.whatsapp-group {
-    background: #34B7F1;
-    color: white;
-}
-
-.shortcut-btn.whatsapp-group:hover {
-    background: #0088cc;
-    transform: translateY(-2px);
-}
-
-/* YouTube */
-.shortcut-btn.youtube {
-    background: #FF0000;
-    color: white;
-}
-
-.shortcut-btn.youtube:hover {
-    background: #CC0000;
-    transform: translateY(-2px);
-}
-
-/* Telegram */
-.shortcut-btn.telegram {
-    background: #0088cc;
-    color: white;
-}
-
-.shortcut-btn.telegram:hover {
-    background: #005580;
-    transform: translateY(-2px);
-}
-
-/* WhatsApp Channel Button */
-.shortcut-btn.whatsapp-channel {
-    background: #075e54;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.shortcut-btn.whatsapp-channel:hover {
-    background: #054c44;
-    transform: translateY(-2px);
-}
-
-/* Dark theme adjustments */
-[data-theme="dark"] .shortcut-btn {
-    opacity: 0.9;
-}
-
-[data-theme="dark"] .shortcut-btn:hover {
-    opacity: 1;
-}
-
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--primary);
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.toast.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.loading-animation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-}
-
-.loading-animation::after {
-    content: '';
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: loading 0.8s infinite linear;
-}
-
-@keyframes loading {
-    to { transform: rotate(360deg); }
-}
-
-/* Recent Views */
-.recent-views {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-}
-
-.recent-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-bottom: 0.5rem;
-}
-
-.recent-item:hover {
-    background: var(--bg-main);
-}
-
-.recent-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.recent-title {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.recent-method {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-}
-
-/* Share Button */
-.share-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-}
-
-.share-btn:hover {
-    background: var(--bg-main);
-    color: var(--primary);
-}
-
-/* Documentation Modal */
+/* Modal Styles */
 .modal {
+    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
-    background: var(--bg-card);
-    border-radius: 12px;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 2rem;
+    background-color: var(--bg-color);
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
+.close {
+    color: var(--text-color);
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 1.5rem;
 }
 
-/* Keyboard Shortcut Hint */
-.search-box::after {
-    display: none;
+.close:hover {
+    color: var(--primary-color);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .social-shortcuts {
-        gap: 0.5rem;
-    }
-    
-    .shortcut-btn {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Appreciation Section */
-.appreciation-section {
-    margin-top: 3rem;
-    padding: 2rem;
-    background: var(--bg-card);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.appreciation-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.appreciation-cards {
+/* E-Wallet Modal */
+.ewallet-container {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.appreciation-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    flex: 1;
-    min-width: 250px;
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 1.5rem;
+    margin: 1.5rem 0;
 }
 
-.wallet-icons, .bank-icons, .qris-icons {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    font-size: 1.5rem;
-}
-
-.wallet-icons {
-    background: #ecfdf5;
-    color: #059669;
-}
-
-.bank-icons {
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.qris-icons {
-    background: #fef3c7;
-    color: #d97706;
-}
-
-.appreciation-content {
-    flex: 1;
-}
-
-.appreciation-content h4 {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-    color: var(--text-primary);
-}
-
-.appreciation-content p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-}
-
-.support-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
+.ewallet-item {
+    background: var(--bg-card);
+    padding: 1rem;
     border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-align: center;
 }
 
-.support-btn.ewallet {
-    background: #ecfdf5;
-    color: #059669;
-}
-
-.support-btn.bank {
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.support-btn.qris {
-    background: #fef3c7;
-    color: #d97706;
-}
-
-.support-btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(0.95);
-}
-
-/* Credits Section */
-.credits-section {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-}
-
-.credits-content {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-}
-
-.credit-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.credit-item i {
-    font-size: 1.5rem;
-    color: var(--primary);
-    background: var(--bg-main);
-    padding: 0.75rem;
-    border-radius: 12px;
-}
-
-.credit-info h4 {
-    font-size: 0.9rem;
+.ewallet-item h4 {
+    margin-bottom: 0.75rem;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
 }
 
-.credit-info p {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+.ewallet-item img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 4px;
 }
 
 /* Dark theme adjustments */
@@ -1385,116 +322,4 @@ main {
 [data-theme="dark"] #themeToggle:hover i,
 [data-theme="dark"] .views-counter:hover i {
     color: white;
-}
-
-/* Modal QRIS */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.modal-content {
-    background-color: var(--bg-color);
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-    position: relative;
-}
-
-.close {
-    color: var(--text-color);
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: var(--primary-color);
-}
-
-.qris-container {
-    margin: 20px 0;
-    padding: 10px;
-    background-color: white;
-    border-radius: 8px;
-    display: inline-block;
-}
-
-.qris-container img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-}
-
-/* E-Wallet Modal */
-.ewallet-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-}
-
-.ewallet-item {
-    background: var(--bg-card);
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.ewallet-item h4 {
-    margin-bottom: 0.75rem;
-    color: var(--text-primary);
-    font-size: 1rem;
-}
-
-.ewallet-item img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 4px;
-}
-
-/* Dark theme adjustments */
-[data-theme="dark"] .ewallet-item {
-    background: var(--bg-sidebar);
-}
-
-/* Tablet Specific Styles */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .api-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .overview-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .social-shortcuts {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.75rem;
-    }
-}
-
-/* Tambahkan gaya baru untuk wrapper */
-.theme-view-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Jarak antara tombol dan penghitung view */
-    margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
 }

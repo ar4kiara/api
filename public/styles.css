@@ -180,12 +180,13 @@ header {
 
 /* Time and Views Counter */
 .time-views {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    display: flex; /* Pastikan ini ada */
+    align-items: center; /* Menyelaraskan elemen secara vertikal */
+    gap: 0.75rem; /* Jarak antar elemen */
     background: var(--bg-main);
     border-radius: 8px;
     border: 1px solid var(--border);
+    padding: 0.5rem; /* Pastikan padding tidak berlebihan */
 }
 
 .digital-time {
@@ -411,10 +412,7 @@ main {
 /* Responsive Design */
 @media (max-width: 1024px) {
     .header-content {
-        display: flex;
-        align-items: center; /* Vertikal center */
-        justify-content: space-between; /* Rata kiri dan kanan */
-        gap: 1rem; /* Jarak antar elemen */
+        gap: 1rem;
     }
     
     .logo {
@@ -423,14 +421,7 @@ main {
     }
     
     .search-wrapper {
-        flex: 1; /* Membuat kotak pencarian mengambil ruang yang tersedia */
-        max-width: 600px; /* Atur lebar maksimum */
-    }
- 
-    .actions {
-        display: flex;
-        align-items: center; /* Vertikal center */
-        gap: 1rem; /* Jarak antar elemen */
+        max-width: 400px;
     }
     
     .content {

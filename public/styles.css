@@ -1499,19 +1499,3 @@ main {
     gap: 1rem; /* Jarak antara tombol dan penghitung view */
     margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
 }
-
-/* Ubah ukuran search-wrapper agar mengisi ruang kosong di versi desktop */
-@media (min-width: 769px) {
-    .search-wrapper {
-        flex: 1; /* Memastikan search-wrapper mengisi ruang yang tersedia */
-    }
-
-    .search-box {
-        flex: 1; /* Memastikan search-box mengisi ruang yang tersedia */
-        display: flex; /* Pastikan elemen di dalamnya berfungsi dengan baik */
-    }
-
-    .views-counter {
-        margin-left: 1rem; /* Jarak antara search-box dan views-counter */
-    }
-}

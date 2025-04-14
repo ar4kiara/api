@@ -17,7 +17,7 @@ const API_DATA = {
         {
             method: "GET",
             title: "Instagram Downloader",
-            status: "online",
+            status: "offline",
             description: "API untuk mendownload video atau gambar dari Instagram.",
             endpoint: "/api/igdl?url="
         },
@@ -41,16 +41,16 @@ const API_DATA = {
             status: "online",
             description: "Cloning repositori dari GitHub.",
             endpoint: "/api/gitclone?url="
+        },
+        {
+            method: "GET",
+            title: "Spotify Downloader",
+            status: "online",
+            description: "Download semua lagu dari Spotify dengan mudah.",
+            endpoint: "/api/spotifydl?url="
         }
     ],
     "Search": [
-        {
-            method: "GET",
-            title: "GitHub Stalk",
-            status: "online",
-            description: "API untuk melihat profil GitHub pengguna.",
-            endpoint: "/api/githubstalk?username="
-        },
         {
             method: "GET",
             title: "Search Groups",
@@ -81,12 +81,49 @@ const API_DATA = {
         },
         {
             method: "GET",
+            title: "Google Search",
+            status: "online",
+            description: "Mencari apapun dan semuanya dari Google dengan cepat.",
+            endpoint: "/api/googlesearch?q="
+        },
+        {
+            method: "GET",
+            title: "DuckDuckGo Search",
+            status: "offline",
+            description: "Mencari apapun dan semuanya dari DuckDuckGo dengan mudah.",
+            endpoint: "/api/duckduckgo?q="
+        },
+        {
+            method: "GET",
             title: "Pinterest",
             status: "online",
             description: "Mencari gambar di Pinterest berdasarkan query (q) kamu.",
             endpoint: "/api/pinterest?q="
+        },
+        {
+            method: "GET",
+            title: "Spotify Search",
+            status: "online",
+            description: "Mencari lagu dengan informasi lengkap lainnya berdasarkan query (q) kamu.",
+            endpoint: "/api/spotifysearch?q="
         }
     ],
+    "Stalker": [
+        {
+            method: "GET",
+            title: "Genshin Stalk",
+            status: "online",
+            description: "Stalking akun genshin berdasarkan UID kamu.",
+            endpoint: "/api/gistalk?uid="
+        },
+        {
+            method: "GET",
+            title: "GitHub Stalk",
+            status: "online",
+            description: "Stalking akun GitHub berdasarkan username.",
+            endpoint: "/api/githubstalk?username="
+        }
+    ],      
     "AI": [
         {
             method: "GET",
@@ -197,7 +234,7 @@ const API_DATA = {
         { 
             method: "GET",
             title: "Kompas",
-            status: "online",
+            status: "offline",
             description: "Mendapatkan informasi berita terbaru dari Kompas",
             endpoint: "/api/kompasnews"
         }

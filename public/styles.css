@@ -1,3 +1,5 @@
+styles yang udah bener mobile
+
 /* Reset dan Variabel */
 :root {
     /* Light Theme - Warna lebih soft dan elegan */
@@ -90,7 +92,6 @@ header {
 }
 
 .search-box {
-    flex: 1;
     display: flex;
     align-items: center;
     background: var(--bg-main);
@@ -199,8 +200,6 @@ header {
 }
 
 .views-counter {
-    flex: 0 0 auto;
-    margin-left: 1rem;
     display: flex;
     align-items: center;
     gap: 0.4rem;

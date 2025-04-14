@@ -1,5 +1,3 @@
-styles yang udah bener mobile
-
 /* Reset dan Variabel */
 :root {
     /* Light Theme - Warna lebih soft dan elegan */
@@ -92,6 +90,7 @@ header {
 }
 
 .search-box {
+    flex: 1;
     display: flex;
     align-items: center;
     background: var(--bg-main);
@@ -200,6 +199,8 @@ header {
 }
 
 .views-counter {
+    flex: 0 0 auto;
+    margin-left: 1rem;
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -1497,31 +1498,5 @@ main {
     display: flex;
     align-items: center;
     gap: 1rem; /* Jarak antara tombol dan penghitung view */
-    margin-left: 1rem; /* Jarak antara search box dan elemen lainnya */
-}
-
-/* Ubah pada .search-wrapper dan .search-box untuk versi desktop */
-@media (min-width: 769px) {
-    .search-wrapper {
-        flex: 1; /* Memastikan search-wrapper mengisi ruang yang tersedia */
-        max-width: 100%; /* Pastikan tidak melebihi lebar maksimum */
-    }
-
-    .search-box {
-        display: flex;
-        align-items: center;
-        background: var(--bg-main);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        position: relative;
-        width: 100%; /* Mengisi ruang yang tersedia */
-    }
-
-    .theme-view-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 1rem; /* Jarak antara tombol dan penghitung view */
-        margin-left: 1rem; /* Jarak antara search box dan elemen lainnya */
-    }
+    margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
 }

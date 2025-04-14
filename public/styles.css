@@ -1497,9 +1497,3 @@ main {
     gap: 1rem; /* Jarak antara tombol dan penghitung view */
     margin-left: auto; /* Memastikan elemen ini berada di sebelah kanan */
 }
-
-/* Sesuaikan ukuran search box */
-.search-wrapper {
-    flex: 1; /* Membuat search box mengisi ruang yang tersedia */
-    max-width: 100%; /* Pastikan tidak melebihi lebar kontainer */
-}

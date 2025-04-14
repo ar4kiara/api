@@ -97,7 +97,7 @@ header {
     border-radius: 8px;
     padding: 0.5rem 1rem;
     position: relative;
-    max-width: 600px;
+    width: 600px;
 }
 
 .search-box input {

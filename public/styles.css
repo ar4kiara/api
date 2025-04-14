@@ -72,7 +72,7 @@ header {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .logo {
@@ -86,7 +86,7 @@ header {
 
 .search-wrapper {
     flex: 1;
-    max-width: 500px;
+    max-width: 100%;
 }
 
 .search-box {

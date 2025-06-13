@@ -4,19 +4,19 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-require('../config.js'); // Import config file
+const geminiConfig = require('../config/gemini');
 
-// Konfigurasi multer untuk menangani upload file
+// Konfigurasi multer untuk upload file
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadDir = path.join(process.cwd(), 'uploads');
         if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
+            fs.mkdirSync(uploadDir, { recursive: true });
         }
         cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
+        cb(null, `edit_${Date.now()}${path.extname(file.originalname)}`);
     }
 });
 
@@ -24,35 +24,21 @@ const upload = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
         if (!file.mimetype.match(/^image\/(jpeg|jpg|png)$/)) {
-            return cb(new Error('Hanya file gambar JPEG/JPG/PNG yang diperbolehkan!'), false);
+            return cb(new Error('Hanya file gambar (jpeg/jpg/png) yang diperbolehkan!'), false);
         }
         cb(null, true);
+    },
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5MB limit
     }
 });
-
-let currentKeyIndex = 0;
-
-const getApiKey = () => {
-    const key = global.geminiKeys[currentKeyIndex];
-    currentKeyIndex = (currentKeyIndex + 1) % global.geminiKeys.length;
-    return key;
-};
 
 router.post('/', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({
                 sukses: false,
-                error: "File gambar diperlukan",
-                contoh: {
-                    method: "POST",
-                    url: "/gemini-edit",
-                    body: "form-data",
-                    fields: {
-                        image: "file gambar (jpg/jpeg/png)",
-                        prompt: "deskripsi edit dalam bahasa inggris"
-                    }
-                }
+                error: "File gambar diperlukan"
             });
         }
 
@@ -65,17 +51,18 @@ router.post('/', upload.single('image'), async (req, res) => {
         }
 
         let retryCount = 0;
-        const maxRetries = global.geminiKeys.length;
-        let success = false;
+        const maxRetries = geminiConfig.apiKeys.length;
 
-        while (retryCount < maxRetries && !success) {
+        while (retryCount < maxRetries) {
             try {
-                const genAI = new GoogleGenerativeAI(getApiKey());
+                const genAI = new GoogleGenerativeAI(geminiConfig.getApiKey());
                 const imageData = fs.readFileSync(req.file.path);
                 const base64Image = imageData.toString('base64');
 
                 const contents = [
-                    { text: prompt },
+                    {
+                        text: prompt
+                    },
                     {
                         inlineData: {
                             mimeType: req.file.mimetype,
@@ -109,43 +96,39 @@ router.post('/', upload.single('image'), async (req, res) => {
                 }
 
                 if (resultImage) {
-                    const outputPath = path.join(process.cwd(), 'uploads', `edited_${Date.now()}.png`);
-                    fs.writeFileSync(outputPath, resultImage);
+                    // Hapus file upload setelah selesai
+                    fs.unlinkSync(req.file.path);
 
+                    // Kirim response
                     res.json({
                         sukses: true,
-                        hasil: {
-                            teks: resultText,
-                            gambar: `/uploads/${path.basename(outputPath)}`
-                        }
+                        gambar: `data:image/png;base64,${resultImage.toString('base64')}`,
+                        teks: resultText || ""
                     });
-
-                    // Hapus file temporary setelah 5 menit
-                    setTimeout(() => {
-                        try {
-                            fs.unlinkSync(req.file.path);
-                            fs.unlinkSync(outputPath);
-                        } catch (error) {
-                            console.error('Error deleting temporary files:', error);
-                        }
-                    }, 300000);
-
-                    success = true;
+                    break;
                 } else {
-                    throw new Error("Tidak ada gambar hasil yang dihasilkan");
+                    throw new Error("Tidak ada gambar yang dihasilkan");
                 }
             } catch (error) {
                 if (error.message.includes("429 Too Many Requests")) {
                     console.log("API key telah melebihi kuota, mencoba API key lain...");
                     retryCount++;
                 } else {
-                    throw error;
+                    console.error(error);
+                    res.status(500).json({
+                        sukses: false,
+                        error: error.message
+                    });
+                    break;
                 }
             }
         }
 
-        if (!success) {
-            throw new Error("Semua API key telah melebihi kuota permintaan");
+        if (retryCount >= maxRetries) {
+            res.status(500).json({
+                sukses: false,
+                error: "Semua API key telah melebihi kuota permintaan"
+            });
         }
 
     } catch (error) {

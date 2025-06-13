@@ -6,6 +6,7 @@ const geminiConfig = require('../config/gemini');
 
 router.post('/', async (req, res) => {
     try {
+        console.log('📥 Request body:', req.body);
         const { image_url, prompt } = req.body;
         
         if (!image_url) {
@@ -52,9 +53,12 @@ router.post('/', async (req, res) => {
                 ];
 
                 const model = genAI.getGenerativeModel({
-                    model: "gemini-1.5-flash",
+                    model: "gemini-pro-vision",
                     generationConfig: {
-                        responseModalities: ["Text", "Image"],
+                        temperature: 0.4,
+                        topK: 32,
+                        topP: 1,
+                        maxOutputTokens: 2048,
                     },
                 });
 
@@ -65,28 +69,21 @@ router.post('/', async (req, res) => {
                     throw new Error("Gagal mendapatkan hasil dari AI");
                 }
 
-                let resultImage;
                 let resultText = "";
-
                 for (const part of response.response.candidates[0].content.parts) {
                     if (part.text) {
                         resultText += part.text;
-                    } else if (part.inlineData) {
-                        resultImage = Buffer.from(part.inlineData.data, "base64");
                     }
                 }
 
-                if (resultImage) {
-                    // Kirim response
-                    res.json({
-                        sukses: true,
-                        gambar: `data:image/png;base64,${resultImage.toString('base64')}`,
-                        teks: resultText || ""
-                    });
-                    break;
-                } else {
-                    throw new Error("Tidak ada gambar yang dihasilkan");
-                }
+                // Kirim response
+                res.json({
+                    sukses: true,
+                    gambar: image_url,
+                    teks: resultText || "Gambar berhasil diproses"
+                });
+                break;
+
             } catch (error) {
                 console.error('Error:', error.message);
                 if (error.message.includes("429 Too Many Requests")) {

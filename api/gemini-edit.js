@@ -1,21 +1,48 @@
 const express = require('express');
 const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const axios = require('axios');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const geminiConfig = require('../config/gemini');
 
-router.post('/', async (req, res) => {
+// Konfigurasi multer untuk upload file
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const uploadDir = path.join(process.cwd(), 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: function (req, file, cb) {
+        cb(null, `edit_${Date.now()}${path.extname(file.originalname)}`);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        if (!file.mimetype.match(/^image\/(jpeg|jpg|png|webp)$/)) {
+            return cb(new Error('Hanya file gambar (jpeg/jpg/png/webp) yang diperbolehkan!'), false);
+        }
+        cb(null, true);
+    },
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5MB limit
+    }
+});
+
+router.post('/', upload.single('image'), async (req, res) => {
     try {
-        console.log('📥 Request body:', req.body);
-        const { image_url, prompt } = req.body;
-        
-        if (!image_url) {
+        if (!req.file) {
             return res.status(400).json({
                 sukses: false,
-                error: "Parameter image_url diperlukan"
+                error: "File gambar diperlukan"
             });
         }
 
+        const { prompt } = req.body;
         if (!prompt) {
             return res.status(400).json({
                 sukses: false,
@@ -25,28 +52,21 @@ router.post('/', async (req, res) => {
 
         let retryCount = 0;
         const maxRetries = geminiConfig.apiKeys.length;
+        let resultImage = null;
 
         while (retryCount < maxRetries) {
             try {
-                // Download gambar dari URL
-                console.log('⬇️ Mengunduh gambar dari URL:', image_url);
-                const imageResponse = await axios.get(image_url, {
-                    responseType: 'arraybuffer',
-                    timeout: 5000 // 5 detik timeout untuk download
-                });
-                
-                const imageData = Buffer.from(imageResponse.data);
-                const base64Image = imageData.toString('base64');
-                const mimeType = imageResponse.headers['content-type'] || 'image/jpeg';
-
                 const genAI = new GoogleGenerativeAI(geminiConfig.getApiKey());
+                const imageData = fs.readFileSync(req.file.path);
+                const base64Image = imageData.toString('base64');
+
                 const contents = [
                     {
-                        text: prompt
+                        text: prompt.trim()
                     },
                     {
                         inlineData: {
-                            mimeType: mimeType,
+                            mimeType: req.file.mimetype,
                             data: base64Image,
                         },
                     },
@@ -55,10 +75,7 @@ router.post('/', async (req, res) => {
                 const model = genAI.getGenerativeModel({
                     model: "gemini-2.0-flash-exp-image-generation",
                     generationConfig: {
-                        temperature: 0.4,
-                        topK: 32,
-                        topP: 1,
-                        maxOutputTokens: 2048,
+                        responseModalities: ["Text", "Image"],
                     },
                 });
 
@@ -69,21 +86,27 @@ router.post('/', async (req, res) => {
                     throw new Error("Gagal mendapatkan hasil dari AI");
                 }
 
-                let resultText = "";
                 for (const part of response.response.candidates[0].content.parts) {
-                    if (part.text) {
-                        resultText += part.text;
+                    if (part.inlineData) {
+                        resultImage = Buffer.from(part.inlineData.data, "base64");
+                        break;
                     }
                 }
 
-                // Kirim response
-                res.json({
-                    sukses: true,
-                    gambar: image_url,
-                    teks: resultText || "Gambar berhasil diproses"
-                });
-                break;
+                if (resultImage) {
+                    // Hapus file upload setelah selesai
+                    fs.unlinkSync(req.file.path);
 
+                    // Kirim response
+                    res.json({
+                        sukses: true,
+                        gambar: `data:image/png;base64,${resultImage.toString('base64')}`,
+                        teks: "Berhasil mengedit gambar!"
+                    });
+                    break;
+                } else {
+                    throw new Error("Tidak ada gambar yang dihasilkan");
+                }
             } catch (error) {
                 console.error('Error:', error.message);
                 if (error.message.includes("429 Too Many Requests")) {

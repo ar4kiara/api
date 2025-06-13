@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
                 ];
 
                 const model = genAI.getGenerativeModel({
-                    model: "gemini-pro-vision",
+                    model: "gemini-2.0-flash-exp-image-generation",
                     generationConfig: {
                         temperature: 0.4,
                         topK: 32,

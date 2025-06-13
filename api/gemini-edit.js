@@ -1,48 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const axios = require('axios');
 const geminiConfig = require('../config/gemini');
 
-// Konfigurasi multer untuk upload file
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadDir = path.join(process.cwd(), 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, `edit_${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    fileFilter: function (req, file, cb) {
-        if (!file.mimetype.match(/^image\/(jpeg|jpg|png)$/)) {
-            return cb(new Error('Hanya file gambar (jpeg/jpg/png) yang diperbolehkan!'), false);
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB limit
-    }
-});
-
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        if (!req.file) {
+        const { image_url, prompt } = req.body;
+        
+        if (!image_url) {
             return res.status(400).json({
                 sukses: false,
-                error: "File gambar diperlukan"
+                error: "Parameter image_url diperlukan"
             });
         }
 
-        const { prompt } = req.body;
         if (!prompt) {
             return res.status(400).json({
                 sukses: false,
@@ -55,17 +27,25 @@ router.post('/', upload.single('image'), async (req, res) => {
 
         while (retryCount < maxRetries) {
             try {
-                const genAI = new GoogleGenerativeAI(geminiConfig.getApiKey());
-                const imageData = fs.readFileSync(req.file.path);
+                // Download gambar dari URL
+                console.log('⬇️ Mengunduh gambar dari URL:', image_url);
+                const imageResponse = await axios.get(image_url, {
+                    responseType: 'arraybuffer',
+                    timeout: 5000 // 5 detik timeout untuk download
+                });
+                
+                const imageData = Buffer.from(imageResponse.data);
                 const base64Image = imageData.toString('base64');
+                const mimeType = imageResponse.headers['content-type'] || 'image/jpeg';
 
+                const genAI = new GoogleGenerativeAI(geminiConfig.getApiKey());
                 const contents = [
                     {
                         text: prompt
                     },
                     {
                         inlineData: {
-                            mimeType: req.file.mimetype,
+                            mimeType: mimeType,
                             data: base64Image,
                         },
                     },
@@ -78,6 +58,7 @@ router.post('/', upload.single('image'), async (req, res) => {
                     },
                 });
 
+                console.log('🤖 Memproses dengan Gemini AI...');
                 const response = await model.generateContent(contents);
 
                 if (!response?.response?.candidates?.[0]?.content?.parts) {
@@ -96,9 +77,6 @@ router.post('/', upload.single('image'), async (req, res) => {
                 }
 
                 if (resultImage) {
-                    // Hapus file upload setelah selesai
-                    fs.unlinkSync(req.file.path);
-
                     // Kirim response
                     res.json({
                         sukses: true,
@@ -110,11 +88,11 @@ router.post('/', upload.single('image'), async (req, res) => {
                     throw new Error("Tidak ada gambar yang dihasilkan");
                 }
             } catch (error) {
+                console.error('Error:', error.message);
                 if (error.message.includes("429 Too Many Requests")) {
                     console.log("API key telah melebihi kuota, mencoba API key lain...");
                     retryCount++;
                 } else {
-                    console.error(error);
                     res.status(500).json({
                         sukses: false,
                         error: error.message
